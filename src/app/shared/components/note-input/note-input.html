@@ -1,0 +1,69 @@
+<div class="note-input-container" [attr.aria-label]="'Note selection interface'">
+  <div class="input-header">
+    <h3 class="input-title">Select the Note</h3>
+    <p class="input-instructions">Click a button or use keyboard shortcuts (1-7)</p>
+  </div>
+
+  <div class="note-buttons-grid" role="group" [attr.aria-label]="'Note selection buttons'">
+    @for (button of noteButtons(); track button.note) {
+      <button
+        type="button"
+        [class]="getNoteButtonClasses(button.note).join(' ')"
+        [disabled]="disabled()"
+        [attr.aria-label]="getAriaLabel(button.note)"
+        [attr.aria-pressed]="isNoteSelected(button.note)"
+        [style.--note-color]="getNoteColor(button.note)"
+        (click)="onNoteClick(button.note)"
+        (mouseenter)="onNoteHover(button.note)"
+        (mouseleave)="onNoteHover(null)"
+        (focus)="onNoteHover(button.note)"
+        (blur)="onNoteHover(null)">
+
+        <span class="note-label">{{ button.label }}</span>
+
+        @if (getKeyboardShortcut(button.note); as shortcut) {
+          <span class="keyboard-shortcut" aria-hidden="true">{{ shortcut }}</span>
+        }
+
+        <!-- Visual indicator for selected state -->
+        @if (isNoteSelected(button.note)) {
+          <span class="selected-indicator" aria-hidden="true">✓</span>
+        }
+      </button>
+    }
+  </div>
+
+  <!-- Keyboard shortcuts help -->
+  <div class="keyboard-help" role="region" [attr.aria-label]="'Keyboard shortcuts'">
+    <details class="help-details">
+      <summary class="help-summary">Keyboard Shortcuts</summary>
+      <div class="shortcuts-list">
+        @for (shortcut of keyboardShortcuts() | keyvalue; track shortcut.key) {
+          <div class="shortcut-item">
+            <kbd class="shortcut-key">{{ shortcut.key }}</kbd>
+            <span class="shortcut-note">{{ shortcut.value }}</span>
+          </div>
+        }
+      </div>
+    </details>
+  </div>
+
+  <!-- Status message for screen readers -->
+  <div class="sr-only" role="status" aria-live="polite">
+    @if (selectedNote(); as selected) {
+      Selected note: {{ getNoteDisplayName(selected) }}
+    } @else {
+      No note selected
+    }
+  </div>
+
+  <!-- Disabled state overlay -->
+  @if (disabled()) {
+    <div class="disabled-overlay" aria-hidden="true">
+      <div class="disabled-message">
+        <span class="disabled-icon">⏸️</span>
+        <span class="disabled-text">Input disabled</span>
+      </div>
+    </div>
+  }
+</div>

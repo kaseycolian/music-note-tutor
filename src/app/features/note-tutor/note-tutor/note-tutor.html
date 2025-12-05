@@ -1,0 +1,169 @@
+<div class="note-tutor-container">
+  <!-- Game Header -->
+  <header class="game-header">
+    <h1>Musical Note Tutor</h1>
+    <div class="header-controls">
+      <button
+        type="button"
+        (click)="resetProgress()"
+        class="btn btn-outline"
+        [attr.aria-label]="'Reset all progress'">
+        Reset Progress
+      </button>
+    </div>
+  </header>
+
+  <!-- Progress Display -->
+  <section class="progress-section" aria-labelledby="progress-heading">
+    <h2 id="progress-heading" class="sr-only">Your Progress</h2>
+    @if (userProgress(); as progress) {
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-label">Level:</span>
+          <span class="stat-value level-badge" [attr.data-level]="progress.currentLevel">
+            {{ progress.currentLevel | titlecase }}
+          </span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Accuracy:</span>
+          <span class="stat-value accuracy-display" [class.high-accuracy]="accuracyPercentage() >= 80">
+            {{ accuracyPercentage() }}%
+          </span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Questions:</span>
+          <span class="stat-value">{{ progress.totalQuestionsAnswered }}</span>
+        </div>
+      </div>
+    }
+  </section>
+
+  <!-- Main Game Area -->
+  <main class="game-area" role="main">
+    <!-- Musical Staff Display -->
+    <section class="staff-section" aria-labelledby="staff-heading">
+      <h2 id="staff-heading" class="sr-only">Musical Staff</h2>
+      @if (currentNote(); as note) {
+        <app-musical-staff
+          [currentNote]="note"
+          [showNote]="true"
+          class="staff-container"
+          [attr.aria-label]="'Musical staff displaying a note to identify'" />
+      } @else {
+        <div class="staff-placeholder" role="status" aria-live="polite">
+          <p>Loading musical note...</p>
+        </div>
+      }
+    </section>
+
+    <!-- Answer Input Section -->
+    <section class="input-section" aria-labelledby="input-heading">
+      <h2 id="input-heading" class="sr-only">Answer Input</h2>
+      @if (showAnswerInput()) {
+        <div class="input-container">
+          <p class="instruction-text">What note is displayed on the staff?</p>
+          <app-note-input
+            [availableNotes]="getAvailableNotes()"
+            [disabled]="isProcessing()"
+            (noteSelected)="handleAnswer($event)"
+            class="answer-input"
+            [attr.aria-label]="'Select the note you think is displayed'" />
+        </div>
+      } @else if (isProcessing()) {
+        <div class="processing-state" role="status" aria-live="polite">
+          <div class="loading-spinner" aria-hidden="true"></div>
+          <p>Processing your answer...</p>
+        </div>
+      }
+    </section>
+
+    <!-- Feedback Display -->
+    @if (feedback(); as feedbackData) {
+      <section class="feedback-section" aria-labelledby="feedback-heading">
+        <h2 id="feedback-heading" class="sr-only">Answer Feedback</h2>
+        <div class="feedback-container">
+          @switch (feedbackData.type) {
+            @case ('correct') {
+              <div class="feedback success" role="alert" aria-live="assertive">
+                <span class="feedback-icon" aria-hidden="true">✓</span>
+                <span class="feedback-message">{{ feedbackData.message }}</span>
+              </div>
+            }
+            @case ('incorrect') {
+              <div class="feedback error" role="alert" aria-live="assertive">
+                <span class="feedback-icon" aria-hidden="true">✗</span>
+                <span class="feedback-message">{{ feedbackData.message }}</span>
+              </div>
+            }
+            @case ('hint') {
+              <div class="feedback hint" role="status" aria-live="polite">
+                <span class="feedback-icon" aria-hidden="true">💡</span>
+                <span class="feedback-message">{{ feedbackData.message }}</span>
+              </div>
+            }
+          }
+        </div>
+      </section>
+    }
+
+    <!-- Control Buttons -->
+    <section class="controls-section" aria-labelledby="controls-heading">
+      <h2 id="controls-heading" class="sr-only">Game Controls</h2>
+      <div class="controls">
+        <button
+          type="button"
+          (click)="generateNewNote()"
+          [disabled]="!canGenerateNew()"
+          class="btn btn-primary"
+          [attr.aria-label]="hasAnswered() ? 'Generate next musical note' : 'Generate new musical note'">
+          @if (hasAnswered()) {
+            Next Note
+          } @else {
+            New Note
+          }
+        </button>
+
+        @if (showAnswerInput()) {
+          <button
+            type="button"
+            (click)="showAnswer()"
+            class="btn btn-secondary hint-button"
+            [attr.aria-label]="'Reveal the correct answer for this note'">
+            Show Answer
+          </button>
+        }
+      </div>
+    </section>
+  </main>
+
+  <!-- Instructions Panel -->
+  <aside class="instructions-panel" aria-labelledby="instructions-heading">
+    <h2 id="instructions-heading">How to Play</h2>
+    <div class="instructions-content">
+      <ol class="instructions-list">
+        <li>Look at the note displayed on the musical staff</li>
+        <li>Identify which note it represents (C, D, E, F, G, A, or B)</li>
+        <li>Click on your answer from the available options</li>
+        <li>Get instant feedback and track your progress</li>
+        <li>Advance through difficulty levels as you improve</li>
+      </ol>
+
+      <div class="tips-section">
+        <h3>Tips for Success:</h3>
+        <ul class="tips-list">
+          <li>Start by memorizing the line and space notes</li>
+          <li>Use mnemonics like "Every Good Boy Does Fine" for treble clef lines</li>
+          <li>Practice regularly to build muscle memory</li>
+          <li>Don't worry about mistakes - they help you learn!</li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Accessibility Features -->
+  <div class="sr-only" aria-live="polite" id="screen-reader-announcements">
+    @if (currentNote(); as note) {
+      <span>Current note: {{ note.name }} {{ note.octave }} in {{ note.clef }} clef</span>
+    }
+  </div>
+</div>

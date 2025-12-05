@@ -1,0 +1,131 @@
+<div class="musical-staff-container" [attr.aria-label]="'Musical staff displaying ' + (currentNote()?.name || 'no note')">
+  <svg
+    [attr.width]="staffWidth()"
+    [attr.height]="staffHeight()"
+    class="staff-svg"
+    role="img"
+    [attr.aria-describedby]="'staff-description'">
+
+    <!-- Staff lines -->
+    @for (lineY of staffLinePositions(); track lineY) {
+      <line
+        x1="50"
+        [attr.y1]="lineY"
+        [attr.x2]="staffWidth() - 50"
+        [attr.y2]="lineY"
+        class="staff-line"
+        stroke="#000"
+        stroke-width="1" />
+    }
+
+    <!-- Clef symbol -->
+    <text
+      x="70"
+      [attr.y]="staffHeight() / 2 + 8"
+      class="clef-symbol"
+      font-family="serif"
+      font-size="48"
+      fill="#000"
+      text-anchor="middle">
+      {{ clefSymbol() }}
+    </text>
+
+    <!-- Ledger lines -->
+    @if (showNote() && currentNote(); as note) {
+      @for (ledger of ledgerLines(); track ledger.y) {
+        <line
+          [attr.x1]="ledger.x1"
+          [attr.y1]="ledger.y"
+          [attr.x2]="ledger.x2"
+          [attr.y2]="ledger.y"
+          class="ledger-line"
+          stroke="#000"
+          stroke-width="1" />
+      }
+    }
+
+    <!-- Note display -->
+    @if (showNote() && noteDisplayPosition(); as position) {
+      <!-- Accidental (if present) -->
+      @if (shouldShowAccidental() && getAccidentalPosition(); as accidentalPos) {
+        <text
+          [attr.x]="accidentalPos.x"
+          [attr.y]="accidentalPos.y + 6"
+          class="accidental"
+          font-family="serif"
+          font-size="20"
+          fill="#000"
+          text-anchor="middle">
+          {{ getAccidentalSymbol(currentNote()!.accidental!) }}
+        </text>
+      }
+
+      <!-- Note head -->
+      <ellipse
+        [attr.cx]="position.x"
+        [attr.cy]="position.y"
+        [attr.rx]="noteRadius() * 1.2"
+        [attr.ry]="noteRadius()"
+        [class]="getNoteClasses().join(' ')"
+        fill="#000"
+        [attr.aria-label]="'Note: ' + currentNote()!.name + (currentNote()!.accidental ? ' ' + currentNote()!.accidental : '') + ' octave ' + currentNote()!.octave" />
+
+      <!-- Note stem (for visual completeness) -->
+      @if (position.y > staffHeight() / 2) {
+        <!-- Stem up for notes below middle line -->
+        <line
+          [attr.x1]="position.x - noteRadius() * 1.2"
+          [attr.y1]="position.y"
+          [attr.x2]="position.x - noteRadius() * 1.2"
+          [attr.y2]="position.y - 35"
+          class="note-stem"
+          stroke="#000"
+          stroke-width="1.5" />
+      } @else {
+        <!-- Stem down for notes above middle line -->
+        <line
+          [attr.x1]="position.x + noteRadius() * 1.2"
+          [attr.y1]="position.y"
+          [attr.x2]="position.x + noteRadius() * 1.2"
+          [attr.y2]="position.y + 35"
+          class="note-stem"
+          stroke="#000"
+          stroke-width="1.5" />
+      }
+    }
+
+    <!-- Visual feedback for empty state -->
+    @if (!showNote() || !currentNote()) {
+      <text
+        [attr.x]="staffWidth() / 2"
+        [attr.y]="staffHeight() / 2"
+        class="placeholder-text"
+        font-family="Arial, sans-serif"
+        font-size="16"
+        fill="#666"
+        text-anchor="middle">
+        Click "New Note" to start
+      </text>
+    }
+  </svg>
+
+  <!-- Screen reader description -->
+  <div id="staff-description" class="sr-only">
+    @if (currentNote(); as note) {
+      Musical staff in {{ clef() }} clef showing {{ note.name }}{{ note.accidental ? ' ' + note.accidental : '' }} in octave {{ note.octave }}.
+    } @else {
+      Musical staff in {{ clef() }} clef with no note displayed.
+    }
+  </div>
+
+  <!-- Note information panel -->
+  @if (showNote() && currentNote(); as note) {
+    <div class="note-info" role="status" aria-live="polite">
+      <span class="note-name">{{ note.name }}</span>
+      @if (note.accidental) {
+        <span class="note-accidental">{{ getAccidentalSymbol(note.accidental) }}</span>
+      }
+      <span class="note-octave">{{ note.octave }}</span>
+    </div>
+  }
+</div>
