@@ -21,15 +21,17 @@ export class MusicalStaffComponent {
   private staffLines = signal<number[]>([]);
   private notePosition = signal<{ x: number; y: number } | null>(null);
 
-  // Computed properties
-  readonly staffHeight = computed(() => 200);
-  readonly staffWidth = computed(() => 400);
-  readonly lineSpacing = computed(() => 12);
-  readonly noteRadius = computed(() => 6);
+  // Computed properties - exposed as simple values for template performance
+  readonly staffHeight = 200;
+  readonly staffWidth = 400;
+  readonly lineSpacing = 12;
+  readonly noteRadius = 6;
+  readonly staffCenterY = 100; // staffHeight / 2
+  readonly staffCenterX = 200; // staffWidth / 2
 
   readonly staffLinePositions = computed(() => {
-    const spacing = this.lineSpacing();
-    const centerY = this.staffHeight() / 2;
+    const spacing = this.lineSpacing;
+    const centerY = this.staffCenterY;
     return [
       centerY - spacing * 2, // Top line
       centerY - spacing, // Second line
@@ -69,8 +71,8 @@ export class MusicalStaffComponent {
    */
   private calculateNotePosition(note: MusicalNote): { x: number; y: number } {
     const staffLines = this.staffLinePositions();
-    const spacing = this.lineSpacing();
-    const centerY = this.staffHeight() / 2;
+    const spacing = this.lineSpacing;
+    const centerY = this.staffCenterY;
 
     // Base position calculation
     let yPosition = centerY;
@@ -82,7 +84,7 @@ export class MusicalStaffComponent {
     }
 
     // X position (centered on staff)
-    const xPosition = this.staffWidth() / 2;
+    const xPosition = this.staffCenterX;
 
     return { x: xPosition, y: yPosition };
   }
@@ -186,7 +188,7 @@ export class MusicalStaffComponent {
   private calculateLedgerLines(note: MusicalNote): { y: number; x1: number; x2: number }[] {
     const position = this.calculateNotePosition(note);
     const staffLines = this.staffLinePositions();
-    const spacing = this.lineSpacing();
+    const spacing = this.lineSpacing;
     const ledgerLines: { y: number; x1: number; x2: number }[] = [];
 
     const noteY = position.y;

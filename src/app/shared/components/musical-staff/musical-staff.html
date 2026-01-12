@@ -1,7 +1,7 @@
 <div class="musical-staff-container" [attr.aria-label]="'Musical staff displaying ' + (currentNote()?.name || 'no note')">
   <svg
-    [attr.width]="staffWidth()"
-    [attr.height]="staffHeight()"
+    [attr.width]="staffWidth"
+    [attr.height]="staffHeight"
     class="staff-svg"
     role="img"
     [attr.aria-describedby]="'staff-description'">
@@ -11,7 +11,7 @@
       <line
         x1="50"
         [attr.y1]="lineY"
-        [attr.x2]="staffWidth() - 50"
+        [attr.x2]="staffWidth - 50"
         [attr.y2]="lineY"
         class="staff-line"
         stroke="#000"
@@ -21,7 +21,7 @@
     <!-- Clef symbol -->
     <text
       x="70"
-      [attr.y]="clef() === 'bass' ? staffHeight() / 2 + 28 : staffHeight() / 2 + 15"
+      [attr.y]="clef() === 'bass' ? staffCenterY + 28 : staffCenterY + 15"
       class="clef-symbol"
       font-family="serif"
       [attr.font-size]="clef() === 'bass' ? '95' : '65'"
@@ -64,19 +64,19 @@
       <ellipse
         [attr.cx]="position.x"
         [attr.cy]="position.y"
-        [attr.rx]="noteRadius() * 1.2"
-        [attr.ry]="noteRadius()"
+        [attr.rx]="noteRadius * 1.2"
+        [attr.ry]="noteRadius"
         [class]="getNoteClasses().join(' ')"
         fill="#000"
         [attr.aria-label]="'Note: ' + currentNote()!.name + (currentNote()!.accidental ? ' ' + currentNote()!.accidental : '') + ' octave ' + currentNote()!.octave" />
 
       <!-- Note stem (for visual completeness) -->
-      @if (position.y > staffHeight() / 2) {
+      @if (position.y > staffCenterY) {
         <!-- Stem up for notes below middle line -->
         <line
-          [attr.x1]="position.x - noteRadius() * 1.2"
+          [attr.x1]="position.x - noteRadius * 1.2"
           [attr.y1]="position.y"
-          [attr.x2]="position.x - noteRadius() * 1.2"
+          [attr.x2]="position.x - noteRadius * 1.2"
           [attr.y2]="position.y - 35"
           class="note-stem"
           stroke="#000"
@@ -84,9 +84,9 @@
       } @else {
         <!-- Stem down for notes above middle line -->
         <line
-          [attr.x1]="position.x + noteRadius() * 1.2"
+          [attr.x1]="position.x + noteRadius * 1.2"
           [attr.y1]="position.y"
-          [attr.x2]="position.x + noteRadius() * 1.2"
+          [attr.x2]="position.x + noteRadius * 1.2"
           [attr.y2]="position.y + 35"
           class="note-stem"
           stroke="#000"
@@ -97,8 +97,8 @@
     <!-- Visual feedback for empty state -->
     @if (!showNote() || !currentNote()) {
       <text
-        [attr.x]="staffWidth() / 2"
-        [attr.y]="staffHeight() / 2"
+        [attr.x]="staffCenterX"
+        [attr.y]="staffCenterY"
         class="placeholder-text"
         font-family="Arial, sans-serif"
         font-size="16"
