@@ -245,12 +245,12 @@ export class UserProgressService {
   // Private methods
   private getDefaultProgress(): UserProgress {
     return {
-      currentLevel: 'beginner',
+      currentLevel: 'easy',
       totalQuestionsAnswered: 0,
       overallAccuracy: 0,
       sessionStartTime: new Date(),
       levelProgression: [{
-        level: 'beginner',
+        level: 'easy',
         unlockedAt: new Date(),
         questionsAtLevel: 0,
         accuracyAtLevel: 0

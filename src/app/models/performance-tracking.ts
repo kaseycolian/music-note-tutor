@@ -36,8 +36,6 @@ export interface ResponseTimeAnalysis {
 }
 
 export interface AccuracyByDifficulty {
-  readonly beginner: number;
-  readonly intermediate: number;
-  readonly advanced: number;
-  readonly expert: number;
+  readonly easy: number;
+  readonly hard: number;
 }

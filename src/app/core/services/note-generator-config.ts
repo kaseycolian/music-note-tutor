@@ -39,7 +39,7 @@ export class NoteGeneratorConfigService {
    * Get the next level after the current one
    */
   getNextLevel(currentLevel: DifficultyLevel): DifficultyLevel | null {
-    const levels: DifficultyLevel[] = ['beginner', 'intermediate', 'advanced', 'expert'];
+    const levels: DifficultyLevel[] = ['easy', 'hard'];
     const currentIndex = levels.indexOf(currentLevel);
 
     if (currentIndex >= 0 && currentIndex < levels.length - 1) {
@@ -82,43 +82,12 @@ export class NoteGeneratorConfigService {
 
   // Private initialization methods
   private initializeLevelConfigurations(): void {
-    this.levelConfigurations.set('beginner', this.createBeginnerConfig());
-    this.levelConfigurations.set('intermediate', this.createIntermediateConfig());
-    this.levelConfigurations.set('advanced', this.createAdvancedConfig());
-    this.levelConfigurations.set('expert', this.createExpertConfig());
+    this.levelConfigurations.set('easy', this.createEasyConfig());
+    this.levelConfigurations.set('hard', this.createHardConfig());
   }
 
-  private createBeginnerConfig(): LevelConfiguration {
-    const noteRange: NoteRange = {
-      trebleRange: { min: 4, max: 5 },
-      bassRange: { min: 3, max: 4 },
-      allowedNotes: ['C', 'D', 'E', 'F', 'G'],
-      includeAccidentals: false
-    };
-
-    const clefDistribution: ClefDistribution = {
-      trebleWeight: 0.8,
-      bassWeight: 0.2
-    };
-
-    const progressionCriteria: ProgressionCriteria = {
-      minAccuracy: 0.75,
-      minQuestions: 20,
-      consecutiveCorrect: 5
-    };
-
-    const baseWeights = this.generateBaseWeights(noteRange, 1.0);
-
-    return {
-      level: 'beginner',
-      noteRange,
-      clefDistribution,
-      baseWeights,
-      progressionCriteria
-    };
-  }
-
-  private createIntermediateConfig(): LevelConfiguration {
+  private createEasyConfig(): LevelConfiguration {
+    // Easy combines Beginner and Intermediate levels
     const noteRange: NoteRange = {
       trebleRange: { min: 4, max: 6 },
       bassRange: { min: 2, max: 4 },
@@ -127,20 +96,20 @@ export class NoteGeneratorConfigService {
     };
 
     const clefDistribution: ClefDistribution = {
-      trebleWeight: 0.6,
-      bassWeight: 0.4
+      trebleWeight: 0.7,
+      bassWeight: 0.3
     };
 
     const progressionCriteria: ProgressionCriteria = {
-      minAccuracy: 0.80,
-      minQuestions: 50,
-      consecutiveCorrect: 8
+      minAccuracy: 0.78,
+      minQuestions: 35,
+      consecutiveCorrect: 7
     };
 
     const baseWeights = this.generateBaseWeights(noteRange, 1.0);
 
     return {
-      level: 'intermediate',
+      level: 'easy',
       noteRange,
       clefDistribution,
       baseWeights,
@@ -148,37 +117,8 @@ export class NoteGeneratorConfigService {
     };
   }
 
-  private createAdvancedConfig(): LevelConfiguration {
-    const noteRange: NoteRange = {
-      trebleRange: { min: 3, max: 6 },
-      bassRange: { min: 2, max: 5 },
-      allowedNotes: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-      includeAccidentals: true
-    };
-
-    const clefDistribution: ClefDistribution = {
-      trebleWeight: 0.5,
-      bassWeight: 0.5
-    };
-
-    const progressionCriteria: ProgressionCriteria = {
-      minAccuracy: 0.85,
-      minQuestions: 100,
-      consecutiveCorrect: 10
-    };
-
-    const baseWeights = this.generateBaseWeights(noteRange, 1.0);
-
-    return {
-      level: 'advanced',
-      noteRange,
-      clefDistribution,
-      baseWeights,
-      progressionCriteria
-    };
-  }
-
-  private createExpertConfig(): LevelConfiguration {
+  private createHardConfig(): LevelConfiguration {
+    // Hard combines Advanced and Expert levels
     const noteRange: NoteRange = {
       trebleRange: { min: 3, max: 7 },
       bassRange: { min: 1, max: 5 },
@@ -192,15 +132,15 @@ export class NoteGeneratorConfigService {
     };
 
     const progressionCriteria: ProgressionCriteria = {
-      minAccuracy: 0.90,
-      minQuestions: 200,
-      consecutiveCorrect: 15
+      minAccuracy: 0.88,
+      minQuestions: 150,
+      consecutiveCorrect: 12
     };
 
     const baseWeights = this.generateBaseWeights(noteRange, 1.0);
 
     return {
-      level: 'expert',
+      level: 'hard',
       noteRange,
       clefDistribution,
       baseWeights,
@@ -237,34 +177,28 @@ export class NoteGeneratorConfigService {
    */
   getNotePriorities(level: DifficultyLevel): { [noteId: string]: number } {
     const priorities: { [key: string]: { [noteId: string]: number } } = {
-      'beginner': {
-        // Focus on middle C and nearby notes
-        'C4-treble': 1.5,
+      'easy': {
+        // Focus on middle C and nearby notes, balanced distribution
+        'C4-treble': 1.4,
         'D4-treble': 1.3,
         'E4-treble': 1.3,
         'F4-treble': 1.2,
         'G4-treble': 1.2,
-        'C5-treble': 1.1,
-      },
-      'intermediate': {
-        // More balanced distribution
         'A4-treble': 1.2,
         'B4-treble': 1.2,
+        'C5-treble': 1.1,
         'C3-bass': 1.3,
         'D3-bass': 1.2,
         'E3-bass': 1.2,
       },
-      'advanced': {
-        // Include ledger lines and accidentals
+      'hard': {
+        // Full range with ledger lines and accidentals
         'C6-treble': 1.1,
+        'C7-treble': 1.0,
         'B2-bass': 1.1,
+        'C1-bass': 1.0,
         'F4-treble-sharp': 1.0,
         'B4-treble-flat': 1.0,
-      },
-      'expert': {
-        // Full range with equal emphasis
-        'C7-treble': 1.0,
-        'C1-bass': 1.0,
         'F3-bass-sharp': 1.0,
         'A5-treble-flat': 1.0,
       }
@@ -283,29 +217,17 @@ export class NoteGeneratorConfigService {
     randomnessWeight: number;
   } {
     const params = {
-      'beginner': {
-        performanceWeight: 0.4,
-        recencyWeight: 0.3,
-        difficultyWeight: 0.2,
+      'easy': {
+        performanceWeight: 0.45,
+        recencyWeight: 0.28,
+        difficultyWeight: 0.17,
         randomnessWeight: 0.1
       },
-      'intermediate': {
-        performanceWeight: 0.5,
-        recencyWeight: 0.25,
-        difficultyWeight: 0.15,
-        randomnessWeight: 0.1
-      },
-      'advanced': {
-        performanceWeight: 0.6,
-        recencyWeight: 0.2,
+      'hard': {
+        performanceWeight: 0.65,
+        recencyWeight: 0.18,
         difficultyWeight: 0.1,
-        randomnessWeight: 0.1
-      },
-      'expert': {
-        performanceWeight: 0.7,
-        recencyWeight: 0.15,
-        difficultyWeight: 0.1,
-        randomnessWeight: 0.05
+        randomnessWeight: 0.07
       }
     };
 

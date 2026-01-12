@@ -5,6 +5,14 @@
     <div class="header-controls">
       <button
         type="button"
+        (click)="toggleOctaveNumbers()"
+        class="btn btn-outline"
+        [class.active]="showOctaveNumbers()"
+        [attr.aria-label]="showOctaveNumbers() ? 'Hide octave numbers' : 'Show octave numbers'">
+        {{ showOctaveNumbers() ? 'Hide Numbers' : 'Show Numbers' }}
+      </button>
+      <button
+        type="button"
         (click)="resetProgress()"
         class="btn btn-outline"
         [attr.aria-label]="'Reset all progress'">
@@ -46,7 +54,9 @@
       @if (currentNote(); as note) {
         <app-musical-staff
           [currentNote]="note"
+          [clef]="note.clef"
           [showNote]="true"
+          [showOctaveNumbers]="showOctaveNumbers()"
           class="staff-container"
           [attr.aria-label]="'Musical staff displaying a note to identify'" />
       } @else {

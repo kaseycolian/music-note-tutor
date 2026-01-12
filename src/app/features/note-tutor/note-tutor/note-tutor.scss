@@ -107,24 +107,14 @@
         font-size: 0.875rem;
         text-transform: capitalize;
 
-        &[data-level="beginner"] {
+        &[data-level="easy"] {
           background: #dcfce7;
           color: #166534;
         }
 
-        &[data-level="intermediate"] {
-          background: #fef3c7;
-          color: #92400e;
-        }
-
-        &[data-level="advanced"] {
+        &[data-level="hard"] {
           background: #fecaca;
           color: #991b1b;
-        }
-
-        &[data-level="expert"] {
-          background: #e0e7ff;
-          color: #3730a3;
         }
       }
 

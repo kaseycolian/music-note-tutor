@@ -19,7 +19,7 @@ import { UserProgressService } from './user-progress';
 export class NoteGeneratorService {
   // Signal-based reactive state for RooCode optimization
   private performanceData = signal(new Map<string, NotePerformance>());
-  private currentLevel = signal<DifficultyLevel>('beginner');
+  private currentLevel = signal<DifficultyLevel>('easy');
   private recentHistory = signal<MusicalNote[]>([]);
 
   // Computed signals for RooCode intellisense
@@ -94,7 +94,7 @@ export class NoteGeneratorService {
   public resetProgress(): void {
     this.performanceData.set(new Map());
     this.recentHistory.set([]);
-    this.currentLevel.set('beginner');
+    this.currentLevel.set('easy');
     this.storageService.clear('performance-data');
     this.storageService.clear('recent-history');
     this.storageService.clear('current-level');
@@ -301,7 +301,7 @@ export class NoteGeneratorService {
 
   private advanceLevel(): void {
     const currentLevel = this.currentLevel();
-    const levels: DifficultyLevel[] = ['beginner', 'intermediate', 'advanced', 'expert'];
+    const levels: DifficultyLevel[] = ['easy', 'hard'];
     const currentIndex = levels.indexOf(currentLevel);
 
     if (currentIndex < levels.length - 1) {
@@ -312,18 +312,44 @@ export class NoteGeneratorService {
   }
 
   private determineStaffPosition(noteName: NoteName, octave: number, clef: Clef): StaffPosition {
-    // Simplified staff position logic - would need more detailed implementation
-    const notePositions = {
-      'C': clef === 'treble' ? (octave >= 5 ? 'line' : 'space') : 'space',
-      'D': 'space',
-      'E': 'line',
-      'F': 'space',
-      'G': 'line',
-      'A': 'space',
-      'B': 'line'
-    };
+    const noteKey = `${noteName}${octave}`;
 
-    return notePositions[noteName] as StaffPosition;
+    if (clef === 'treble') {
+      // Treble clef: Lines are E4, G4, B4, D5, F5
+      // Spaces are F4, A4, C5, E5
+      const trebleLines = ['E4', 'G4', 'B4', 'D5', 'F5'];
+      const trebleSpaces = ['F4', 'A4', 'C5', 'E5'];
+
+      if (trebleLines.includes(noteKey)) return 'line';
+      if (trebleSpaces.includes(noteKey)) return 'space';
+
+      // Notes outside the staff
+      if (octave < 4 || (octave === 4 && ['C', 'D'].includes(noteName))) {
+        return 'ledger-below';
+      }
+      if (octave > 5 || (octave === 5 && ['G', 'A', 'B'].includes(noteName)) || octave >= 6) {
+        return 'ledger-above';
+      }
+    } else {
+      // Bass clef: Lines are G2, B2, D3, F3, A3
+      // Spaces are A2, C3, E3, G3
+      const bassLines = ['G2', 'B2', 'D3', 'F3', 'A3'];
+      const bassSpaces = ['A2', 'C3', 'E3', 'G3'];
+
+      if (bassLines.includes(noteKey)) return 'line';
+      if (bassSpaces.includes(noteKey)) return 'space';
+
+      // Notes outside the staff
+      if (octave < 2 || (octave === 2 && ['E', 'F'].includes(noteName))) {
+        return 'ledger-below';
+      }
+      if (octave > 3 || (octave === 3 && ['B'].includes(noteName)) || octave >= 4) {
+        return 'ledger-above';
+      }
+    }
+
+    // Default fallback
+    return 'space';
   }
 
   private persistPerformanceData(): void {

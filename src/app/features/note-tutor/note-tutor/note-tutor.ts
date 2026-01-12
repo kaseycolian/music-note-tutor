@@ -15,13 +15,9 @@ export interface AnswerFeedback {
 @Component({
   selector: 'app-note-tutor',
   standalone: true,
-  imports: [
-    CommonModule,
-    MusicalStaffComponent,
-    NoteInputComponent
-  ],
+  imports: [CommonModule, MusicalStaffComponent, NoteInputComponent],
   templateUrl: './note-tutor.html',
-  styleUrl: './note-tutor.scss'
+  styleUrl: './note-tutor.scss',
 })
 export class NoteTutor implements OnInit, OnDestroy {
   // Signal-based reactive state
@@ -32,6 +28,7 @@ export class NoteTutor implements OnInit, OnDestroy {
   hasAnswered = signal(false);
   sessionStartTime = signal<Date>(new Date());
   questionStartTime = signal<Date>(new Date());
+  showOctaveNumbers = signal(false);
 
   // Computed properties
   showAnswerInput = computed(() => this.currentNote() && !this.hasAnswered());
@@ -71,7 +68,7 @@ export class NoteTutor implements OnInit, OnDestroy {
       console.error('Error generating note:', error);
       this.feedback.set({
         type: 'incorrect',
-        message: 'Error generating note. Please try again.'
+        message: 'Error generating note. Please try again.',
       });
     } finally {
       this.isProcessing.set(false);
@@ -99,10 +96,12 @@ export class NoteTutor implements OnInit, OnDestroy {
   showAnswer(): void {
     const note = this.currentNote();
     if (note) {
-      const correctAnswer = `${note.name}${note.accidental ? (note.accidental === 'sharp' ? '#' : '♭') : ''}`;
+      const correctAnswer = `${note.name}${
+        note.accidental ? (note.accidental === 'sharp' ? '#' : '♭') : ''
+      }`;
       this.feedback.set({
         type: 'hint',
-        message: `The correct answer is ${correctAnswer}`
+        message: `The correct answer is ${correctAnswer}`,
       });
     }
   }
@@ -115,13 +114,17 @@ export class NoteTutor implements OnInit, OnDestroy {
       this.generateNewNote();
       this.feedback.set({
         type: 'hint',
-        message: 'Progress has been reset. Starting fresh!'
+        message: 'Progress has been reset. Starting fresh!',
       });
     }
   }
 
   getAvailableNotes(): NoteName[] {
     return this.availableNotes;
+  }
+
+  toggleOctaveNumbers(): void {
+    this.showOctaveNumbers.update((current) => !current);
   }
 
   private validateAnswer(userAnswer: string, note: MusicalNote): boolean {
@@ -143,19 +146,21 @@ export class NoteTutor implements OnInit, OnDestroy {
         'Perfect! 🎶',
         'Great job! ✨',
         'Correct! 🎯',
-        'Well done! 👏'
+        'Well done! 👏',
       ];
       const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 
       this.feedback.set({
         type: 'correct',
-        message: randomMessage
+        message: randomMessage,
       });
     } else {
-      const correctAnswer = `${note.name}${note.accidental ? (note.accidental === 'sharp' ? '#' : '♭') : ''}`;
+      const correctAnswer = `${note.name}${
+        note.accidental ? (note.accidental === 'sharp' ? '#' : '♭') : ''
+      }`;
       this.feedback.set({
         type: 'incorrect',
-        message: `Not quite. You answered "${userAnswer}", but the correct answer is "${correctAnswer}".`
+        message: `Not quite. You answered "${userAnswer}", but the correct answer is "${correctAnswer}".`,
       });
     }
   }
@@ -168,11 +173,11 @@ export class NoteTutor implements OnInit, OnDestroy {
       console.error('Error loading user progress:', error);
       // Initialize with default progress
       this.userProgress.set({
-        currentLevel: 'beginner',
+        currentLevel: 'easy',
         totalQuestionsAnswered: 0,
         overallAccuracy: 0,
         sessionStartTime: new Date(),
-        levelProgression: []
+        levelProgression: [],
       });
     }
   }

@@ -21,10 +21,10 @@
     <!-- Clef symbol -->
     <text
       x="70"
-      [attr.y]="staffHeight() / 2 + 8"
+      [attr.y]="clef() === 'bass' ? staffHeight() / 2 + 28 : staffHeight() / 2 + 15"
       class="clef-symbol"
       font-family="serif"
-      font-size="48"
+      [attr.font-size]="clef() === 'bass' ? '95' : '65'"
       fill="#000"
       text-anchor="middle">
       {{ clefSymbol() }}

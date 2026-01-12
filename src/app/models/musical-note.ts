@@ -10,7 +10,7 @@ export interface MusicalNote {
 export type NoteName = 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B';
 export type Clef = 'treble' | 'bass';
 export type Accidental = 'sharp' | 'flat';
-export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert';
+export type DifficultyLevel = 'easy' | 'hard';
 export type StaffPosition = 'line' | 'space' | 'ledger-above' | 'ledger-below';
 
 export interface WeightedNote extends MusicalNote {

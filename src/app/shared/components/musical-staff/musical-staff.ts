@@ -15,6 +15,7 @@ export class MusicalStaffComponent {
   showNote = input<boolean>(true);
   clef = input<Clef>('treble');
   highlightNote = input<boolean>(false);
+  showOctaveNumbers = input<boolean>(false);
 
   // Internal state
   private staffLines = signal<number[]>([]);
@@ -31,10 +32,10 @@ export class MusicalStaffComponent {
     const centerY = this.staffHeight() / 2;
     return [
       centerY - spacing * 2, // Top line
-      centerY - spacing,     // Second line
-      centerY,               // Middle line
-      centerY + spacing,     // Fourth line
-      centerY + spacing * 2  // Bottom line
+      centerY - spacing, // Second line
+      centerY, // Middle line
+      centerY + spacing, // Fourth line
+      centerY + spacing * 2, // Bottom line
     ];
   });
 
@@ -86,7 +87,11 @@ export class MusicalStaffComponent {
     return { x: xPosition, y: yPosition };
   }
 
-  private calculateTreblePosition(note: MusicalNote, staffLines: number[], spacing: number): number {
+  private calculateTreblePosition(
+    note: MusicalNote,
+    staffLines: number[],
+    spacing: number
+  ): number {
     // Treble clef: Lines from bottom to top are E4, G4, B4, D5, F5
     // Spaces from bottom to top are F4, A4, C5, E5
     // staffLines[0] = top line (F5), staffLines[4] = bottom line (E4)
@@ -96,25 +101,32 @@ export class MusicalStaffComponent {
     // Map each specific note to its exact staff position
     const notePositions: { [key: string]: number } = {
       // Ledger lines below staff
-      'C4': staffLines[4] + spacing,      // Below E4 (ledger line)
-      'D4': staffLines[4] + spacing / 2,  // Below E4 (ledger line)
+      C4: staffLines[4] + spacing, // Below E4 (ledger line)
+      D4: staffLines[4] + spacing / 2, // Below E4 (space)
 
       // On staff - bottom to top
-      'E4': staffLines[4],                // Bottom line
-      'F4': staffLines[4] - spacing / 2,  // First space
-      'G4': staffLines[3],                // Second line
-      'A4': staffLines[3] - spacing / 2,  // Second space
-      'B4': staffLines[2],                // Middle line
-      'C5': staffLines[2] - spacing / 2,  // Third space
-      'D5': staffLines[1],                // Fourth line (second from top)
-      'E5': staffLines[1] - spacing / 2,  // Fourth space (top space)
-      'F5': staffLines[0],                // Top line
+      E4: staffLines[4], // Bottom line
+      F4: staffLines[4] - spacing / 2, // First space
+      G4: staffLines[3], // Second line
+      A4: staffLines[3] - spacing / 2, // Second space
+      B4: staffLines[2], // Middle line
+      C5: staffLines[2] - spacing / 2, // Third space
+      D5: staffLines[1], // Fourth line (second from top)
+      E5: staffLines[1] - spacing / 2, // Fourth space (top space)
+      F5: staffLines[0], // Top line
 
       // Ledger lines above staff
-      'G5': staffLines[0] - spacing / 2,  // Above F5 (ledger line)
-      'A5': staffLines[0] - spacing,      // Above F5 (ledger line)
-      'B5': staffLines[0] - spacing * 1.5, // Above F5 (ledger line)
-      'C6': staffLines[0] - spacing * 2   // Above F5 (ledger line)
+      G5: staffLines[0] - spacing / 2, // Above F5 (space)
+      A5: staffLines[0] - spacing, // Above F5 (first ledger line)
+      B5: staffLines[0] - spacing * 1.5, // Above F5 (space)
+      C6: staffLines[0] - spacing * 2, // Above F5 (second ledger line)
+      D6: staffLines[0] - spacing * 2.5, // Above F5 (space)
+      E6: staffLines[0] - spacing * 3, // Above F5 (third ledger line)
+      F6: staffLines[0] - spacing * 3.5, // Above F5 (space)
+      G6: staffLines[0] - spacing * 4, // Above F5 (fourth ledger line)
+      A6: staffLines[0] - spacing * 4.5, // Above F5 (space)
+      B6: staffLines[0] - spacing * 5, // Above F5 (fifth ledger line)
+      C7: staffLines[0] - spacing * 5.5, // Above F5 (space)
     };
 
     return notePositions[noteKey] ?? staffLines[2]; // Default to middle line if not found
@@ -130,25 +142,39 @@ export class MusicalStaffComponent {
     // Map each specific note to its exact staff position
     const notePositions: { [key: string]: number } = {
       // Ledger lines below staff
-      'E2': staffLines[4] + spacing,      // Below G2 (ledger line)
-      'F2': staffLines[4] + spacing / 2,  // Below G2 (ledger line)
+      C1: staffLines[4] + spacing * 3, // Below G2 (ledger line)
+      D1: staffLines[4] + spacing * 2.5, // Below G2 (space)
+      E1: staffLines[4] + spacing * 2, // Below G2 (ledger line)
+      F1: staffLines[4] + spacing * 1.5, // Below G2 (space)
+      G1: staffLines[4] + spacing, // Below G2 (ledger line)
+      A1: staffLines[4] + spacing * 0.5, // Below G2 (space)
+      B1: staffLines[4], // Same as G2 but below
+      C2: staffLines[4] + spacing * 1.5, // Below G2 (ledger line)
+      D2: staffLines[4] + spacing, // Below G2 (space)
+      E2: staffLines[4] + spacing * 0.5, // Below G2 (space)
+      F2: staffLines[4] + spacing / 2, // Below G2 (space)
 
       // On staff - bottom to top
-      'G2': staffLines[4],                // Bottom line
-      'A2': staffLines[4] - spacing / 2,  // First space
-      'B2': staffLines[3],                // Second line
-      'C3': staffLines[3] - spacing / 2,  // Second space
-      'D3': staffLines[2],                // Middle line
-      'E3': staffLines[2] - spacing / 2,  // Third space
-      'F3': staffLines[1],                // Fourth line (second from top)
-      'G3': staffLines[1] - spacing / 2,  // Fourth space (top space)
-      'A3': staffLines[0],                // Top line
+      G2: staffLines[4], // Bottom line
+      A2: staffLines[4] - spacing / 2, // First space
+      B2: staffLines[3], // Second line
+      C3: staffLines[3] - spacing / 2, // Second space
+      D3: staffLines[2], // Middle line
+      E3: staffLines[2] - spacing / 2, // Third space
+      F3: staffLines[1], // Fourth line (second from top)
+      G3: staffLines[1] - spacing / 2, // Fourth space (top space)
+      A3: staffLines[0], // Top line
 
       // Ledger lines above staff
-      'B3': staffLines[0] - spacing / 2,  // Above A3 (ledger line)
-      'C4': staffLines[0] - spacing,      // Above A3 (ledger line)
-      'D4': staffLines[0] - spacing * 1.5, // Above A3 (ledger line)
-      'E4': staffLines[0] - spacing * 2   // Above A3 (ledger line)
+      B3: staffLines[0] - spacing / 2, // Above A3 (space)
+      C4: staffLines[0] - spacing, // Above A3 (first ledger line)
+      D4: staffLines[0] - spacing * 1.5, // Above A3 (space)
+      E4: staffLines[0] - spacing * 2, // Above A3 (second ledger line)
+      F4: staffLines[0] - spacing * 2.5, // Above A3 (space)
+      G4: staffLines[0] - spacing * 3, // Above A3 (third ledger line)
+      A4: staffLines[0] - spacing * 3.5, // Above A3 (space)
+      B4: staffLines[0] - spacing * 4, // Above A3 (fourth ledger line)
+      C5: staffLines[0] - spacing * 4.5, // Above A3 (space)
     };
 
     return notePositions[noteKey] ?? staffLines[2]; // Default to middle line if not found
@@ -174,7 +200,7 @@ export class MusicalStaffComponent {
         ledgerLines.push({
           y: ledgerY,
           x1: position.x - 15,
-          x2: position.x + 15
+          x2: position.x + 15,
         });
         ledgerY -= spacing;
       }
@@ -187,7 +213,7 @@ export class MusicalStaffComponent {
         ledgerLines.push({
           y: ledgerY,
           x1: position.x - 15,
-          x2: position.x + 15
+          x2: position.x + 15,
         });
         ledgerY += spacing;
       }
@@ -225,8 +251,8 @@ export class MusicalStaffComponent {
    */
   getAccidentalSymbol(accidental: string): string {
     const symbols = {
-      'sharp': '♯',
-      'flat': '♭'
+      sharp: '♯',
+      flat: '♭',
     };
     return symbols[accidental as keyof typeof symbols] || '';
   }
@@ -248,7 +274,7 @@ export class MusicalStaffComponent {
 
     return {
       x: notePos.x - 20, // Position accidental to the left of note
-      y: notePos.y
+      y: notePos.y,
     };
   }
 }
