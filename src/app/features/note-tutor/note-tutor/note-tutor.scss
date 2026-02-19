@@ -41,14 +41,23 @@
   h1 {
     margin: 0;
     font-family: 'Courier New', 'Courier', monospace;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     font-weight: 900;
-    letter-spacing: 0.1em;
-    color: var(--white);
-    text-shadow: 0 0 20px rgba(255, 0, 170, 0.6);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 
-    span {
+    .line-1 {
+      color: var(--white);
+    }
+
+
+    .line-2 {
       color: var(--fuchsia);
+      text-shadow: 0 0 60px rgba(255, 0, 170, 0.8), 0 0 120px rgba(255, 0, 170, 0.4);
+      animation: flicker 4s ease-in-out infinite;
     }
   }
 
@@ -417,10 +426,6 @@
     gap: 16px;
     padding: 20px;
     text-align: center;
-
-    h1 {
-      font-size: 1.2rem;
-    }
   }
 
   .progress-section {
@@ -441,7 +446,7 @@
   }
 
   .staff-section {
-    padding: 20px;
+    padding: 6px;
     min-height: 200px;
   }
 
@@ -451,10 +456,6 @@
 }
 
 @media (max-width: 480px) {
-  .game-header h1 {
-    font-size: 1rem;
-  }
-
   .progress-section .stats-grid {
     gap: 24px;
     grid-template-columns: 1fr 1fr;

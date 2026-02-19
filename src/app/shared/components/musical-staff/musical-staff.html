@@ -1,7 +1,7 @@
 <div class="musical-staff-container" [attr.aria-label]="'Musical staff displaying ' + (currentNote()?.name || 'no note')">
   <svg
-    [attr.width]="staffWidth"
-    [attr.height]="staffHeight"
+    [attr.viewBox]="'0 0 ' + staffWidth + ' ' + staffHeight"
+    preserveAspectRatio="xMidYMid slice"
     class="staff-svg"
     role="img"
     [attr.aria-describedby]="'staff-description'">
