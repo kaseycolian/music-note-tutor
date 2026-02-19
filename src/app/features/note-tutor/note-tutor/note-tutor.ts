@@ -12,7 +12,12 @@ import {
 } from '@angular/core';
 import { NoteGeneratorService } from '../../../core/services/note-generator';
 import { UserProgressService } from '../../../core/services/user-progress';
-import { DIFFICULTY_MODES, DifficultyMode } from '../../../models/difficulty-mode';
+import {
+  CLEF_FILTERS,
+  ClefFilter,
+  DIFFICULTY_MODES,
+  DifficultyMode,
+} from '../../../models/difficulty-mode';
 import { MusicalNote, NoteName } from '../../../models/musical-note';
 import { UserProgress } from '../../../models/user-progress';
 import { MusicalStaffComponent } from '../../../shared/components/musical-staff/musical-staff';
@@ -48,6 +53,11 @@ export class NoteTutor implements OnInit, OnDestroy {
   difficultyMode = signal<DifficultyMode>('default');
   showDifficultyDropdown = signal(false);
   readonly difficultyModes = DIFFICULTY_MODES;
+
+  // Clef filter state
+  clefFilter = signal<ClefFilter>('both');
+  showClefDropdown = signal(false);
+  readonly clefFilters = CLEF_FILTERS;
 
   // Store pending answer data to record only when moving to next question
   private pendingAnswer = signal<{
@@ -87,8 +97,13 @@ export class NoteTutor implements OnInit, OnDestroy {
     const target = event.target as HTMLElement;
     const dropdown = target.closest('.difficulty-dropdown');
 
-    if (!dropdown && this.showDifficultyDropdown()) {
-      this.showDifficultyDropdown.set(false);
+    if (!dropdown) {
+      if (this.showDifficultyDropdown()) {
+        this.showDifficultyDropdown.set(false);
+      }
+      if (this.showClefDropdown()) {
+        this.showClefDropdown.set(false);
+      }
     }
   }
 
@@ -96,6 +111,9 @@ export class NoteTutor implements OnInit, OnDestroy {
   onEscapeKey(): void {
     if (this.showDifficultyDropdown()) {
       this.showDifficultyDropdown.set(false);
+    }
+    if (this.showClefDropdown()) {
+      this.showClefDropdown.set(false);
     }
   }
 
@@ -206,6 +224,9 @@ export class NoteTutor implements OnInit, OnDestroy {
   // Difficulty mode methods
   toggleDifficultyDropdown(): void {
     this.showDifficultyDropdown.update((show) => !show);
+    if (this.showDifficultyDropdown()) {
+      this.showClefDropdown.set(false);
+    }
   }
 
   selectDifficulty(mode: DifficultyMode): void {
@@ -222,6 +243,30 @@ export class NoteTutor implements OnInit, OnDestroy {
   getCurrentDifficultyLabel(): string {
     const config = this.difficultyModes.find((d) => d.mode === this.difficultyMode());
     return config?.label || 'Default';
+  }
+
+  // Clef filter methods
+  toggleClefDropdown(): void {
+    this.showClefDropdown.update((show) => !show);
+    if (this.showClefDropdown()) {
+      this.showDifficultyDropdown.set(false);
+    }
+  }
+
+  selectClef(filter: ClefFilter): void {
+    this.clefFilter.set(filter);
+    this.showClefDropdown.set(false);
+
+    // Update note generator with new clef filter
+    this.noteGenerator.setClefFilter(filter);
+
+    // Generate a new note with the new clef filter
+    this.generateNewNote();
+  }
+
+  getCurrentClefLabel(): string {
+    const config = this.clefFilters.find((c) => c.filter === this.clefFilter());
+    return config?.label || 'Both';
   }
 
   private validateAnswer(userAnswer: string, note: MusicalNote): boolean {

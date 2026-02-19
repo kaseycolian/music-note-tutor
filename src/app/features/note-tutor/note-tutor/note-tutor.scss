@@ -78,8 +78,19 @@
   .stats-grid {
     display: flex;
     justify-content: center;
-    gap: 80px;
+    flex-direction: column;
     flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .stat-line {
+    display: inline-flex;
+    gap: 80px;
+    justify-content: center;
+  }
+
+  .options-stat-line {
+    gap: 40px;
   }
 
   .stat-item {
@@ -549,6 +560,17 @@
   .progress-section .stats-grid {
     gap: 24px;
     grid-template-columns: 1fr 1fr;
+  }
+
+  .progress-section .stat-item {
+    .difficulty-menu {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 90vw;
+      z-index: 2000;
+    }
   }
 
   .controls {

@@ -1,5 +1,5 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { DIFFICULTY_NOTE_RANGES, DifficultyMode } from '../../models/difficulty-mode';
+import { ClefFilter, DIFFICULTY_NOTE_RANGES, DifficultyMode } from '../../models/difficulty-mode';
 import { LevelConfiguration, SelectionContext } from '../../models/level-configuration';
 import {
   Clef,
@@ -23,6 +23,7 @@ export class NoteGeneratorService {
   private currentLevel = signal<DifficultyLevel>('easy');
   private recentHistory = signal<MusicalNote[]>([]);
   private difficultyMode = signal<DifficultyMode>('default');
+  private clefFilter = signal<ClefFilter>('both');
 
   // Computed signals for RooCode intellisense
   readonly overallAccuracy = computed(() => {
@@ -116,6 +117,20 @@ export class NoteGeneratorService {
     return this.difficultyMode();
   }
 
+  /**
+   * Set clef filter to show only specific clef notes
+   */
+  public setClefFilter(filter: ClefFilter): void {
+    this.clefFilter.set(filter);
+  }
+
+  /**
+   * Get current clef filter
+   */
+  public getClefFilter(): ClefFilter {
+    return this.clefFilter();
+  }
+
   // Private methods for algorithm implementation
   private buildSelectionContext(partial?: Partial<SelectionContext>): SelectionContext {
     const userProgress = this.progressService.getCurrentProgress();
@@ -178,10 +193,13 @@ export class NoteGeneratorService {
       }
     });
 
-    // Filter candidates based on difficulty mode
+    // Filter candidates based on difficulty mode and clef filter
+    let filteredCandidates = candidates;
+
+    // Apply difficulty mode filter
     const mode = this.difficultyMode();
     if (mode !== 'default') {
-      return candidates.filter((note) => {
+      filteredCandidates = filteredCandidates.filter((note) => {
         const noteKey = `${note.name}${note.octave}`;
         const clefRanges =
           note.clef === 'treble' ? DIFFICULTY_NOTE_RANGES.treble : DIFFICULTY_NOTE_RANGES.bass;
@@ -189,7 +207,13 @@ export class NoteGeneratorService {
       });
     }
 
-    return candidates;
+    // Apply clef filter
+    const clefFilter = this.clefFilter();
+    if (clefFilter !== 'both') {
+      filteredCandidates = filteredCandidates.filter((note) => note.clef === clefFilter);
+    }
+
+    return filteredCandidates;
   }
 
   private calculateWeights(notes: MusicalNote[], context: SelectionContext): WeightedNote[] {

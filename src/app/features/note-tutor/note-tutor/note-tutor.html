@@ -24,45 +24,81 @@
     <h2 id="progress-heading" class="sr-only">Your Progress</h2>
     @if (userProgress(); as progress) {
       <div class="stats-grid">
-        <div class="stat-item difficulty-selector">
-          <span class="stat-label">Difficulty:</span>
-          <div class="difficulty-dropdown">
-            <button
-              type="button"
-              class="stat-value level-badge difficulty-button"
-              (click)="toggleDifficultyDropdown()"
-              [attr.aria-expanded]="showDifficultyDropdown()"
-              [attr.aria-label]="'Select difficulty mode. Current: ' + getCurrentDifficultyLabel()">
-              {{ getCurrentDifficultyLabel() }}
-              <span class="dropdown-arrow">▼</span>
-            </button>
-            @if (showDifficultyDropdown()) {
-              <div class="difficulty-menu" role="menu">
-                @for (mode of difficultyModes; track mode.mode) {
-                  <button
-                    type="button"
-                    class="difficulty-option"
-                    [class.active]="difficultyMode() === mode.mode"
-                    (click)="selectDifficulty(mode.mode)"
-                    role="menuitem"
-                    [attr.aria-label]="mode.label + ': ' + mode.description">
-                    <span class="option-label">{{ mode.label }}</span>
-                    <span class="option-description">{{ mode.description }}</span>
-                  </button>
-                }
-              </div>
-            }
+        <div class="stat-line">
+          <div class="stat-item">
+            <span class="stat-label">Overall Accuracy:</span>
+            <span class="stat-value accuracy-display" [class.high-accuracy]="accuracyPercentage() >= 80">
+              {{ accuracyPercentage() }}%
+            </span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Question Number:</span>
+            <span class="stat-value">{{ progress.totalQuestionsAnswered }}</span>
           </div>
         </div>
-        <div class="stat-item">
-          <span class="stat-label">Accuracy:</span>
-          <span class="stat-value accuracy-display" [class.high-accuracy]="accuracyPercentage() >= 80">
-            {{ accuracyPercentage() }}%
-          </span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">Question Number:</span>
-          <span class="stat-value">{{ progress.totalQuestionsAnswered }}</span>
+        <div class="stat-line options-stat-line">
+          <!-- Difficulty Selector -->
+          <div class="stat-item difficulty-selector">
+            <span class="stat-label">Level:</span>
+            <div class="difficulty-dropdown">
+              <button
+                type="button"
+                class="stat-value level-badge difficulty-button"
+                (click)="toggleDifficultyDropdown()"
+                [attr.aria-expanded]="showDifficultyDropdown()"
+                [attr.aria-label]="'Select difficulty mode. Current: ' + getCurrentDifficultyLabel()">
+                {{ getCurrentDifficultyLabel() }}
+                <span class="dropdown-arrow">▼</span>
+              </button>
+              @if (showDifficultyDropdown()) {
+                <div class="difficulty-menu" role="menu">
+                  @for (mode of difficultyModes; track mode.mode) {
+                    <button
+                      type="button"
+                      class="difficulty-option"
+                      [class.active]="difficultyMode() === mode.mode"
+                      (click)="selectDifficulty(mode.mode)"
+                      role="menuitem"
+                      [attr.aria-label]="mode.label + ': ' + mode.description">
+                      <span class="option-label">{{ mode.label }}</span>
+                      <span class="option-description">{{ mode.description }}</span>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+          <!-- Clef Selector -->
+          <div class="stat-item difficulty-selector">
+            <span class="stat-label">Clef:</span>
+            <div class="difficulty-dropdown">
+              <button
+                type="button"
+                class="stat-value level-badge difficulty-button"
+                (click)="toggleClefDropdown()"
+                [attr.aria-expanded]="showClefDropdown()"
+                [attr.aria-label]="'Select clef filter. Current: ' + getCurrentClefLabel()">
+                {{ getCurrentClefLabel() }}
+                <span class="dropdown-arrow">▼</span>
+              </button>
+              @if (showClefDropdown()) {
+                <div class="difficulty-menu" role="menu">
+                  @for (clef of clefFilters; track clef.filter) {
+                    <button
+                      type="button"
+                      class="difficulty-option"
+                      [class.active]="clefFilter() === clef.filter"
+                      (click)="selectClef(clef.filter)"
+                      role="menuitem"
+                      [attr.aria-label]="clef.label + ': ' + clef.description">
+                      <span class="option-label">{{ clef.label }}</span>
+                      <span class="option-description">{{ clef.description }}</span>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          </div>
         </div>
       </div>
     }

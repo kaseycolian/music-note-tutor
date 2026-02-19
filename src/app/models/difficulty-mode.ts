@@ -1,9 +1,19 @@
 // Difficulty Mode Type
 export type DifficultyMode = 'default' | 'easy' | 'hard';
 
+// Clef Filter Type
+export type ClefFilter = 'both' | 'treble' | 'bass';
+
 // Difficulty Mode Configuration
 export interface DifficultyConfig {
   mode: DifficultyMode;
+  label: string;
+  description: string;
+}
+
+// Clef Filter Configuration
+export interface ClefFilterConfig {
+  filter: ClefFilter;
   label: string;
   description: string;
 }
@@ -23,6 +33,24 @@ export const DIFFICULTY_MODES: DifficultyConfig[] = [
     mode: 'hard',
     label: 'Hard',
     description: 'Only notes on ledger lines above and below staff'
+  }
+];
+
+export const CLEF_FILTERS: ClefFilterConfig[] = [
+  {
+    filter: 'both',
+    label: 'Both',
+    description: 'Show notes from both treble and bass clefs'
+  },
+  {
+    filter: 'treble',
+    label: 'Treble',
+    description: 'Show only treble clef notes'
+  },
+  {
+    filter: 'bass',
+    label: 'Bass',
+    description: 'Show only bass clef notes'
   }
 ];
 
