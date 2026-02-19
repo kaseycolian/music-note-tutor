@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  HostListener,
+  input,
+  OnDestroy,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import { NoteName } from '../../../models/musical-note';
 
 @Component({
@@ -9,7 +18,7 @@ import { NoteName } from '../../../models/musical-note';
   templateUrl: './note-input.html',
   styleUrl: './note-input.scss',
 })
-export class NoteInputComponent {
+export class NoteInputComponent implements OnInit, OnDestroy {
   // Input signals
   availableNotes = input<NoteName[]>(['C', 'D', 'E', 'F', 'G', 'A', 'B']);
   disabled = input<boolean>(false);
@@ -29,30 +38,30 @@ export class NoteInputComponent {
     const buttons: Array<{ note: string; label: string; class: string }> = [];
 
     // Add natural notes
-    notes.forEach(note => {
+    notes.forEach((note) => {
       buttons.push({
         note,
         label: note,
-        class: 'natural-note'
+        class: 'natural-note',
       });
     });
 
     // Add accidentals if enabled
     if (this.showAccidentals()) {
-      notes.forEach(note => {
+      notes.forEach((note) => {
         // Skip notes that don't typically have sharps/flats
         if (note !== 'E' && note !== 'B') {
           buttons.push({
             note: `${note}#`,
             label: `${note}♯`,
-            class: 'sharp-note'
+            class: 'sharp-note',
           });
         }
         if (note !== 'F' && note !== 'C') {
           buttons.push({
             note: `${note}b`,
             label: `${note}♭`,
-            class: 'flat-note'
+            class: 'flat-note',
           });
         }
       });
@@ -60,7 +69,25 @@ export class NoteInputComponent {
 
     return buttons.sort((a, b) => {
       // Sort by note order: C, C#, Db, D, D#, Eb, E, F, F#, Gb, G, G#, Ab, A, A#, Bb, B
-      const noteOrder = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B'];
+      const noteOrder = [
+        'C',
+        'C#',
+        'Db',
+        'D',
+        'D#',
+        'Eb',
+        'E',
+        'F',
+        'F#',
+        'Gb',
+        'G',
+        'G#',
+        'Ab',
+        'A',
+        'A#',
+        'Bb',
+        'B',
+      ];
       const aIndex = noteOrder.indexOf(a.note);
       const bIndex = noteOrder.indexOf(b.note);
       return aIndex - bIndex;
@@ -80,9 +107,24 @@ export class NoteInputComponent {
     return shortcuts;
   });
 
-  constructor() {
-    // Set up keyboard event listeners
-    this.setupKeyboardListeners();
+  ngOnInit(): void {
+    // Keyboard listeners are handled via @HostListener
+  }
+
+  ngOnDestroy(): void {
+    // Cleanup if needed
+  }
+
+  /**
+   * Handle keyboard events using HostListener
+   */
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    // Only handle number keys 1-7
+    if (event.key >= '1' && event.key <= '7') {
+      event.preventDefault(); // Prevent default browser behavior
+      this.onKeyboardShortcut(event.key);
+    }
   }
 
   /**
@@ -148,7 +190,7 @@ export class NoteInputComponent {
    */
   getKeyboardShortcut(note: string): string | null {
     const shortcuts = this.keyboardShortcuts();
-    const key = Object.keys(shortcuts).find(k => shortcuts[k] === note);
+    const key = Object.keys(shortcuts).find((k) => shortcuts[k] === note);
     return key || null;
   }
 
@@ -184,14 +226,6 @@ export class NoteInputComponent {
   }
 
   /**
-   * Handle keyboard input
-   */
-  private setupKeyboardListeners(): void {
-    // This would typically be handled by the parent component
-    // or through a global keyboard service
-  }
-
-  /**
    * Handle keyboard shortcut
    */
   onKeyboardShortcut(key: string): void {
@@ -215,13 +249,13 @@ export class NoteInputComponent {
    */
   getNoteColor(note: string): string {
     const colors: { [key: string]: string } = {
-      'C': '#e74c3c',
-      'D': '#f39c12',
-      'E': '#f1c40f',
-      'F': '#2ecc71',
-      'G': '#3498db',
-      'A': '#9b59b6',
-      'B': '#e91e63'
+      C: '#e74c3c',
+      D: '#f39c12',
+      E: '#f1c40f',
+      F: '#2ecc71',
+      G: '#3498db',
+      A: '#9b59b6',
+      B: '#e91e63',
     };
 
     const baseName = note.charAt(0);

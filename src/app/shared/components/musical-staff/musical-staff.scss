@@ -38,26 +38,26 @@
   }
 
   .note {
-    fill: #2c3e50;
-    stroke: #34495e;
-    stroke-width: 0.5;
+    fill: none;
+    stroke: #2c3e50;
+    stroke-width: 3.5;
     transition: all 0.2s ease;
     filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
 
     &.highlighted {
-      fill: #e74c3c;
-      stroke: #c0392b;
-      stroke-width: 2;
+      fill: none;
+      stroke: #e74c3c;
+      stroke-width: 4;
       filter: drop-shadow(2px 2px 4px rgba(231, 76, 60, 0.4));
       animation: pulse 1.5s ease-in-out infinite;
     }
 
     &.accidental-sharp {
-      fill: #8e44ad;
+      stroke: #8e44ad;
     }
 
     &.accidental-flat {
-      fill: #16a085;
+      stroke: #16a085;
     }
   }
 
@@ -121,18 +121,6 @@
     }
   }
 
-  // Screen reader only content
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
 
   // Animations
   @keyframes pulse {
@@ -195,9 +183,9 @@
     }
 
     .note {
-      fill: #000;
+      fill: none;
       stroke: #000;
-      stroke-width: 2;
+      stroke-width: 3.5;
     }
 
     .clef-symbol, .accidental {
@@ -234,8 +222,9 @@
     }
 
     .note {
-      fill: #ecf0f1;
-      stroke: #bdc3c7;
+      fill: none;
+      stroke: #ecf0f1;
+      stroke-width: 3.5;
     }
 
     .note-stem {

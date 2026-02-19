@@ -10,7 +10,6 @@ import {
   providedIn: 'root',
 })
 export class NoteGeneratorConfigService {
-
   private readonly levelConfigurations: Map<DifficultyLevel, LevelConfiguration> = new Map();
 
   constructor() {
@@ -39,7 +38,7 @@ export class NoteGeneratorConfigService {
    * Get the next level after the current one
    */
   getNextLevel(currentLevel: DifficultyLevel): DifficultyLevel | null {
-    const levels: DifficultyLevel[] = ['easy', 'hard'];
+    const levels: DifficultyLevel[] = ['easy', 'hard', 'mixed'];
     const currentIndex = levels.indexOf(currentLevel);
 
     if (currentIndex >= 0 && currentIndex < levels.length - 1) {
@@ -52,10 +51,16 @@ export class NoteGeneratorConfigService {
   /**
    * Check if a level can be unlocked based on current progress
    */
-  canUnlockLevel(targetLevel: DifficultyLevel, currentAccuracy: number, questionsAnswered: number): boolean {
+  canUnlockLevel(
+    targetLevel: DifficultyLevel,
+    currentAccuracy: number,
+    questionsAnswered: number
+  ): boolean {
     const config = this.getLevelConfiguration(targetLevel);
-    return currentAccuracy >= config.progressionCriteria.minAccuracy &&
-           questionsAnswered >= config.progressionCriteria.minQuestions;
+    return (
+      currentAccuracy >= config.progressionCriteria.minAccuracy &&
+      questionsAnswered >= config.progressionCriteria.minQuestions
+    );
   }
 
   /**
@@ -74,7 +79,7 @@ export class NoteGeneratorConfigService {
     if (config) {
       const updatedConfig: LevelConfiguration = {
         ...config,
-        baseWeights: new Map(weights)
+        baseWeights: new Map(weights),
       };
       this.levelConfigurations.set(level, updatedConfig);
     }
@@ -84,6 +89,7 @@ export class NoteGeneratorConfigService {
   private initializeLevelConfigurations(): void {
     this.levelConfigurations.set('easy', this.createEasyConfig());
     this.levelConfigurations.set('hard', this.createHardConfig());
+    this.levelConfigurations.set('mixed', this.createMixedConfig());
   }
 
   private createEasyConfig(): LevelConfiguration {
@@ -92,18 +98,18 @@ export class NoteGeneratorConfigService {
       trebleRange: { min: 4, max: 6 },
       bassRange: { min: 2, max: 4 },
       allowedNotes: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-      includeAccidentals: false
+      includeAccidentals: false,
     };
 
     const clefDistribution: ClefDistribution = {
       trebleWeight: 0.7,
-      bassWeight: 0.3
+      bassWeight: 0.3,
     };
 
     const progressionCriteria: ProgressionCriteria = {
       minAccuracy: 0.78,
       minQuestions: 35,
-      consecutiveCorrect: 7
+      consecutiveCorrect: 7,
     };
 
     const baseWeights = this.generateBaseWeights(noteRange, 1.0);
@@ -113,7 +119,7 @@ export class NoteGeneratorConfigService {
       noteRange,
       clefDistribution,
       baseWeights,
-      progressionCriteria
+      progressionCriteria,
     };
   }
 
@@ -123,18 +129,18 @@ export class NoteGeneratorConfigService {
       trebleRange: { min: 3, max: 7 },
       bassRange: { min: 1, max: 5 },
       allowedNotes: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-      includeAccidentals: true
+      includeAccidentals: true,
     };
 
     const clefDistribution: ClefDistribution = {
       trebleWeight: 0.5,
-      bassWeight: 0.5
+      bassWeight: 0.5,
     };
 
     const progressionCriteria: ProgressionCriteria = {
       minAccuracy: 0.88,
       minQuestions: 150,
-      consecutiveCorrect: 12
+      consecutiveCorrect: 12,
     };
 
     const baseWeights = this.generateBaseWeights(noteRange, 1.0);
@@ -144,7 +150,38 @@ export class NoteGeneratorConfigService {
       noteRange,
       clefDistribution,
       baseWeights,
-      progressionCriteria
+      progressionCriteria,
+    };
+  }
+
+  private createMixedConfig(): LevelConfiguration {
+    // Mixed combines both Easy and Hard levels
+    const noteRange: NoteRange = {
+      trebleRange: { min: 3, max: 7 },
+      bassRange: { min: 1, max: 5 },
+      allowedNotes: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+      includeAccidentals: true,
+    };
+
+    const clefDistribution: ClefDistribution = {
+      trebleWeight: 0.5,
+      bassWeight: 0.5,
+    };
+
+    const progressionCriteria: ProgressionCriteria = {
+      minAccuracy: 0.83,
+      minQuestions: 100,
+      consecutiveCorrect: 10,
+    };
+
+    const baseWeights = this.generateBaseWeights(noteRange, 1.0);
+
+    return {
+      level: 'mixed',
+      noteRange,
+      clefDistribution,
+      baseWeights,
+      progressionCriteria,
     };
   }
 
@@ -152,11 +189,11 @@ export class NoteGeneratorConfigService {
     const weights = new Map<string, number>();
     const clefs = ['treble', 'bass'];
 
-    clefs.forEach(clef => {
+    clefs.forEach((clef) => {
       const range = clef === 'treble' ? noteRange.trebleRange : noteRange.bassRange;
 
       for (let octave = range.min; octave <= range.max; octave++) {
-        noteRange.allowedNotes.forEach(noteName => {
+        noteRange.allowedNotes.forEach((noteName) => {
           const noteId = `${noteName}${octave}-${clef}`;
           weights.set(noteId, baseWeight);
 
@@ -177,7 +214,7 @@ export class NoteGeneratorConfigService {
    */
   getNotePriorities(level: DifficultyLevel): { [noteId: string]: number } {
     const priorities: { [key: string]: { [noteId: string]: number } } = {
-      'easy': {
+      easy: {
         // Focus on middle C and nearby notes, balanced distribution
         'C4-treble': 1.4,
         'D4-treble': 1.3,
@@ -191,7 +228,7 @@ export class NoteGeneratorConfigService {
         'D3-bass': 1.2,
         'E3-bass': 1.2,
       },
-      'hard': {
+      hard: {
         // Full range with ledger lines and accidentals
         'C6-treble': 1.1,
         'C7-treble': 1.0,
@@ -201,7 +238,7 @@ export class NoteGeneratorConfigService {
         'B4-treble-flat': 1.0,
         'F3-bass-sharp': 1.0,
         'A5-treble-flat': 1.0,
-      }
+      },
     };
 
     return priorities[level] || {};
@@ -217,18 +254,24 @@ export class NoteGeneratorConfigService {
     randomnessWeight: number;
   } {
     const params = {
-      'easy': {
+      easy: {
         performanceWeight: 0.45,
         recencyWeight: 0.28,
         difficultyWeight: 0.17,
-        randomnessWeight: 0.1
+        randomnessWeight: 0.1,
       },
-      'hard': {
+      hard: {
         performanceWeight: 0.65,
         recencyWeight: 0.18,
         difficultyWeight: 0.1,
-        randomnessWeight: 0.07
-      }
+        randomnessWeight: 0.07,
+      },
+      mixed: {
+        performanceWeight: 0.55,
+        recencyWeight: 0.23,
+        difficultyWeight: 0.13,
+        randomnessWeight: 0.09,
+      },
     };
 
     return params[level];

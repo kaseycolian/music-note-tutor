@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { NoteGeneratorService } from '../../../core/services/note-generator';
 import { UserProgressService } from '../../../core/services/user-progress';
 import { MusicalNote, NoteName } from '../../../models/musical-note';
@@ -20,6 +29,9 @@ export interface AnswerFeedback {
   styleUrl: './note-tutor.scss',
 })
 export class NoteTutor implements OnInit, OnDestroy {
+  // ViewChild reference to the Next Note button
+  @ViewChild('nextNoteButton') nextNoteButton?: ElementRef<HTMLButtonElement>;
+
   // Signal-based reactive state
   currentNote = signal<MusicalNote | null>(null);
   userProgress = signal<UserProgress | null>(null);
@@ -28,7 +40,16 @@ export class NoteTutor implements OnInit, OnDestroy {
   hasAnswered = signal(false);
   sessionStartTime = signal<Date>(new Date());
   questionStartTime = signal<Date>(new Date());
-  showOctaveNumbers = signal(false);
+  // showOctaveNumbers = signal(false);
+  showAnswerHint = signal(false);
+
+  // Store pending answer data to record only when moving to next question
+  private pendingAnswer = signal<{
+    note: MusicalNote;
+    userAnswer: string;
+    isCorrect: boolean;
+    responseTime: number;
+  } | null>(null);
 
   // Computed properties
   showAnswerInput = computed(() => this.currentNote() && !this.hasAnswered());
@@ -56,6 +77,26 @@ export class NoteTutor implements OnInit, OnDestroy {
   }
 
   generateNewNote(): void {
+    // Record the pending answer before generating a new note
+    const pending = this.pendingAnswer();
+    if (pending) {
+      // Record to note generator (for note-specific performance tracking)
+      this.noteGenerator.recordAnswer(
+        pending.note,
+        pending.userAnswer,
+        pending.isCorrect,
+        pending.responseTime,
+      );
+
+      // Record to progress service (for overall accuracy tracking)
+      this.progressService.recordQuestionAttempt(pending.isCorrect, pending.responseTime);
+
+      this.pendingAnswer.set(null);
+
+      // Update progress after recording (use setTimeout to ensure signal updates have propagated)
+      setTimeout(() => this.updateProgress(), 0);
+    }
+
     this.isProcessing.set(true);
     this.hasAnswered.set(false);
     this.feedback.set(null);
@@ -82,28 +123,40 @@ export class NoteTutor implements OnInit, OnDestroy {
     const isCorrect = this.validateAnswer(userAnswer, note);
     const responseTime = this.calculateResponseTime();
 
-    // Record the answer
-    this.noteGenerator.recordAnswer(note, userAnswer, isCorrect, responseTime);
+    // Store the answer data to be recorded when user clicks "Next Note"
+    this.pendingAnswer.set({
+      note,
+      userAnswer,
+      isCorrect,
+      responseTime,
+    });
 
     // Show feedback
     this.showFeedback(isCorrect, note, userAnswer);
     this.hasAnswered.set(true);
 
-    // Update progress
-    this.updateProgress();
+    // Focus the Next Note button after a short delay to allow UI to update
+    setTimeout(() => {
+      this.nextNoteButton?.nativeElement.focus();
+    }, 100);
   }
 
   showAnswer(): void {
     const note = this.currentNote();
-    if (note) {
-      const correctAnswer = `${note.name}${
-        note.accidental ? (note.accidental === 'sharp' ? '#' : '♭') : ''
-      }`;
-      this.feedback.set({
-        type: 'hint',
-        message: `The correct answer is ${correctAnswer}`,
-      });
+    if (!this.showAnswerHint()) {
+      if (note) {
+        const correctAnswer = `${note.name}${
+          note.accidental ? (note.accidental === 'sharp' ? '#' : '♭') : ''
+        }`;
+        this.feedback.set({
+          type: 'hint',
+          message: `The correct answer is ${correctAnswer}`,
+        });
+      }
+    } else {
+      this.feedback.set(null);
     }
+    this.showAnswerHint.set(!this.showAnswerHint());
   }
 
   resetProgress(): void {
@@ -123,9 +176,9 @@ export class NoteTutor implements OnInit, OnDestroy {
     return this.availableNotes;
   }
 
-  toggleOctaveNumbers(): void {
-    this.showOctaveNumbers.update((current) => !current);
-  }
+  // toggleOctaveNumbers(): void {
+  //   this.showOctaveNumbers.update((current) => !current);
+  // }
 
   private validateAnswer(userAnswer: string, note: MusicalNote): boolean {
     // Normalize the answer (remove accidentals for basic comparison)

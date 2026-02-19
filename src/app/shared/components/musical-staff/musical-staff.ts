@@ -13,9 +13,9 @@ export class MusicalStaffComponent {
   // Input signals for Angular 21
   currentNote = input<MusicalNote | null>(null);
   showNote = input<boolean>(true);
+  showResult = input<boolean>(false);
   clef = input<Clef>('treble');
   highlightNote = input<boolean>(false);
-  showOctaveNumbers = input<boolean>(false);
 
   // Internal state
   private staffLines = signal<number[]>([]);
@@ -92,7 +92,7 @@ export class MusicalStaffComponent {
   private calculateTreblePosition(
     note: MusicalNote,
     staffLines: number[],
-    spacing: number
+    spacing: number,
   ): number {
     // Treble clef: Lines from bottom to top are E4, G4, B4, D5, F5
     // Spaces from bottom to top are F4, A4, C5, E5

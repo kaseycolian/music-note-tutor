@@ -5,14 +5,6 @@
     <div class="header-controls">
       <button
         type="button"
-        (click)="toggleOctaveNumbers()"
-        class="btn btn-outline"
-        [class.active]="showOctaveNumbers()"
-        [attr.aria-label]="showOctaveNumbers() ? 'Hide octave numbers' : 'Show octave numbers'">
-        {{ showOctaveNumbers() ? 'Hide Numbers' : 'Show Numbers' }}
-      </button>
-      <button
-        type="button"
         (click)="resetProgress()"
         class="btn btn-outline"
         [attr.aria-label]="'Reset all progress'">
@@ -39,7 +31,7 @@
           </span>
         </div>
         <div class="stat-item">
-          <span class="stat-label">Questions:</span>
+          <span class="stat-label">Question Number:</span>
           <span class="stat-value">{{ progress.totalQuestionsAnswered }}</span>
         </div>
       </div>
@@ -56,7 +48,7 @@
           [currentNote]="note"
           [clef]="note.clef"
           [showNote]="true"
-          [showOctaveNumbers]="showOctaveNumbers()"
+          [showResult]="feedback()?.type === 'correct'"
           class="staff-container"
           [attr.aria-label]="'Musical staff displaying a note to identify'" />
       } @else {
@@ -121,6 +113,7 @@
       <h2 id="controls-heading" class="sr-only">Game Controls</h2>
       <div class="controls">
         <button
+          #nextNoteButton
           type="button"
           (click)="generateNewNote()"
           [disabled]="!canGenerateNew()"
@@ -139,7 +132,7 @@
             (click)="showAnswer()"
             class="btn btn-secondary hint-button"
             [attr.aria-label]="'Reveal the correct answer for this note'">
-            Show Answer
+            {{showAnswerHint() ? 'Hide Answer Hint' : 'Show Answer Hint'}}
           </button>
         }
       </div>
