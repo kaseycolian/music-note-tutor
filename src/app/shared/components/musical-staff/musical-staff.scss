@@ -1,149 +1,176 @@
+// Musical Staff Component - Cyberpunk Neon Theme
+
 .musical-staff-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  background: #fafafa;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin: 16px 0;
+  padding: 24px;
+  background: rgba(13, 0, 32, 0.8);
+  border-radius: 0;
+  box-shadow: 0 0 40px rgba(255, 0, 170, 0.15);
+  margin: 0;
+  border: 1px solid rgba(102, 51, 153, 0.4);
+  clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+
+  h1 {
+    font-family: 'Courier New', 'Courier', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--electric-mint);
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
 
   .staff-svg {
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    padding: 10px;
+    background: rgba(26, 0, 53, 0.6);
+    border: 1px solid rgba(102, 51, 153, 0.3);
+    border-radius: 0;
+    padding: 20px;
     transition: all 0.3s ease;
 
     &:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 0 30px rgba(255, 0, 170, 0.2);
+      border-color: rgba(255, 0, 170, 0.4);
     }
   }
 
   .staff-line {
-    stroke: #333;
+    stroke: var(--rebecca);
     stroke-width: 1.5;
+    filter: drop-shadow(0 0 2px rgba(102, 51, 153, 0.5));
   }
 
   .ledger-line {
-    stroke: #333;
+    stroke: var(--rebecca);
     stroke-width: 1;
+    filter: drop-shadow(0 0 2px rgba(102, 51, 153, 0.5));
   }
 
   .clef-symbol {
     font-family: 'Times New Roman', serif;
     font-weight: bold;
-    fill: #2c3e50;
-    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.1));
+    fill: var(--fuchsia);
+    filter: drop-shadow(0 0 4px rgba(255, 0, 170, 0.6));
   }
 
   .note {
     fill: none;
-    stroke: #2c3e50;
+    stroke: var(--fuchsia);
     stroke-width: 3.5;
     transition: all 0.2s ease;
-    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0 0 6px rgba(255, 0, 170, 0.6));
 
     &.highlighted {
       fill: none;
-      stroke: #e74c3c;
+      stroke: var(--electric-mint);
       stroke-width: 4;
-      filter: drop-shadow(2px 2px 4px rgba(231, 76, 60, 0.4));
+      filter: drop-shadow(0 0 12px rgba(0, 255, 204, 0.8));
       animation: pulse 1.5s ease-in-out infinite;
     }
 
     &.accidental-sharp {
       stroke: #8e44ad;
+      filter: drop-shadow(0 0 6px rgba(142, 68, 173, 0.6));
     }
 
     &.accidental-flat {
       stroke: #16a085;
+      filter: drop-shadow(0 0 6px rgba(22, 160, 133, 0.6));
     }
   }
 
   .note-stem {
-    stroke: #2c3e50;
+    stroke: var(--fuchsia);
     stroke-width: 2;
     transition: all 0.2s ease;
+    filter: drop-shadow(0 0 4px rgba(255, 0, 170, 0.4));
   }
 
   .accidental {
     font-family: 'Times New Roman', serif;
     font-weight: bold;
-    fill: #7f8c8d;
-    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.1));
+    fill: var(--pale-lavender);
+    filter: drop-shadow(0 0 3px rgba(232, 204, 255, 0.4));
   }
 
   .placeholder-text {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    fill: #95a5a6;
+    font-family: 'Courier New', 'Courier', monospace;
+    fill: rgba(232, 204, 255, 0.3);
     font-style: italic;
+    font-size: 14px;
+    letter-spacing: 0.1em;
   }
 
   .note-info {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 16px;
-    padding: 12px 20px;
-    background: white;
-    border: 2px solid #3498db;
-    border-radius: 25px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 600;
-    color: #2c3e50;
-    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+    gap: 12px;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: rgba(255, 0, 170, 0.1);
+    border: 1px solid var(--fuchsia);
+    border-radius: 0;
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    font-family: 'Courier New', 'Courier', monospace;
+    font-weight: 700;
+    color: var(--white);
+    box-shadow: 0 0 20px rgba(255, 0, 170, 0.2);
     transition: all 0.3s ease;
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+      box-shadow: 0 0 30px rgba(255, 0, 170, 0.4);
     }
 
     .note-name {
       font-size: 24px;
-      font-weight: bold;
-      color: #2980b9;
+      font-weight: 900;
+      color: var(--fuchsia);
+      text-shadow: 0 0 10px rgba(255, 0, 170, 0.8);
     }
 
     .note-accidental {
       font-size: 20px;
-      color: #8e44ad;
+      color: var(--electric-mint);
       margin: 0 4px;
     }
 
     .note-octave {
       font-size: 18px;
-      color: #7f8c8d;
-      background: #ecf0f1;
-      padding: 2px 8px;
-      border-radius: 12px;
+      color: var(--pale-lavender);
+      background: rgba(102, 51, 153, 0.3);
+      padding: 2px 10px;
+      border: 1px solid var(--rebecca);
+      clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
     }
   }
-
 
   // Animations
   @keyframes pulse {
     0%, 100% {
       transform: scale(1);
+      opacity: 1;
     }
     50% {
       transform: scale(1.1);
+      opacity: 0.8;
     }
   }
 
   // Responsive design
   @media (max-width: 768px) {
-    padding: 12px;
+    padding: 16px;
 
     .staff-svg {
       width: 100%;
       max-width: 350px;
       height: auto;
+      padding: 15px;
     }
 
     .note-info {
-      padding: 8px 16px;
+      padding: 10px 20px;
 
       .note-name {
         font-size: 20px;
@@ -162,6 +189,7 @@
   @media (max-width: 480px) {
     .staff-svg {
       max-width: 280px;
+      padding: 12px;
     }
 
     .clef-symbol {
@@ -170,7 +198,7 @@
 
     .note-info {
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
       text-align: center;
     }
   }
@@ -178,18 +206,18 @@
   // High contrast mode support
   @media (prefers-contrast: high) {
     .staff-line, .ledger-line {
-      stroke: #000;
+      stroke: var(--white);
       stroke-width: 2;
     }
 
     .note {
       fill: none;
-      stroke: #000;
+      stroke: var(--white);
       stroke-width: 3.5;
     }
 
     .clef-symbol, .accidental {
-      fill: #000;
+      fill: var(--white);
     }
   }
 
@@ -204,49 +232,48 @@
     }
   }
 
-  // Dark mode support
+  // Dark mode support (already dark, but ensure consistency)
   @media (prefers-color-scheme: dark) {
-    background: #2c3e50;
+    background: rgba(13, 0, 32, 0.9);
 
     .staff-svg {
-      background: #34495e;
-      border-color: #4a5f7a;
+      background: rgba(26, 0, 53, 0.8);
+      border-color: rgba(102, 51, 153, 0.5);
     }
 
     .staff-line, .ledger-line {
-      stroke: #ecf0f1;
+      stroke: var(--rebecca);
     }
 
     .clef-symbol, .accidental {
-      fill: #ecf0f1;
+      fill: var(--fuchsia);
     }
 
     .note {
       fill: none;
-      stroke: #ecf0f1;
-      stroke-width: 3.5;
+      stroke: var(--fuchsia);
     }
 
     .note-stem {
-      stroke: #ecf0f1;
+      stroke: var(--fuchsia);
     }
 
     .placeholder-text {
-      fill: #7f8c8d;
+      fill: rgba(232, 204, 255, 0.3);
     }
 
     .note-info {
-      background: #34495e;
-      border-color: #3498db;
-      color: #ecf0f1;
+      background: rgba(255, 0, 170, 0.15);
+      border-color: var(--fuchsia);
+      color: var(--white);
 
       .note-name {
-        color: #5dade2;
+        color: var(--fuchsia);
       }
 
       .note-octave {
-        background: #4a5f7a;
-        color: #bdc3c7;
+        background: rgba(102, 51, 153, 0.4);
+        color: var(--pale-lavender);
       }
     }
   }
@@ -254,7 +281,7 @@
 
 // Focus styles for accessibility
 .musical-staff-container:focus-within {
-  outline: 2px solid #3498db;
+  outline: 2px solid var(--fuchsia);
   outline-offset: 4px;
 }
 
@@ -264,6 +291,7 @@
     background: white;
     box-shadow: none;
     border: 1px solid #000;
+    clip-path: none;
 
     .staff-svg {
       background: white;
@@ -273,6 +301,20 @@
     .note-info {
       border: 1px solid #000;
       box-shadow: none;
+      clip-path: none;
+    }
+
+    .staff-line, .ledger-line {
+      stroke: #000;
+    }
+
+    .clef-symbol, .accidental {
+      fill: #000;
+    }
+
+    .note {
+      stroke: #000;
+      filter: none;
     }
   }
 }
