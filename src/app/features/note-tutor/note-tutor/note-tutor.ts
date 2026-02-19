@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   ElementRef,
+  HostListener,
   inject,
   OnDestroy,
   OnInit,
@@ -11,6 +12,7 @@ import {
 } from '@angular/core';
 import { NoteGeneratorService } from '../../../core/services/note-generator';
 import { UserProgressService } from '../../../core/services/user-progress';
+import { DIFFICULTY_MODES, DifficultyMode } from '../../../models/difficulty-mode';
 import { MusicalNote, NoteName } from '../../../models/musical-note';
 import { UserProgress } from '../../../models/user-progress';
 import { MusicalStaffComponent } from '../../../shared/components/musical-staff/musical-staff';
@@ -40,8 +42,12 @@ export class NoteTutor implements OnInit, OnDestroy {
   hasAnswered = signal(false);
   sessionStartTime = signal<Date>(new Date());
   questionStartTime = signal<Date>(new Date());
-  // showOctaveNumbers = signal(false);
   showAnswerHint = signal(false);
+
+  // Difficulty mode state
+  difficultyMode = signal<DifficultyMode>('default');
+  showDifficultyDropdown = signal(false);
+  readonly difficultyModes = DIFFICULTY_MODES;
 
   // Store pending answer data to record only when moving to next question
   private pendingAnswer = signal<{
@@ -74,6 +80,23 @@ export class NoteTutor implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // Save progress on component destroy
     this.saveProgress();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const dropdown = target.closest('.difficulty-dropdown');
+
+    if (!dropdown && this.showDifficultyDropdown()) {
+      this.showDifficultyDropdown.set(false);
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapeKey(): void {
+    if (this.showDifficultyDropdown()) {
+      this.showDifficultyDropdown.set(false);
+    }
   }
 
   generateNewNote(): void {
@@ -179,6 +202,27 @@ export class NoteTutor implements OnInit, OnDestroy {
   // toggleOctaveNumbers(): void {
   //   this.showOctaveNumbers.update((current) => !current);
   // }
+
+  // Difficulty mode methods
+  toggleDifficultyDropdown(): void {
+    this.showDifficultyDropdown.update((show) => !show);
+  }
+
+  selectDifficulty(mode: DifficultyMode): void {
+    this.difficultyMode.set(mode);
+    this.showDifficultyDropdown.set(false);
+
+    // Update note generator with new difficulty
+    this.noteGenerator.setDifficultyMode(mode);
+
+    // Generate a new note with the new difficulty
+    this.generateNewNote();
+  }
+
+  getCurrentDifficultyLabel(): string {
+    const config = this.difficultyModes.find((d) => d.mode === this.difficultyMode());
+    return config?.label || 'Default';
+  }
 
   private validateAnswer(userAnswer: string, note: MusicalNote): boolean {
     // Normalize the answer (remove accidentals for basic comparison)
