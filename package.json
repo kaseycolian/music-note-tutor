@@ -6,6 +6,7 @@
     "start": "ng serve --host 0.0.0.0 --port 4620",
     "build": "ng build",
     "build:prod": "ng build --configuration production --aot --build-optimizer",
+    "build:github": "ng build --configuration production --base-href /music-note-tutor/ --output-path docs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:coverage": "ng test --code-coverage --watch=false --browsers=ChromeHeadless",
