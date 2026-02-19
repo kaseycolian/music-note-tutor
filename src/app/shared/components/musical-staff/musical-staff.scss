@@ -1,0 +1,335 @@
+// Musical Staff Component - Cyberpunk Neon Theme
+
+.musical-staff-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(13, 0, 32, 0.8);
+  border-radius: 0;
+  box-shadow: 0 0 40px rgba(255, 0, 170, 0.15);
+  margin: 0;
+  border: 1px solid rgba(102, 51, 153, 0.4);
+  clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+  width: 100%;
+
+  h1 {
+    font-family: 'Courier New', 'Courier', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--electric-mint);
+    margin-bottom: 16px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .staff-svg {
+    background: rgba(26, 0, 53, 0.6);
+    border: 1px solid rgba(102, 51, 153, 0.3);
+    border-radius: 0;
+    padding: 20px;
+    transition: all 0.3s ease;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+
+    &:hover {
+      box-shadow: 0 0 30px rgba(255, 0, 170, 0.2);
+      border-color: rgba(255, 0, 170, 0.4);
+    }
+  }
+
+  .staff-line {
+    stroke: var(--rebecca);
+    stroke-width: 1.5;
+    filter: drop-shadow(0 0 2px rgba(102, 51, 153, 0.5));
+  }
+
+  .ledger-line {
+    stroke: var(--rebecca);
+    stroke-width: 1;
+    filter: drop-shadow(0 0 2px rgba(102, 51, 153, 0.5));
+  }
+
+  .clef-symbol {
+    font-family: 'Times New Roman', serif;
+    font-weight: bold;
+    fill: var(--fuchsia);
+    filter: drop-shadow(0 0 4px rgba(255, 0, 170, 0.6));
+  }
+
+  .note {
+    fill: none;
+    stroke: var(--fuchsia);
+    stroke-width: 3.5;
+    transition: all 0.2s ease;
+    filter: drop-shadow(0 0 6px rgba(255, 0, 170, 0.6));
+
+    &.highlighted {
+      fill: none;
+      stroke: var(--electric-mint);
+      stroke-width: 4;
+      filter: drop-shadow(0 0 12px rgba(0, 255, 204, 0.8));
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    &.accidental-sharp {
+      stroke: #8e44ad;
+      filter: drop-shadow(0 0 6px rgba(142, 68, 173, 0.6));
+    }
+
+    &.accidental-flat {
+      stroke: #16a085;
+      filter: drop-shadow(0 0 6px rgba(22, 160, 133, 0.6));
+    }
+  }
+
+  .note-stem {
+    stroke: var(--fuchsia);
+    stroke-width: 2;
+    transition: all 0.2s ease;
+    filter: drop-shadow(0 0 4px rgba(255, 0, 170, 0.4));
+  }
+
+  .accidental {
+    font-family: 'Times New Roman', serif;
+    font-weight: bold;
+    fill: var(--pale-lavender);
+    filter: drop-shadow(0 0 3px rgba(232, 204, 255, 0.4));
+  }
+
+  .placeholder-text {
+    font-family: 'Courier New', 'Courier', monospace;
+    fill: rgba(232, 204, 255, 0.3);
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+  }
+
+  .note-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: rgba(255, 0, 170, 0.1);
+    border: 1px solid var(--fuchsia);
+    border-radius: 0;
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    font-family: 'Courier New', 'Courier', monospace;
+    font-weight: 700;
+    color: var(--white);
+    box-shadow: 0 0 20px rgba(255, 0, 170, 0.2);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(255, 0, 170, 0.4);
+    }
+
+    .note-name {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--fuchsia);
+      text-shadow: 0 0 10px rgba(255, 0, 170, 0.8);
+    }
+
+    .note-accidental {
+      font-size: 20px;
+      color: var(--electric-mint);
+      margin: 0 4px;
+    }
+
+    .note-octave {
+      font-size: 18px;
+      color: var(--pale-lavender);
+      background: rgba(102, 51, 153, 0.3);
+      padding: 2px 10px;
+      border: 1px solid var(--rebecca);
+      clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
+    }
+  }
+
+  // Animations
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    padding: 16px;
+
+    .staff-svg {
+      width: 100%;
+      max-width: none;
+      height: auto;
+      padding: 15px;
+    }
+
+    .note-info {
+      padding: 10px 20px;
+
+      .note-name {
+        font-size: 20px;
+      }
+
+      .note-accidental {
+        font-size: 16px;
+      }
+
+      .note-octave {
+        font-size: 14px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px;
+
+    h1 {
+      margin-bottom: 12px;
+    }
+
+    .staff-svg {
+      width: 100%;
+      max-width: none;
+      padding: 4px;
+    }
+
+    .clef-symbol {
+      font-size: 36px;
+    }
+
+    .note-info {
+      flex-direction: column;
+      gap: 6px;
+      text-align: center;
+    }
+  }
+
+  // High contrast mode support
+  @media (prefers-contrast: high) {
+    .staff-line, .ledger-line {
+      stroke: var(--white);
+      stroke-width: 2;
+    }
+
+    .note {
+      fill: none;
+      stroke: var(--white);
+      stroke-width: 3.5;
+    }
+
+    .clef-symbol, .accidental {
+      fill: var(--white);
+    }
+  }
+
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    .note, .note-stem, .staff-svg, .note-info {
+      transition: none;
+    }
+
+    .note.highlighted {
+      animation: none;
+    }
+  }
+
+  // Dark mode support (already dark, but ensure consistency)
+  @media (prefers-color-scheme: dark) {
+    background: rgba(13, 0, 32, 0.9);
+
+    .staff-svg {
+      background: rgba(26, 0, 53, 0.8);
+      border-color: rgba(102, 51, 153, 0.5);
+    }
+
+    .staff-line, .ledger-line {
+      stroke: var(--rebecca);
+    }
+
+    .clef-symbol, .accidental {
+      fill: var(--fuchsia);
+    }
+
+    .note {
+      fill: none;
+      stroke: var(--fuchsia);
+    }
+
+    .note-stem {
+      stroke: var(--fuchsia);
+    }
+
+    .placeholder-text {
+      fill: rgba(232, 204, 255, 0.3);
+    }
+
+    .note-info {
+      background: rgba(255, 0, 170, 0.15);
+      border-color: var(--fuchsia);
+      color: var(--white);
+
+      .note-name {
+        color: var(--fuchsia);
+      }
+
+      .note-octave {
+        background: rgba(102, 51, 153, 0.4);
+        color: var(--pale-lavender);
+      }
+    }
+  }
+}
+
+// Focus styles for accessibility
+.musical-staff-container:focus-within {
+  outline: 2px solid var(--fuchsia);
+  outline-offset: 4px;
+}
+
+// Print styles
+@media print {
+  .musical-staff-container {
+    background: white;
+    box-shadow: none;
+    border: 1px solid #000;
+    clip-path: none;
+
+    .staff-svg {
+      background: white;
+      border: none;
+    }
+
+    .note-info {
+      border: 1px solid #000;
+      box-shadow: none;
+      clip-path: none;
+    }
+
+    .staff-line, .ledger-line {
+      stroke: #000;
+    }
+
+    .clef-symbol, .accidental {
+      fill: #000;
+    }
+
+    .note {
+      stroke: #000;
+      filter: none;
+    }
+  }
+}

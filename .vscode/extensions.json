@@ -1,0 +1,12 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846
+  "recommendations": [
+    "angular.ng-template",
+    "ms-vscode.vscode-typescript-next",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-eslint",
+    "johnpapa.angular2",
+    "cyrilletuzi.angular-schematics",
+    "nrwl.angular-console"
+  ]
+}

@@ -1,0 +1,172 @@
+/* Global Cyberpunk Neon Theme */
+
+:root {
+  --fuchsia: #FF00AA;
+  --fuchsia-bright: #FF2EDD;
+  --rebecca: #663399;
+  --rebecca-deep: #4A1A7A;
+  --violet-dark: #0D0020;
+  --violet-mid: #1A0035;
+  --violet-surface: #220044;
+  --electric-mint: #00FFCC;
+  --pale-lavender: #E8CCFF;
+  --white: #FFFFFF;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--violet-dark);
+  color: var(--white);
+  font-family: 'Courier New', 'Courier', monospace;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Scanline overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(102, 51, 153, 0.03) 2px,
+    rgba(102, 51, 153, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Cyberpunk button styles */
+.btn {
+  font-family: 'Courier New', 'Courier', monospace;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-primary {
+  background: var(--fuchsia);
+  color: var(--violet-dark);
+  box-shadow: 0 0 30px rgba(255, 0, 170, 0.5);
+}
+
+.btn-primary:hover {
+  background: var(--white);
+  box-shadow: 0 0 60px rgba(255, 0, 170, 0.8);
+  transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+  background: var(--rebecca);
+  color: rgba(232, 204, 255, 0.5);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--pale-lavender);
+  border: 1px solid var(--rebecca);
+}
+
+.btn-secondary:hover {
+  border-color: var(--fuchsia);
+  color: var(--fuchsia);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--pale-lavender);
+  border: 1px solid rgba(102, 51, 153, 0.5);
+  padding: 8px 16px;
+  font-size: 0.75rem;
+}
+
+.btn-outline:hover {
+  border-color: var(--fuchsia);
+  color: var(--fuchsia);
+}
+
+.btn-outline.active {
+  background: var(--fuchsia);
+  color: var(--violet-dark);
+  border-color: var(--fuchsia);
+}
+
+/* Glitch animation */
+@keyframes glitch {
+  0%, 90%, 100% {
+    text-shadow: 2px 0 var(--electric-mint), -2px 0 var(--rebecca);
+  }
+  92% {
+    text-shadow: -3px 0 var(--fuchsia), 3px 0 var(--electric-mint);
+    transform: skewX(3deg);
+  }
+  94% {
+    text-shadow: 2px 0 var(--rebecca), -2px 0 var(--electric-mint);
+    transform: skewX(-1deg);
+  }
+  96% {
+    text-shadow: 2px 0 var(--electric-mint), -2px 0 var(--rebecca);
+    transform: skewX(0);
+  }
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.5;
+  }
+}
+
+/* Flicker animation */
+@keyframes flicker {
+  0%, 94%, 100% {
+    opacity: 1;
+  }
+  95%, 97% {
+    opacity: 0.6;
+  }
+  96% {
+    opacity: 0.2;
+  }
+}
