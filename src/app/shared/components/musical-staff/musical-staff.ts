@@ -22,11 +22,11 @@ export class MusicalStaffComponent {
   private notePosition = signal<{ x: number; y: number } | null>(null);
 
   // Computed properties - exposed as simple values for template performance
-  readonly staffHeight = 200;
+  readonly staffHeight = 250;
   readonly staffWidth = 400;
-  readonly lineSpacing = 12;
-  readonly noteRadius = 6;
-  readonly staffCenterY = 100; // staffHeight / 2
+  readonly lineSpacing = 15;
+  readonly noteRadius = 7;
+  readonly staffCenterY = 125; // staffHeight / 2
   readonly staffCenterX = 200; // staffWidth / 2
 
   readonly staffLinePositions = computed(() => {
@@ -201,8 +201,8 @@ export class MusicalStaffComponent {
       while (ledgerY >= noteY - spacing / 2) {
         ledgerLines.push({
           y: ledgerY,
-          x1: position.x - 15,
-          x2: position.x + 15,
+          x1: position.x - 25,
+          x2: position.x + 25,
         });
         ledgerY -= spacing;
       }
@@ -214,8 +214,8 @@ export class MusicalStaffComponent {
       while (ledgerY <= noteY + spacing / 2) {
         ledgerLines.push({
           y: ledgerY,
-          x1: position.x - 15,
-          x2: position.x + 15,
+          x1: position.x - 25,
+          x2: position.x + 25,
         });
         ledgerY += spacing;
       }

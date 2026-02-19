@@ -15,16 +15,16 @@
         [attr.y2]="lineY"
         class="staff-line"
         stroke="#000"
-        stroke-width="1" />
+        stroke-width="2" />
     }
 
     <!-- Clef symbol -->
     <text
-      x="70"
+      x="90"
       [attr.y]="clef() === 'bass' ? staffCenterY + 28 : staffCenterY + 15"
       class="clef-symbol"
       font-family="serif"
-      [attr.font-size]="clef() === 'bass' ? '95' : '65'"
+      [attr.font-size]="clef() === 'bass' ? '70' : '85'"
       fill="#000"
       text-anchor="middle">
       {{ clefSymbol() }}
@@ -40,7 +40,7 @@
           [attr.y2]="ledger.y"
           class="ledger-line"
           stroke="#000"
-          stroke-width="1" />
+          stroke-width="2" />
       }
     }
 

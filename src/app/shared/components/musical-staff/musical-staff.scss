@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(13, 0, 32, 0.8);
+  background: #1a0035cc;
   border-radius: 0;
   box-shadow: 0 0 40px rgba(255, 0, 170, 0.15);
   margin: 0;
@@ -44,15 +44,11 @@
   }
 
   .staff-line {
-    stroke: var(--rebecca);
-    stroke-width: 1.5;
-    filter: drop-shadow(0 0 2px rgba(102, 51, 153, 0.5));
+    stroke: var(--white);
   }
 
   .ledger-line {
-    stroke: var(--rebecca);
-    stroke-width: 1;
-    filter: drop-shadow(0 0 2px rgba(102, 51, 153, 0.5));
+    stroke: var(--white);
   }
 
   .clef-symbol {
@@ -207,10 +203,6 @@
       padding: 4px;
     }
 
-    .clef-symbol {
-      font-size: 36px;
-    }
-
     .note-info {
       flex-direction: column;
       gap: 6px;
@@ -249,15 +241,14 @@
 
   // Dark mode support (already dark, but ensure consistency)
   @media (prefers-color-scheme: dark) {
-    background: rgba(13, 0, 32, 0.9);
-
     .staff-svg {
       background: rgba(26, 0, 53, 0.8);
+      background: rgba(13, 0, 32, 0.8);
       border-color: rgba(102, 51, 153, 0.5);
     }
 
     .staff-line, .ledger-line {
-      stroke: var(--rebecca);
+      // stroke: var(--rebecca);
     }
 
     .clef-symbol, .accidental {
