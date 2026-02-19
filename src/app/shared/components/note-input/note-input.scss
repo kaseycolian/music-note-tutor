@@ -13,7 +13,7 @@
     margin-bottom: 24px;
 
     .input-title {
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       font-weight: 700;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -23,7 +23,7 @@
     }
 
     .input-instructions {
-      font-size: 0.7rem;
+      font-size: 0.85rem;
       color: rgba(232, 204, 255, 0.5);
       margin: 0;
       font-style: italic;
@@ -34,7 +34,8 @@
 
   .note-buttons-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
     gap: 2px;
     margin-bottom: 20px;
     max-width: 600px;
@@ -184,7 +185,7 @@
     }
 
     .keyboard-shortcut {
-      font-size: 0.65rem;
+      font-size: 0.75rem;
       background: rgba(102, 51, 153, 0.3);
       color: rgba(232, 204, 255, 0.6);
       padding: 3px 8px;
@@ -221,7 +222,7 @@
         background: rgba(26, 0, 53, 0.8);
         cursor: pointer;
         font-weight: 700;
-        font-size: 0.75rem;
+        font-size: 0.8rem;
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--electric-mint);
@@ -258,7 +259,7 @@
           color: var(--violet-dark);
           padding: 4px 10px;
           border-radius: 0;
-          font-size: 0.7rem;
+          font-size: 0.85rem;
           font-weight: 900;
           min-width: 28px;
           text-align: center;
@@ -269,7 +270,7 @@
 
         .shortcut-note {
           font-weight: 700;
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           color: var(--pale-lavender);
           font-family: 'Courier New', 'Courier', monospace;
         }
@@ -335,12 +336,7 @@
 
   // Responsive design
   @media (max-width: 768px) {
-    .input-header .input-title {
-      font-size: 0.8rem;
-    }
-
     .note-buttons-grid {
-      grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
       gap: 2px;
     }
 
@@ -353,7 +349,6 @@
       }
 
       .keyboard-shortcut {
-        font-size: 0.6rem;
         padding: 2px 6px;
       }
     }
@@ -364,20 +359,12 @@
   }
 
   @media (max-width: 480px) {
-    .note-buttons-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-
     .note-button {
       min-height: 70px;
       padding: 12px 6px;
 
       .note-label {
         font-size: 18px;
-      }
-
-      .keyboard-shortcut {
-        font-size: 0.55rem;
       }
     }
   }

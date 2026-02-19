@@ -24,22 +24,10 @@
     <h2 id="progress-heading" class="sr-only">Your Progress</h2>
     @if (userProgress(); as progress) {
       <div class="stats-grid">
-        <div class="stat-line">
-          <div class="stat-item">
-            <span class="stat-label">Overall Accuracy:</span>
-            <span class="stat-value accuracy-display" [class.high-accuracy]="accuracyPercentage() >= 80">
-              {{ accuracyPercentage() }}%
-            </span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Question Number:</span>
-            <span class="stat-value">{{ progress.totalQuestionsAnswered }}</span>
-          </div>
-        </div>
         <div class="stat-line options-stat-line">
           <!-- Difficulty Selector -->
           <div class="stat-item difficulty-selector">
-            <span class="stat-label">Level:</span>
+            <span class="stat-label">Level</span>
             <div class="difficulty-dropdown">
               <button
                 type="button"
@@ -70,7 +58,7 @@
           </div>
           <!-- Clef Selector -->
           <div class="stat-item difficulty-selector">
-            <span class="stat-label">Clef:</span>
+            <span class="stat-label">Clef</span>
             <div class="difficulty-dropdown">
               <button
                 type="button"
@@ -98,6 +86,18 @@
                 </div>
               }
             </div>
+          </div>
+        </div>
+        <div class="stat-line">
+          <div class="stat-item">
+            <span class="stat-label">Overall Accuracy:</span>
+            <span class="stat-value accuracy-display" [class.high-accuracy]="accuracyPercentage() >= 80">
+              {{ accuracyPercentage() }}%
+            </span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Question Number:</span>
+            <span class="stat-value">{{ progress.totalQuestionsAnswered }}</span>
           </div>
         </div>
       </div>
@@ -210,18 +210,33 @@
     <h2 id="instructions-heading">How to Play</h2>
     <div class="instructions-content">
       <ol class="instructions-list">
+        <li>Choose your <strong>Difficulty</strong> level:
+          <ul>
+            <li><strong>Default:</strong> All note positions (staff + ledger lines)</li>
+            <li><strong>Easy:</strong> Only notes on the staff lines and spaces</li>
+            <li><strong>Hard:</strong> Only notes on ledger lines above and below staff</li>
+          </ul>
+        </li>
+        <li>Select your <strong>Clef</strong> preference:
+          <ul>
+            <li><strong>Both:</strong> Practice treble and bass clef notes</li>
+            <li><strong>Treble:</strong> Focus on treble clef only</li>
+            <li><strong>Bass:</strong> Focus on bass clef only</li>
+          </ul>
+        </li>
         <li>Look at the note displayed on the musical staff</li>
         <li>Identify which note it represents (C, D, E, F, G, A, or B)</li>
         <li>Click on your answer from the available options</li>
         <li>Get instant feedback and track your progress</li>
-        <li>Advance through difficulty levels as you improve</li>
       </ol>
 
       <div class="tips-section">
         <h3>Tips for Success:</h3>
         <ul class="tips-list">
-          <li>Start by memorizing the line and space notes</li>
+          <li>Start with <strong>Easy</strong> difficulty to learn staff notes first</li>
           <li>Use mnemonics like "Every Good Boy Does Fine" for treble clef lines</li>
+          <li>Practice one clef at a time before combining both</li>
+          <li>Progress to <strong>Hard</strong> difficulty to master ledger lines</li>
           <li>Practice regularly to build muscle memory</li>
           <li>Don't worry about mistakes - they help you learn!</li>
         </ul>

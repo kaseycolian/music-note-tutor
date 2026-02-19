@@ -101,7 +101,7 @@
     position: relative;
 
     .stat-label {
-      font-size: 0.65rem;
+      font-size: 0.9rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--pale-lavender);
@@ -117,7 +117,7 @@
       line-height: 1;
 
       &.level-badge {
-        font-size: 0.85rem;
+        font-size: 1rem;
         padding: 6px 14px;
         border: 1px solid var(--fuchsia);
         clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
@@ -209,7 +209,7 @@
 
       .option-label {
         font-family: 'Courier New', 'Courier', monospace;
-        font-size: 0.85rem;
+        font-size: 0.95rem;
         font-weight: 700;
         letter-spacing: 0.1em;
         text-transform: uppercase;
@@ -218,7 +218,7 @@
       }
 
       .option-description {
-        font-size: 0.7rem;
+        font-size: 0.85rem;
         color: rgba(232, 204, 255, 0.6);
         line-height: 1.4;
       }
@@ -306,7 +306,7 @@
   }
 
   .instruction-text {
-    font-size: 0.85rem;
+    font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -365,7 +365,7 @@
     gap: 12px;
     padding: 16px 24px;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     letter-spacing: 0.05em;
     animation: fadeInUp 0.3s ease-out;
     clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
@@ -421,7 +421,6 @@
 .controls-section {
   display: flex;
   justify-content: center;
-  margin-top: auto;
   padding-top: 24px;
 
   .controls {
@@ -536,6 +535,10 @@
       gap: 40px;
     }
 
+    .stat-line {
+      gap: 40px;
+    }
+
     .stat-item .stat-value {
       font-size: 2rem;
     }
@@ -562,6 +565,10 @@
     grid-template-columns: 1fr 1fr;
   }
 
+   .progress-section .stat-line {
+      gap: 15px;
+    }
+
   .progress-section .stat-item {
     .difficulty-menu {
       position: fixed;
@@ -571,7 +578,9 @@
       max-width: 90vw;
       z-index: 2000;
     }
+
   }
+
 
   .controls {
     flex-direction: column;
