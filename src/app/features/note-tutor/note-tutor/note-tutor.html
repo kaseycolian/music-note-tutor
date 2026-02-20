@@ -199,13 +199,6 @@
           </button>
         }
 
-        <button
-          type="button"
-          (click)="resetProgress()"
-          class="btn btn-secondary"
-          [attr.aria-label]="'Reset all progress'">
-          Reset Progress
-        </button>
       </div>
     </section>
 
@@ -237,6 +230,16 @@
         </div>
       </section>
     }
+
+    <section class="reset-controls">
+      <button
+        type="button"
+        (click)="resetProgress()"
+        class="btn btn-outline"
+        [attr.aria-label]="'Reset all progress'">
+        Reset Progress
+      </button>
+    </section>
   </main>
 
   <!-- Instructions Panel -->

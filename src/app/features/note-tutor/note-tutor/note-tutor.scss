@@ -427,6 +427,12 @@
   }
 }
 
+.reset-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
 // Instructions Panel
 .instructions-panel {
   grid-area: instructions;
