@@ -4,6 +4,9 @@ export type DifficultyMode = 'default' | 'easy' | 'hard';
 // Clef Filter Type
 export type ClefFilter = 'both' | 'treble' | 'bass';
 
+// Note Filter Type
+export type NoteFilter = 'all' | 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B';
+
 // Difficulty Mode Configuration
 export interface DifficultyConfig {
   mode: DifficultyMode;
@@ -14,6 +17,13 @@ export interface DifficultyConfig {
 // Clef Filter Configuration
 export interface ClefFilterConfig {
   filter: ClefFilter;
+  label: string;
+  description: string;
+}
+
+// Note Filter Configuration
+export interface NoteFilterConfig {
+  filter: NoteFilter;
   label: string;
   description: string;
 }
@@ -51,6 +61,49 @@ export const CLEF_FILTERS: ClefFilterConfig[] = [
     filter: 'bass',
     label: 'Bass',
     description: 'Show only bass clef notes'
+  }
+];
+
+export const NOTE_FILTERS: NoteFilterConfig[] = [
+  {
+    filter: 'all',
+    label: 'All',
+    description: 'Practice all notes'
+  },
+  {
+    filter: 'C',
+    label: 'C',
+    description: 'Practice only C notes'
+  },
+  {
+    filter: 'D',
+    label: 'D',
+    description: 'Practice only D notes'
+  },
+  {
+    filter: 'E',
+    label: 'E',
+    description: 'Practice only E notes'
+  },
+  {
+    filter: 'F',
+    label: 'F',
+    description: 'Practice only F notes'
+  },
+  {
+    filter: 'G',
+    label: 'G',
+    description: 'Practice only G notes'
+  },
+  {
+    filter: 'A',
+    label: 'A',
+    description: 'Practice only A notes'
+  },
+  {
+    filter: 'B',
+    label: 'B',
+    description: 'Practice only B notes'
   }
 ];
 

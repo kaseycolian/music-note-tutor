@@ -17,6 +17,8 @@ import {
   ClefFilter,
   DIFFICULTY_MODES,
   DifficultyMode,
+  NOTE_FILTERS,
+  NoteFilter,
 } from '../../../models/difficulty-mode';
 import { MusicalNote, NoteName } from '../../../models/musical-note';
 import { UserProgress } from '../../../models/user-progress';
@@ -58,6 +60,11 @@ export class NoteTutor implements OnInit, OnDestroy {
   clefFilter = signal<ClefFilter>('both');
   showClefDropdown = signal(false);
   readonly clefFilters = CLEF_FILTERS;
+
+  // Note filter state
+  noteFilter = signal<NoteFilter>('all');
+  showNoteDropdown = signal(false);
+  readonly noteFilters = NOTE_FILTERS;
 
   // Store pending answer data to record only when moving to next question
   private pendingAnswer = signal<{
@@ -104,6 +111,9 @@ export class NoteTutor implements OnInit, OnDestroy {
       if (this.showClefDropdown()) {
         this.showClefDropdown.set(false);
       }
+      if (this.showNoteDropdown()) {
+        this.showNoteDropdown.set(false);
+      }
     }
   }
 
@@ -115,9 +125,14 @@ export class NoteTutor implements OnInit, OnDestroy {
     if (this.showClefDropdown()) {
       this.showClefDropdown.set(false);
     }
+    if (this.showNoteDropdown()) {
+      this.showNoteDropdown.set(false);
+    }
   }
 
   generateNewNote(): void {
+    this.showAnswerHint.set(false);
+
     // Record the pending answer before generating a new note
     const pending = this.pendingAnswer();
     if (pending) {
@@ -208,24 +223,27 @@ export class NoteTutor implements OnInit, OnDestroy {
       this.generateNewNote();
       this.feedback.set({
         type: 'hint',
-        message: 'Progress has been reset. Starting fresh!',
+        message: 'Progress has been reset. Starting over!',
       });
     }
   }
 
-  getAvailableNotes(): NoteName[] {
-    return this.availableNotes;
-  }
-
-  // toggleOctaveNumbers(): void {
-  //   this.showOctaveNumbers.update((current) => !current);
-  // }
+  // Computed signal for available notes based on note filter
+  readonly filteredAvailableNotes = computed(() => {
+    const filter = this.noteFilter();
+    if (filter === 'all') {
+      return this.availableNotes;
+    }
+    // When a specific note is selected, only show that note
+    return [filter as NoteName];
+  });
 
   // Difficulty mode methods
   toggleDifficultyDropdown(): void {
     this.showDifficultyDropdown.update((show) => !show);
     if (this.showDifficultyDropdown()) {
       this.showClefDropdown.set(false);
+      this.showNoteDropdown.set(false);
     }
   }
 
@@ -250,6 +268,7 @@ export class NoteTutor implements OnInit, OnDestroy {
     this.showClefDropdown.update((show) => !show);
     if (this.showClefDropdown()) {
       this.showDifficultyDropdown.set(false);
+      this.showNoteDropdown.set(false);
     }
   }
 
@@ -267,6 +286,31 @@ export class NoteTutor implements OnInit, OnDestroy {
   getCurrentClefLabel(): string {
     const config = this.clefFilters.find((c) => c.filter === this.clefFilter());
     return config?.label || 'Both';
+  }
+
+  // Note filter methods
+  toggleNoteDropdown(): void {
+    this.showNoteDropdown.update((show) => !show);
+    if (this.showNoteDropdown()) {
+      this.showDifficultyDropdown.set(false);
+      this.showClefDropdown.set(false);
+    }
+  }
+
+  selectNote(filter: NoteFilter): void {
+    this.noteFilter.set(filter);
+    this.showNoteDropdown.set(false);
+
+    // Update note generator with new note filter
+    this.noteGenerator.setNoteFilter(filter);
+
+    // Generate a new note with the new note filter
+    this.generateNewNote();
+  }
+
+  getCurrentNoteLabel(): string {
+    const config = this.noteFilters.find((n) => n.filter === this.noteFilter());
+    return config?.label || 'All';
   }
 
   private validateAnswer(userAnswer: string, note: MusicalNote): boolean {

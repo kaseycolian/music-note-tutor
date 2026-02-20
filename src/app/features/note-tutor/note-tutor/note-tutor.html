@@ -87,6 +87,37 @@
               }
             </div>
           </div>
+          <!-- Note Selector -->
+          <div class="stat-item difficulty-selector">
+            <span class="stat-label">Note</span>
+            <div class="difficulty-dropdown">
+              <button
+                type="button"
+                class="stat-value level-badge difficulty-button"
+                (click)="toggleNoteDropdown()"
+                [attr.aria-expanded]="showNoteDropdown()"
+                [attr.aria-label]="'Select note filter. Current: ' + getCurrentNoteLabel()">
+                {{ getCurrentNoteLabel() }}
+                <span class="dropdown-arrow">▼</span>
+              </button>
+              @if (showNoteDropdown()) {
+                <div class="difficulty-menu" role="menu">
+                  @for (note of noteFilters; track note.filter) {
+                    <button
+                      type="button"
+                      class="difficulty-option"
+                      [class.active]="noteFilter() === note.filter"
+                      (click)="selectNote(note.filter)"
+                      role="menuitem"
+                      [attr.aria-label]="note.label + ': ' + note.description">
+                      <span class="option-label">{{ note.label }}</span>
+                      <span class="option-description">{{ note.description }}</span>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          </div>
         </div>
         <div class="stat-line">
           <div class="stat-item">
@@ -131,7 +162,7 @@
         <div class="input-container">
           <p class="instruction-text">What note is displayed on the staff?</p>
           <app-note-input
-            [availableNotes]="getAvailableNotes()"
+            [availableNotes]="filteredAvailableNotes()"
             [disabled]="isProcessing()"
             (noteSelected)="handleAnswer($event)"
             class="answer-input"
@@ -144,35 +175,6 @@
         </div>
       }
     </section>
-
-    <!-- Feedback Display -->
-    @if (feedback(); as feedbackData) {
-      <section class="feedback-section" aria-labelledby="feedback-heading">
-        <h2 id="feedback-heading" class="sr-only">Answer Feedback</h2>
-        <div class="feedback-container">
-          @switch (feedbackData.type) {
-            @case ('correct') {
-              <div class="feedback success" role="alert" aria-live="assertive">
-                <span class="feedback-icon" aria-hidden="true">✓</span>
-                <span class="feedback-message">{{ feedbackData.message }}</span>
-              </div>
-            }
-            @case ('incorrect') {
-              <div class="feedback error" role="alert" aria-live="assertive">
-                <span class="feedback-icon" aria-hidden="true">✗</span>
-                <span class="feedback-message">{{ feedbackData.message }}</span>
-              </div>
-            }
-            @case ('hint') {
-              <div class="feedback hint" role="status" aria-live="polite">
-                <span class="feedback-icon" aria-hidden="true">💡</span>
-                <span class="feedback-message">{{ feedbackData.message }}</span>
-              </div>
-            }
-          }
-        </div>
-      </section>
-    }
 
     <!-- Control Buttons -->
     <section class="controls-section" aria-labelledby="controls-heading">
@@ -203,6 +205,35 @@
         }
       </div>
     </section>
+
+      <!-- Feedback Display -->
+    @if (feedback(); as feedbackData) {
+      <section class="feedback-section" aria-labelledby="feedback-heading">
+        <h2 id="feedback-heading" class="sr-only">Answer Feedback</h2>
+        <div class="feedback-container">
+          @switch (feedbackData.type) {
+            @case ('correct') {
+              <div class="feedback success" role="alert" aria-live="assertive">
+                <span class="feedback-icon" aria-hidden="true">✓</span>
+                <span class="feedback-message">{{ feedbackData.message }}</span>
+              </div>
+            }
+            @case ('incorrect') {
+              <div class="feedback error" role="alert" aria-live="assertive">
+                <span class="feedback-icon" aria-hidden="true">✗</span>
+                <span class="feedback-message">{{ feedbackData.message }}</span>
+              </div>
+            }
+            @case ('hint') {
+              <div class="feedback hint" role="status" aria-live="polite">
+                <span class="feedback-icon" aria-hidden="true">💡</span>
+                <span class="feedback-message">{{ feedbackData.message }}</span>
+              </div>
+            }
+          }
+        </div>
+      </section>
+    }
   </main>
 
   <!-- Instructions Panel -->
@@ -210,22 +241,28 @@
     <h2 id="instructions-heading">How to Play</h2>
     <div class="instructions-content">
       <ol class="instructions-list">
-        <li>Choose your <strong>Difficulty</strong> level:
+        <li class="instruction-header">Choose your <strong>Difficulty</strong> level:
           <ul>
             <li><strong>Default:</strong> All note positions (staff + ledger lines)</li>
             <li><strong>Easy:</strong> Only notes on the staff lines and spaces</li>
             <li><strong>Hard:</strong> Only notes on ledger lines above and below staff</li>
           </ul>
         </li>
-        <li>Select your <strong>Clef</strong> preference:
+        <li class="instruction-header">Select your <strong>Clef</strong> preference:
           <ul>
             <li><strong>Both:</strong> Practice treble and bass clef notes</li>
             <li><strong>Treble:</strong> Focus on treble clef only</li>
             <li><strong>Bass:</strong> Focus on bass clef only</li>
           </ul>
         </li>
+        <li class="instruction-header">Choose a <strong>Note</strong> to practice:
+          <ul>
+            <li><strong>All:</strong> Practice all notes (C through B)</li>
+            <li><strong>C, D, E, F, G, A, or B:</strong> Focus on a single note for targeted practice</li>
+          </ul>
+        </li>
         <li>Look at the note displayed on the musical staff</li>
-        <li>Identify which note it represents (C, D, E, F, G, A, or B)</li>
+        <li>Identify which note it represents</li>
         <li>Click on your answer from the available options</li>
         <li>Get instant feedback and track your progress</li>
       </ol>
@@ -233,9 +270,10 @@
       <div class="tips-section">
         <h3>Tips for Success:</h3>
         <ul class="tips-list">
-          <li>Start with <strong>Easy</strong> difficulty to learn staff notes first</li>
+          <li>Start with <strong>Easy</strong> difficulty and a single <strong>Note</strong> to build confidence</li>
           <li>Use mnemonics like "Every Good Boy Does Fine" for treble clef lines</li>
-          <li>Practice one clef at a time before combining both</li>
+          <li>Practice one clef and one note at a time before combining</li>
+          <li>Once comfortable with individual notes, switch to <strong>All</strong> notes for full practice</li>
           <li>Progress to <strong>Hard</strong> difficulty to master ledger lines</li>
           <li>Practice regularly to build muscle memory</li>
           <li>Don't worry about mistakes - they help you learn!</li>

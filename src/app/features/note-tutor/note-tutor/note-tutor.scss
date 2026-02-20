@@ -175,8 +175,7 @@
       transform: translateX(-50%);
       background: var(--violet-surface);
       border: 1px solid var(--fuchsia);
-      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
-      box-shadow: 0 0 30px rgba(255, 0, 170, 0.4);
+      box-shadow: 0 0 20px rgba(255, 0, 170, 0.4);
       z-index: 1000;
       min-width: 280px;
     }
@@ -204,7 +203,7 @@
 
       &.active {
         background: rgba(255, 0, 170, 0.15);
-        border-left: 3px solid var(--fuchsia);
+        border-left: 3px solid var(--electric-mint);
       }
 
       .option-label {
@@ -421,7 +420,6 @@
 .controls-section {
   display: flex;
   justify-content: center;
-  padding-top: 24px;
 
   .controls {
     display: flex;
@@ -456,7 +454,7 @@
 
   h3 {
     margin: 32px 0 16px 0;
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -472,9 +470,9 @@
     margin: 0;
     padding-left: 24px;
     line-height: 1.8;
-    font-size: 0.85rem;
 
     li {
+      font-size: 0.92rem;
       margin-bottom: 12px;
       color: rgba(232, 204, 255, 0.6);
 
@@ -485,6 +483,10 @@
       &::marker {
         color: var(--rebecca);
       }
+    }
+
+    .instruction-header {
+      font-size: 1.1rem;
     }
   }
 
@@ -570,15 +572,17 @@
     }
 
   .progress-section .stat-item {
+    position: relative;
+
     .difficulty-menu {
       position: fixed;
       left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      top: auto;
+      transform: translateX(-50%);
       max-width: 90vw;
       z-index: 2000;
+      margin-top: 15px;
     }
-
   }
 
 

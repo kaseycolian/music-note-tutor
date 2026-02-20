@@ -1,5 +1,10 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { ClefFilter, DIFFICULTY_NOTE_RANGES, DifficultyMode } from '../../models/difficulty-mode';
+import {
+  ClefFilter,
+  DIFFICULTY_NOTE_RANGES,
+  DifficultyMode,
+  NoteFilter,
+} from '../../models/difficulty-mode';
 import { LevelConfiguration, SelectionContext } from '../../models/level-configuration';
 import {
   Clef,
@@ -24,6 +29,7 @@ export class NoteGeneratorService {
   private recentHistory = signal<MusicalNote[]>([]);
   private difficultyMode = signal<DifficultyMode>('default');
   private clefFilter = signal<ClefFilter>('both');
+  private noteFilter = signal<NoteFilter>('all');
 
   // Computed signals for RooCode intellisense
   readonly overallAccuracy = computed(() => {
@@ -131,6 +137,20 @@ export class NoteGeneratorService {
     return this.clefFilter();
   }
 
+  /**
+   * Set note filter to show only specific note
+   */
+  public setNoteFilter(filter: NoteFilter): void {
+    this.noteFilter.set(filter);
+  }
+
+  /**
+   * Get current note filter
+   */
+  public getNoteFilter(): NoteFilter {
+    return this.noteFilter();
+  }
+
   // Private methods for algorithm implementation
   private buildSelectionContext(partial?: Partial<SelectionContext>): SelectionContext {
     const userProgress = this.progressService.getCurrentProgress();
@@ -211,6 +231,12 @@ export class NoteGeneratorService {
     const clefFilter = this.clefFilter();
     if (clefFilter !== 'both') {
       filteredCandidates = filteredCandidates.filter((note) => note.clef === clefFilter);
+    }
+
+    // Apply note filter
+    const noteFilter = this.noteFilter();
+    if (noteFilter !== 'all') {
+      filteredCandidates = filteredCandidates.filter((note) => note.name === noteFilter);
     }
 
     return filteredCandidates;

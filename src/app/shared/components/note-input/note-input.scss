@@ -43,6 +43,10 @@
     margin-right: auto;
     background: rgba(102, 51, 153, 0.2);
     border: 1px solid rgba(102, 51, 153, 0.3);
+
+    &.single-note-button-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .note-button {

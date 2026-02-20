@@ -4,7 +4,7 @@
     <p class="input-instructions">Click a button or use keyboard shortcuts (1-7)</p>
   </div>
 
-  <div class="note-buttons-grid" role="group" [attr.aria-label]="'Note selection buttons'">
+  <div class="note-buttons-grid" [class.single-note-button-grid]="noteButtons().length === 1" role="group" [attr.aria-label]="'Note selection buttons'">
     @for (button of noteButtons(); track button.note) {
       <button
         type="button"
