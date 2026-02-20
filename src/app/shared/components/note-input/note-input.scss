@@ -21,15 +21,6 @@
       margin: 0 0 8px 0;
       font-family: 'Courier New', 'Courier', monospace;
     }
-
-    .input-instructions {
-      font-size: 0.85rem;
-      color: rgba(232, 204, 255, 0.5);
-      margin: 0;
-      font-style: italic;
-      letter-spacing: 0.1em;
-      font-family: 'Courier New', 'Courier', monospace;
-    }
   }
 
   .note-buttons-grid {
@@ -43,8 +34,21 @@
     margin-right: auto;
     background: rgba(102, 51, 153, 0.2);
     border: 1px solid rgba(102, 51, 153, 0.3);
+
+    &.single-note-button-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
+  .input-instructions {
+    font-size: 0.85rem;
+    color: rgba(232, 204, 255, 0.5);
+    margin: 0;
+    font-style: italic;
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', 'Courier', monospace;
+    text-align: center;
+  }
   .note-button {
     position: relative;
     display: flex;
@@ -418,29 +422,5 @@
 .note-input-container:focus-within {
   .note-button:focus {
     z-index: 10;
-  }
-}
-
-// Print styles
-@media print {
-  .note-input-container {
-    background: white;
-    box-shadow: none;
-    border: 1px solid #000;
-
-    .note-button {
-      background: white;
-      border: 1px solid #000;
-      box-shadow: none;
-      color: #000;
-
-      &::before {
-        display: none;
-      }
-    }
-
-    .keyboard-help {
-      display: none;
-    }
   }
 }

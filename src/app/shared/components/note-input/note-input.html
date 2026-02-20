@@ -1,10 +1,9 @@
 <div class="note-input-container" [attr.aria-label]="'Note selection interface'">
   <div class="input-header">
     <h3 class="input-title">Select the Note</h3>
-    <p class="input-instructions">Click a button or use keyboard shortcuts (1-7)</p>
   </div>
 
-  <div class="note-buttons-grid" role="group" [attr.aria-label]="'Note selection buttons'">
+  <div class="note-buttons-grid" [class.single-note-button-grid]="noteButtons().length === 1" role="group" [attr.aria-label]="'Note selection buttons'">
     @for (button of noteButtons(); track button.note) {
       <button
         type="button"
@@ -32,6 +31,8 @@
       </button>
     }
   </div>
+
+  <p class="input-instructions">Click a button or use keyboard shortcuts (1-7)</p>
 
   <!-- Keyboard shortcuts help -->
   <div class="keyboard-help" role="region" [attr.aria-label]="'Keyboard shortcuts'">

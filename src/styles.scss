@@ -126,6 +126,11 @@ body::before {
   border-color: var(--fuchsia);
 }
 
+.no-scroll {
+  overflow: hidden;
+  pointer-events: none;
+}
+
 /* Glitch animation */
 @keyframes glitch {
   0%, 90%, 100% {
