@@ -26,7 +26,7 @@
   }
 
   .staff-svg {
-    background: rgba(26, 0, 53, 0.6);
+    background: rgba(26, 0, 53, 1);
     border: 1px solid rgba(102, 51, 153, 0.3);
     border-radius: 0;
     padding: 20px;
@@ -242,8 +242,7 @@
   // Dark mode support (already dark, but ensure consistency)
   @media (prefers-color-scheme: dark) {
     .staff-svg {
-      background: rgba(26, 0, 53, 0.8);
-      background: rgba(13, 0, 32, 0.8);
+      background: rgba(13, 0, 32, 1);
       border-color: rgba(102, 51, 153, 0.5);
     }
 
