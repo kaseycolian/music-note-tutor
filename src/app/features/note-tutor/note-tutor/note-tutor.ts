@@ -1,3 +1,4 @@
+import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -7,6 +8,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  Renderer2,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -33,7 +35,7 @@ export interface AnswerFeedback {
 @Component({
   selector: 'app-note-tutor',
   standalone: true,
-  imports: [CommonModule, MusicalStaffComponent, NoteInputComponent],
+  imports: [CommonModule, MusicalStaffComponent, NoteInputComponent, CdkTrapFocus],
   templateUrl: './note-tutor.html',
   styleUrl: './note-tutor.scss',
 })
@@ -89,6 +91,8 @@ export class NoteTutor implements OnInit, OnDestroy {
   private noteGenerator = inject(NoteGeneratorService);
   private progressService = inject(UserProgressService);
 
+  constructor(private renderer: Renderer2) {}
+
   ngOnInit(): void {
     this.loadUserProgress();
     this.generateNewNote();
@@ -106,28 +110,52 @@ export class NoteTutor implements OnInit, OnDestroy {
 
     if (!dropdown) {
       if (this.showDifficultyDropdown()) {
+        this.enableBackground();
         this.showDifficultyDropdown.set(false);
       }
       if (this.showClefDropdown()) {
+        this.enableBackground();
         this.showClefDropdown.set(false);
       }
       if (this.showNoteDropdown()) {
+        this.enableBackground();
         this.showNoteDropdown.set(false);
       }
+    } else {
     }
   }
 
   @HostListener('document:keydown.escape')
   onEscapeKey(): void {
     if (this.showDifficultyDropdown()) {
+      this.enableBackground();
       this.showDifficultyDropdown.set(false);
     }
     if (this.showClefDropdown()) {
+      this.enableBackground();
       this.showClefDropdown.set(false);
     }
     if (this.showNoteDropdown()) {
+      this.enableBackground();
       this.showNoteDropdown.set(false);
     }
+  }
+
+  onMenuKeydown(event: KeyboardEvent): void {
+    // Prevent arrow keys from scrolling the page when dropdown is open
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  /** Enable scrolling and click/keyboard events in background. */
+  enableBackground() {
+    this.renderer.removeClass(document.body, 'no-scroll');
+  }
+
+  /** Disable the background from scrolling and getting click/keyboard events. */
+  disableBackground() {
+    this.renderer.addClass(document.body, 'no-scroll');
   }
 
   generateNewNote(): void {
@@ -244,6 +272,7 @@ export class NoteTutor implements OnInit, OnDestroy {
     if (this.showDifficultyDropdown()) {
       this.showClefDropdown.set(false);
       this.showNoteDropdown.set(false);
+      this.disableBackground();
     }
   }
 
@@ -269,6 +298,7 @@ export class NoteTutor implements OnInit, OnDestroy {
     if (this.showClefDropdown()) {
       this.showDifficultyDropdown.set(false);
       this.showNoteDropdown.set(false);
+      this.disableBackground();
     }
   }
 
@@ -294,6 +324,7 @@ export class NoteTutor implements OnInit, OnDestroy {
     if (this.showNoteDropdown()) {
       this.showDifficultyDropdown.set(false);
       this.showClefDropdown.set(false);
+      this.disableBackground();
     }
   }
 

@@ -60,11 +60,6 @@
       animation: flicker 4s ease-in-out infinite;
     }
   }
-
-  .header-controls {
-    display: flex;
-    gap: 12px;
-  }
 }
 
 // Progress Section (Stats Bar)
@@ -178,6 +173,8 @@
       box-shadow: 0 0 20px rgba(255, 0, 170, 0.4);
       z-index: 1000;
       min-width: 280px;
+      overflow: auto;
+      pointer-events: all;
     }
 
     .difficulty-option {
@@ -544,6 +541,10 @@
     .stat-item .stat-value {
       font-size: 2rem;
     }
+
+    .difficulty-menu {
+      max-height: 80vh;
+    }
   }
 
   .game-area {
@@ -582,6 +583,7 @@
       max-width: 90vw;
       z-index: 2000;
       margin-top: 15px;
+      max-height: 50vh;
     }
   }
 
@@ -636,25 +638,5 @@
 
   .game-area::before {
     animation: none;
-  }
-}
-
-// Print Styles
-@media print {
-  .note-tutor-container {
-    background: white;
-  }
-
-  .controls-section,
-  .header-controls {
-    display: none;
-  }
-
-  .instructions-panel {
-    break-inside: avoid;
-  }
-
-  body::before {
-    display: none;
   }
 }

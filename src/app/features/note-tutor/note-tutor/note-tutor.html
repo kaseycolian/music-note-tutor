@@ -8,15 +8,6 @@
       </span>
 
     </h1>
-    <div class="header-controls">
-      <button
-        type="button"
-        (click)="resetProgress()"
-        class="btn btn-outline"
-        [attr.aria-label]="'Reset all progress'">
-        Reset Progress
-      </button>
-    </div>
   </header>
 
   <!-- Progress Display -->
@@ -39,20 +30,22 @@
                 <span class="dropdown-arrow">▼</span>
               </button>
               @if (showDifficultyDropdown()) {
-                <div class="difficulty-menu" role="menu">
-                  @for (mode of difficultyModes; track mode.mode) {
-                    <button
-                      type="button"
-                      class="difficulty-option"
-                      [class.active]="difficultyMode() === mode.mode"
-                      (click)="selectDifficulty(mode.mode)"
-                      role="menuitem"
-                      [attr.aria-label]="mode.label + ': ' + mode.description">
-                      <span class="option-label">{{ mode.label }}</span>
-                      <span class="option-description">{{ mode.description }}</span>
-                    </button>
+                <ul class="difficulty-menu" role="menu" [cdkTrapFocus]="true" (keydown)="onMenuKeydown($event)">
+                  @for (mode of difficultyModes; track mode.mode; let first = $first) {
+                    <li>
+                      <button
+                        type="button"
+                        class="difficulty-option"
+                        [class.active]="difficultyMode() === mode.mode"
+                        (click)="selectDifficulty(mode.mode)"
+                        role="menuitem"
+                        [attr.aria-label]="mode.label + ': ' + mode.description">
+                        <span class="option-label">{{ mode.label }}</span>
+                        <span class="option-description">{{ mode.description }}</span>
+                      </button>
+                    </li>
                   }
-                </div>
+                </ul>
               }
             </div>
           </div>
@@ -70,15 +63,16 @@
                 <span class="dropdown-arrow">▼</span>
               </button>
               @if (showClefDropdown()) {
-                <div class="difficulty-menu" role="menu">
-                  @for (clef of clefFilters; track clef.filter) {
+                <div class="difficulty-menu" role="menu" tabindex="-1" (keydown)="onMenuKeydown($event)">
+                  @for (clef of clefFilters; track clef.filter; let first = $first) {
                     <button
                       type="button"
                       class="difficulty-option"
                       [class.active]="clefFilter() === clef.filter"
                       (click)="selectClef(clef.filter)"
                       role="menuitem"
-                      [attr.aria-label]="clef.label + ': ' + clef.description">
+                      [attr.aria-label]="clef.label + ': ' + clef.description"
+                      [attr.autofocus]="first ? true : null">
                       <span class="option-label">{{ clef.label }}</span>
                       <span class="option-description">{{ clef.description }}</span>
                     </button>
@@ -101,15 +95,16 @@
                 <span class="dropdown-arrow">▼</span>
               </button>
               @if (showNoteDropdown()) {
-                <div class="difficulty-menu" role="menu">
-                  @for (note of noteFilters; track note.filter) {
+                <div class="difficulty-menu" role="menu" tabindex="-1" (keydown)="onMenuKeydown($event)">
+                  @for (note of noteFilters; track note.filter; let first = $first) {
                     <button
                       type="button"
                       class="difficulty-option"
                       [class.active]="noteFilter() === note.filter"
                       (click)="selectNote(note.filter)"
                       role="menuitem"
-                      [attr.aria-label]="note.label + ': ' + note.description">
+                      [attr.aria-label]="note.label + ': ' + note.description"
+                      [attr.autofocus]="first ? true : null">
                       <span class="option-label">{{ note.label }}</span>
                       <span class="option-description">{{ note.description }}</span>
                     </button>
@@ -198,11 +193,19 @@
           <button
             type="button"
             (click)="showAnswer()"
-            class="btn btn-secondary hint-button"
+            class="btn btn-secondary"
             [attr.aria-label]="'Reveal the correct answer for this note'">
             {{showAnswerHint() ? 'Hide Answer Hint' : 'Show Answer Hint'}}
           </button>
         }
+
+        <button
+          type="button"
+          (click)="resetProgress()"
+          class="btn btn-secondary"
+          [attr.aria-label]="'Reset all progress'">
+          Reset Progress
+        </button>
       </div>
     </section>
 

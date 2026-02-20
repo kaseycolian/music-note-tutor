@@ -290,37 +290,3 @@
   outline: 2px solid var(--fuchsia);
   outline-offset: 4px;
 }
-
-// Print styles
-@media print {
-  .musical-staff-container {
-    background: white;
-    box-shadow: none;
-    border: 1px solid #000;
-    clip-path: none;
-
-    .staff-svg {
-      background: white;
-      border: none;
-    }
-
-    .note-info {
-      border: 1px solid #000;
-      box-shadow: none;
-      clip-path: none;
-    }
-
-    .staff-line, .ledger-line {
-      stroke: #000;
-    }
-
-    .clef-symbol, .accidental {
-      fill: #000;
-    }
-
-    .note {
-      stroke: #000;
-      filter: none;
-    }
-  }
-}
