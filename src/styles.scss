@@ -63,7 +63,7 @@ body::before {
 .btn {
   font-family: 'Courier New', 'Courier', monospace;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 16px 32px;
@@ -127,7 +127,6 @@ body::before {
 }
 
 .no-scroll {
-  overflow: hidden;
   pointer-events: none;
 }
 

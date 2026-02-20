@@ -96,7 +96,8 @@
     position: relative;
 
     .stat-label {
-      font-size: 0.9rem;
+      font-size: 1rem;
+      font-weight: 900;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--pale-lavender);
@@ -112,7 +113,7 @@
       line-height: 1;
 
       &.level-badge {
-        font-size: 1rem;
+        font-size: 1.1rem;
         padding: 6px 14px;
         border: 1px solid var(--fuchsia);
         clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
