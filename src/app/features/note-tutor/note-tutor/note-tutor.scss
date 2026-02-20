@@ -531,7 +531,7 @@
   }
 
   .progress-section {
-    padding: 20px;
+    padding: 10px;
 
     .stats-grid {
       gap: 40px;
@@ -585,6 +585,10 @@
     }
   }
 
+  .game-area {
+    padding: 12px;
+    gap: 12px;
+  }
 
   .controls {
     flex-direction: column;

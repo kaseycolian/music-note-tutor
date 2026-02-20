@@ -21,15 +21,6 @@
       margin: 0 0 8px 0;
       font-family: 'Courier New', 'Courier', monospace;
     }
-
-    .input-instructions {
-      font-size: 0.85rem;
-      color: rgba(232, 204, 255, 0.5);
-      margin: 0;
-      font-style: italic;
-      letter-spacing: 0.1em;
-      font-family: 'Courier New', 'Courier', monospace;
-    }
   }
 
   .note-buttons-grid {
@@ -49,6 +40,15 @@
     }
   }
 
+  .input-instructions {
+    font-size: 0.85rem;
+    color: rgba(232, 204, 255, 0.5);
+    margin: 0;
+    font-style: italic;
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', 'Courier', monospace;
+    text-align: center;
+  }
   .note-button {
     position: relative;
     display: flex;
