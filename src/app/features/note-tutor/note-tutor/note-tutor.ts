@@ -285,6 +285,8 @@ export class NoteTutor implements OnInit, OnDestroy {
 
     // Generate a new note with the new difficulty
     this.generateNewNote();
+
+    this.enableBackground();
   }
 
   getCurrentDifficultyLabel(): string {
@@ -311,6 +313,7 @@ export class NoteTutor implements OnInit, OnDestroy {
 
     // Generate a new note with the new clef filter
     this.generateNewNote();
+    this.enableBackground();
   }
 
   getCurrentClefLabel(): string {
@@ -337,6 +340,8 @@ export class NoteTutor implements OnInit, OnDestroy {
 
     // Generate a new note with the new note filter
     this.generateNewNote();
+
+    this.enableBackground();
   }
 
   getCurrentNoteLabel(): string {
