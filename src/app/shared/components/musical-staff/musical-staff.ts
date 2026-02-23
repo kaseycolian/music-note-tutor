@@ -144,17 +144,17 @@ export class MusicalStaffComponent {
     // Map each specific note to its exact staff position
     const notePositions: { [key: string]: number } = {
       // Ledger lines below staff
-      C1: staffLines[4] + spacing * 3, // Below G2 (ledger line)
-      D1: staffLines[4] + spacing * 2.5, // Below G2 (space)
-      E1: staffLines[4] + spacing * 2, // Below G2 (ledger line)
-      F1: staffLines[4] + spacing * 1.5, // Below G2 (space)
-      G1: staffLines[4] + spacing, // Below G2 (ledger line)
-      A1: staffLines[4] + spacing * 0.5, // Below G2 (space)
-      B1: staffLines[4], // Same as G2 but below
-      C2: staffLines[4] + spacing * 1.5, // Below G2 (ledger line)
-      D2: staffLines[4] + spacing, // Below G2 (space)
-      E2: staffLines[4] + spacing * 0.5, // Below G2 (space)
-      F2: staffLines[4] + spacing / 2, // Below G2 (space)
+      C1: staffLines[4] + spacing * 5.5, // Below G2 (ledger line)
+      D1: staffLines[4] + spacing * 5, // Below G2 (space)
+      E1: staffLines[4] + spacing * 4.5, // Below G2 (ledger line)
+      F1: staffLines[4] + spacing * 4, // Below G2 (space)
+      G1: staffLines[4] + spacing * 3.5, // Below G2 (ledger line)
+      A1: staffLines[4] + spacing * 3, // Below G2 (space)
+      B1: staffLines[4] + spacing * 2.5, // Same as G2 but below
+      C2: staffLines[4] + spacing * 2, // Below G2 (ledger line)
+      D2: staffLines[4] + spacing * 1.5, // Below G2 (space)
+      E2: staffLines[4] + spacing * 1, // Below G2 (space)
+      F2: staffLines[4] + spacing * 0.5, // Below G2 (space)
 
       // On staff - bottom to top
       G2: staffLines[4], // Bottom line

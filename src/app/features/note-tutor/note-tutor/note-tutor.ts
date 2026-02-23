@@ -313,6 +313,7 @@ export class NoteTutor implements OnInit, OnDestroy {
 
     // Generate a new note with the new clef filter
     this.generateNewNote();
+
     this.enableBackground();
   }
 
