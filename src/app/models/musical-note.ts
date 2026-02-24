@@ -2,14 +2,12 @@ export interface MusicalNote {
   readonly name: NoteName;
   readonly octave: number;
   readonly clef: Clef;
-  readonly accidental?: Accidental;
   readonly position: StaffPosition;
   readonly id: string;
 }
 
 export type NoteName = 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B';
 export type Clef = 'treble' | 'bass';
-export type Accidental = 'sharp' | 'flat';
 export type DifficultyLevel = 'easy' | 'hard' | 'mixed';
 export type StaffPosition = 'line' | 'space' | 'ledger-above' | 'ledger-below';
 
@@ -42,7 +40,6 @@ export interface SessionContext {
 export interface UserPreferences {
   readonly preferredClef?: Clef;
   readonly customNoteRange?: OctaveRange;
-  readonly enableAccidentals: boolean;
   readonly responseTimeLimit?: number;
 }
 

@@ -10,24 +10,21 @@ import { Clef, MusicalNote } from '../../../models/musical-note';
   styleUrl: './musical-staff.scss',
 })
 export class MusicalStaffComponent {
-  // Input signals for Angular 21
   currentNote = input<MusicalNote | null>(null);
   showNote = input<boolean>(true);
   showResult = input<boolean>(false);
   clef = input<Clef>('treble');
-  highlightNote = input<boolean>(false);
 
   // Internal state
   private staffLines = signal<number[]>([]);
-  private notePosition = signal<{ x: number; y: number } | null>(null);
 
   // Computed properties - exposed as simple values for template performance
-  readonly staffHeight = 250;
-  readonly staffWidth = 400;
-  readonly lineSpacing = 15;
-  readonly noteRadius = 7;
-  readonly staffCenterY = 125; // staffHeight / 2
-  readonly staffCenterX = 200; // staffWidth / 2
+  readonly staffHeight = 300;
+  readonly staffWidth = 330;
+  readonly lineSpacing = 18;
+  readonly noteRadius = 9;
+  readonly staffCenterY = 150; // staffHeight / 2
+  readonly staffCenterX = 165; // staffWidth / 2
 
   readonly staffLinePositions = computed(() => {
     const spacing = this.lineSpacing;
@@ -46,6 +43,7 @@ export class MusicalStaffComponent {
   });
 
   readonly noteDisplayPosition = computed(() => {
+    console.warn('this.curren', this.currentNote());
     const note = this.currentNote();
     if (!note || !this.showNote()) return null;
 
@@ -169,7 +167,7 @@ export class MusicalStaffComponent {
 
       // Ledger lines above staff
       B3: staffLines[0] - spacing / 2, // Above A3 (space)
-      C4: staffLines[0] - spacing, // Above A3 (first ledger line)
+      C4: staffLines[0] - spacing * 1, // Above A3 (first ledger line)
       D4: staffLines[0] - spacing * 1.5, // Above A3 (space)
       E4: staffLines[0] - spacing * 2, // Above A3 (second ledger line)
       F4: staffLines[0] - spacing * 2.5, // Above A3 (space)
@@ -228,55 +226,5 @@ export class MusicalStaffComponent {
     // Update any clef-specific styling or positioning
     const lines = [0, 1, 2, 3, 4];
     this.staffLines.set(lines);
-  }
-
-  /**
-   * Get CSS classes for the note
-   */
-  getNoteClasses(): string[] {
-    const classes = ['note'];
-
-    if (this.highlightNote()) {
-      classes.push('highlighted');
-    }
-
-    const note = this.currentNote();
-    if (note?.accidental) {
-      classes.push(`accidental-${note.accidental}`);
-    }
-
-    return classes;
-  }
-
-  /**
-   * Get accidental symbol
-   */
-  getAccidentalSymbol(accidental: string): string {
-    const symbols = {
-      sharp: '♯',
-      flat: '♭',
-    };
-    return symbols[accidental as keyof typeof symbols] || '';
-  }
-
-  /**
-   * Check if note needs accidental display
-   */
-  shouldShowAccidental(): boolean {
-    const note = this.currentNote();
-    return !!(note?.accidental && this.showNote());
-  }
-
-  /**
-   * Get accidental position
-   */
-  getAccidentalPosition(): { x: number; y: number } | null {
-    const notePos = this.noteDisplayPosition();
-    if (!notePos || !this.shouldShowAccidental()) return null;
-
-    return {
-      x: notePos.x - 20, // Position accidental to the left of note
-      y: notePos.y,
-    };
   }
 }

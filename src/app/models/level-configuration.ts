@@ -20,7 +20,6 @@ export interface NoteRange {
   readonly trebleRange: OctaveRange;
   readonly bassRange: OctaveRange;
   readonly allowedNotes: NoteName[];
-  readonly includeAccidentals: boolean;
 }
 
 export interface SelectionContext {

@@ -95,10 +95,9 @@ export class NoteGeneratorConfigService {
   private createEasyConfig(): LevelConfiguration {
     // Easy combines Beginner and Intermediate levels
     const noteRange: NoteRange = {
-      trebleRange: { min: 4, max: 6 },
-      bassRange: { min: 2, max: 4 },
+      trebleRange: { min: 1, max: 7 },
+      bassRange: { min: 1, max: 5 },
       allowedNotes: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-      includeAccidentals: false,
     };
 
     const clefDistribution: ClefDistribution = {
@@ -129,7 +128,6 @@ export class NoteGeneratorConfigService {
       trebleRange: { min: 3, max: 7 },
       bassRange: { min: 1, max: 5 },
       allowedNotes: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-      includeAccidentals: true,
     };
 
     const clefDistribution: ClefDistribution = {
@@ -160,7 +158,6 @@ export class NoteGeneratorConfigService {
       trebleRange: { min: 3, max: 7 },
       bassRange: { min: 1, max: 5 },
       allowedNotes: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-      includeAccidentals: true,
     };
 
     const clefDistribution: ClefDistribution = {
@@ -196,12 +193,6 @@ export class NoteGeneratorConfigService {
         noteRange.allowedNotes.forEach((noteName) => {
           const noteId = `${noteName}${octave}-${clef}`;
           weights.set(noteId, baseWeight);
-
-          // Add accidentals if enabled
-          if (noteRange.includeAccidentals) {
-            weights.set(`${noteId}-sharp`, baseWeight * 0.8); // Slightly lower weight for accidentals
-            weights.set(`${noteId}-flat`, baseWeight * 0.8);
-          }
         });
       }
     });
@@ -229,15 +220,11 @@ export class NoteGeneratorConfigService {
         'E3-bass': 1.2,
       },
       hard: {
-        // Full range with ledger lines and accidentals
+        // Full range with ledger lines
         'C6-treble': 1.1,
         'C7-treble': 1.0,
         'B2-bass': 1.1,
         'C1-bass': 1.0,
-        'F4-treble-sharp': 1.0,
-        'B4-treble-flat': 1.0,
-        'F3-bass-sharp': 1.0,
-        'A5-treble-flat': 1.0,
       },
     };
 

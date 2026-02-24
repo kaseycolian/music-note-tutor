@@ -152,10 +152,9 @@
 
     <!-- Answer Input Section -->
     <section class="input-section" aria-labelledby="input-heading">
-      <h2 id="input-heading" class="sr-only">Answer Input</h2>
       @if (showAnswerInput()) {
         <div class="input-container">
-          <p class="instruction-text">What note is displayed on the staff?</p>
+          <h2 class="instruction-text">Which note is displayed on the staff?</h2>
           <app-note-input
             [availableNotes]="filteredAvailableNotes()"
             [disabled]="isProcessing()"

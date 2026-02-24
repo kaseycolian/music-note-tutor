@@ -60,6 +60,7 @@ export class NoteGeneratorService {
    * RooCode will provide parameter suggestions and return type inference
    */
   public generateNextNote(context?: Partial<SelectionContext>): MusicalNote {
+    console.warn('generat')
     const fullContext = this.buildSelectionContext(context);
     const candidateNotes = this.buildCandidatePool(fullContext);
     const weightedNotes = this.calculateWeights(candidateNotes, fullContext);
@@ -189,26 +190,6 @@ export class NoteGeneratorService {
             position,
             id: noteId,
           });
-
-          // Add accidentals if enabled
-          if (config.noteRange.includeAccidentals) {
-            candidates.push({
-              name: noteName,
-              octave,
-              clef,
-              accidental: 'sharp',
-              position,
-              id: `${noteId}-sharp`,
-            });
-            candidates.push({
-              name: noteName,
-              octave,
-              clef,
-              accidental: 'flat',
-              position,
-              id: `${noteId}-flat`,
-            });
-          }
         });
       }
     });
@@ -292,6 +273,7 @@ export class NoteGeneratorService {
   private performWeightedSelection(weightedNotes: WeightedNote[]): MusicalNote {
     const totalWeight = weightedNotes.reduce((sum, note) => sum + note.weight, 0);
     let random = Math.random() * totalWeight;
+    console.warn('weight:', weightedNotes);
 
     for (const note of weightedNotes) {
       random -= note.weight;

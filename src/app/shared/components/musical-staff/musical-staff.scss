@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 8px 16px;
   background: #1a0035cc;
   border-radius: 0;
   box-shadow: 0 0 40px rgba(255, 0, 170, 0.15);
@@ -64,24 +64,6 @@
     stroke-width: 3.5;
     transition: all 0.2s ease;
     filter: drop-shadow(0 0 6px rgba(255, 0, 170, 0.6));
-
-    &.highlighted {
-      fill: none;
-      stroke: var(--electric-mint);
-      stroke-width: 4;
-      filter: drop-shadow(0 0 12px rgba(0, 255, 204, 0.8));
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    &.accidental-sharp {
-      stroke: #8e44ad;
-      filter: drop-shadow(0 0 6px rgba(142, 68, 173, 0.6));
-    }
-
-    &.accidental-flat {
-      stroke: #16a085;
-      filter: drop-shadow(0 0 6px rgba(22, 160, 133, 0.6));
-    }
   }
 
   .note-stem {
@@ -89,13 +71,6 @@
     stroke-width: 2;
     transition: all 0.2s ease;
     filter: drop-shadow(0 0 4px rgba(255, 0, 170, 0.4));
-  }
-
-  .accidental {
-    font-family: 'Times New Roman', serif;
-    font-weight: bold;
-    fill: var(--pale-lavender);
-    filter: drop-shadow(0 0 3px rgba(232, 204, 255, 0.4));
   }
 
   .placeholder-text {
@@ -128,16 +103,10 @@
     }
 
     .note-name {
-      font-size: 24px;
+      font-size: 2.5rem;
       font-weight: 900;
       color: var(--fuchsia);
       text-shadow: 0 0 10px rgba(255, 0, 170, 0.8);
-    }
-
-    .note-accidental {
-      font-size: 20px;
-      color: var(--electric-mint);
-      margin: 0 4px;
     }
 
     .note-octave {
@@ -164,7 +133,7 @@
 
   // Responsive design
   @media (max-width: 768px) {
-    padding: 16px;
+    padding: 12px;
 
     .staff-svg {
       width: 100%;
@@ -180,10 +149,6 @@
         font-size: 20px;
       }
 
-      .note-accidental {
-        font-size: 16px;
-      }
-
       .note-octave {
         font-size: 14px;
       }
@@ -191,7 +156,7 @@
   }
 
   @media (max-width: 480px) {
-    padding: 12px;
+    padding: 10px;
 
     h1 {
       margin-bottom: 12px;
@@ -223,7 +188,7 @@
       stroke-width: 3.5;
     }
 
-    .clef-symbol, .accidental {
+    .clef-symbol {
       fill: var(--white);
     }
   }
@@ -232,10 +197,6 @@
   @media (prefers-reduced-motion: reduce) {
     .note, .note-stem, .staff-svg, .note-info {
       transition: none;
-    }
-
-    .note.highlighted {
-      animation: none;
     }
   }
 
@@ -250,7 +211,7 @@
       // stroke: var(--rebecca);
     }
 
-    .clef-symbol, .accidental {
+    .clef-symbol {
       fill: var(--fuchsia);
     }
 

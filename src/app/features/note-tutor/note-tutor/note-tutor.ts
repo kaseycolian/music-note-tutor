@@ -229,9 +229,7 @@ export class NoteTutor implements OnInit, OnDestroy {
     const note = this.currentNote();
     if (!this.showAnswerHint()) {
       if (note) {
-        const correctAnswer = `${note.name}${
-          note.accidental ? (note.accidental === 'sharp' ? '#' : '♭') : ''
-        }`;
+        const correctAnswer = `${note.name}`;
         this.feedback.set({
           type: 'hint',
           message: `The correct answer is ${correctAnswer}`,
@@ -351,8 +349,7 @@ export class NoteTutor implements OnInit, OnDestroy {
   }
 
   private validateAnswer(userAnswer: string, note: MusicalNote): boolean {
-    // Normalize the answer (remove accidentals for basic comparison)
-    const normalizedAnswer = userAnswer.replace(/[#♯♭b]/g, '').toUpperCase();
+    const normalizedAnswer = userAnswer.toUpperCase();
     return normalizedAnswer === note.name;
   }
 
@@ -378,9 +375,7 @@ export class NoteTutor implements OnInit, OnDestroy {
         message: randomMessage,
       });
     } else {
-      const correctAnswer = `${note.name}${
-        note.accidental ? (note.accidental === 'sharp' ? '#' : '♭') : ''
-      }`;
+      const correctAnswer = `${note.name}`;
       this.feedback.set({
         type: 'incorrect',
         message: `Not quite. You answered "${userAnswer}", but the correct answer is "${correctAnswer}".`,
