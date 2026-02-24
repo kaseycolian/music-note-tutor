@@ -1,3 +1,6 @@
+/**
+ * Name and Octave are the Primary Key per each Clef used to render the notes on the staff.
+ */
 export interface MusicalNote {
   readonly name: NoteName;
   readonly octave: number;

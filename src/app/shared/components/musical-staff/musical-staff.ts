@@ -231,24 +231,6 @@ export class MusicalStaffComponent {
   }
 
   /**
-   * Get CSS classes for the note
-   */
-  getNoteClasses(): string[] {
-    const classes = ['note'];
-
-    if (this.highlightNote()) {
-      classes.push('highlighted');
-    }
-
-    const note = this.currentNote();
-    if (note?.accidental) {
-      classes.push(`accidental-${note.accidental}`);
-    }
-
-    return classes;
-  }
-
-  /**
    * Get accidental symbol
    */
   getAccidentalSymbol(accidental: string): string {

@@ -152,16 +152,14 @@
 
     <!-- Answer Input Section -->
     <section class="input-section" aria-labelledby="input-heading">
-      <h2 id="input-heading" class="sr-only">Answer Input</h2>
       @if (showAnswerInput()) {
         <div class="input-container">
-          <p class="instruction-text">What note is displayed on the staff?</p>
+          <h2 class="instruction-text">Which note is displayed on the staff?</h2>
           <app-note-input
             [availableNotes]="filteredAvailableNotes()"
             [disabled]="isProcessing()"
             (noteSelected)="handleAnswer($event)"
-            class="answer-input"
-            [attr.aria-label]="'Select the note you think is displayed'" />
+            class="answer-input" />
         </div>
       } @else if (isProcessing()) {
         <div class="processing-state" role="status" aria-live="polite">
@@ -287,11 +285,4 @@
       </div>
     </div>
   </aside>
-
-  <!-- Accessibility Features -->
-  <div class="sr-only" aria-live="polite" id="screen-reader-announcements">
-    @if (currentNote(); as note) {
-      <span>Current note: {{ note.name }} {{ note.octave }} in {{ note.clef }} clef</span>
-    }
-  </div>
 </div>

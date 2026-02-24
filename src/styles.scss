@@ -63,14 +63,13 @@ body::before {
 .btn {
   font-family: 'Courier New', 'Courier', monospace;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 16px 32px;
   border: none;
   cursor: pointer;
   clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
-  transition: all 0.3s;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -87,6 +86,10 @@ body::before {
   background: var(--white);
   box-shadow: 0 0 60px rgba(255, 0, 170, 0.8);
   transform: translateY(-2px);
+}
+
+.btn-primary:focus-visible {
+  border: 5px solid var(--electric-mint);
 }
 
 .btn-primary:disabled {
@@ -108,11 +111,19 @@ body::before {
   color: var(--fuchsia);
 }
 
+.btn-secondary:focus-visible {
+  border: 5px solid var(--electric-mint);
+}
+
 .btn-outline {
   background: transparent;
   color: var(--pale-lavender);
   border: 1px solid rgba(102, 51, 153, 0.5);
   padding: 8px 16px;
+}
+
+.btn-outline:focus-visible {
+  border: 5px solid var(--electric-mint);
 }
 
 .btn-outline:hover {

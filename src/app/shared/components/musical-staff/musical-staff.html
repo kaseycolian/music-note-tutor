@@ -1,10 +1,19 @@
 <div class="musical-staff-container" [attr.aria-label]="'Musical staff displaying ' + (currentNote()?.name || 'no note')">
+  <!-- Screen reader label for staff -->
+  <div class="sr-only" role="status" aria-live="assertive" aria-atomic="true">
+    @if (currentNote(); as note) {
+      Musical staff in {{ clef() }} clef showing a note in octave {{ note.octave }}.
+    } @else {
+      Musical staff in {{ clef() }} clef with no note displayed.
+    }
+  </div>
+
   <svg
     [attr.viewBox]="'0 0 ' + staffWidth + ' ' + staffHeight"
     preserveAspectRatio="xMidYMid slice"
     class="staff-svg"
     role="img"
-    [attr.aria-describedby]="'staff-description'">
+    aria-hidden="true">
 
     <!-- Staff lines -->
     @for (lineY of staffLinePositions(); track lineY) {
@@ -66,11 +75,10 @@
           cy="0"
           [attr.rx]="noteRadius"
           [attr.ry]="noteRadius * 0.7"
-          [class]="getNoteClasses().join(' ')"
+          class="note"
           fill="none"
           stroke="#000"
-          stroke-width="3.5"
-          [attr.aria-label]="'Note: ' + currentNote()!.name + (currentNote()!.accidental ? ' ' + currentNote()!.accidental : '') + ' octave ' + currentNote()!.octave" />
+          stroke-width="3.5" />
       </g>
 
     }
@@ -89,15 +97,6 @@
       </text>
     }
   </svg>
-
-  <!-- Screen reader description -->
-  <div id="staff-description" class="sr-only">
-    @if (currentNote(); as note) {
-      Musical staff in {{ clef() }} clef showing {{ note.name }}{{ note.accidental ? ' ' + note.accidental : '' }} in octave {{ note.octave }}.
-    } @else {
-      Musical staff in {{ clef() }} clef with no note displayed.
-    }
-  </div>
 
   <!-- Note information panel -->
   @if (showResult() && currentNote(); as note) {

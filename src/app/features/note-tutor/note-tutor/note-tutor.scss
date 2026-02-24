@@ -68,7 +68,7 @@
   background: var(--violet-surface);
   border-top: 1px solid rgba(102, 51, 153, 0.4);
   border-bottom: 1px solid rgba(102, 51, 153, 0.4);
-  padding: 24px 40px;
+  padding: 16px 32px;
 
   .stats-grid {
     display: flex;
@@ -113,7 +113,7 @@
       line-height: 1;
 
       &.level-badge {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         padding: 6px 14px;
         border: 1px solid var(--fuchsia);
         clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
@@ -206,7 +206,7 @@
 
       .option-label {
         font-family: 'Courier New', 'Courier', monospace;
-        font-size: 0.95rem;
+        font-size: 1.1rem;
         font-weight: 700;
         letter-spacing: 0.1em;
         text-transform: uppercase;
@@ -215,7 +215,7 @@
       }
 
       .option-description {
-        font-size: 0.85rem;
+        font-size: 1rem;
         color: rgba(232, 204, 255, 0.6);
         line-height: 1.4;
       }
@@ -228,8 +228,8 @@
   grid-area: main;
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  padding: 40px;
+  gap: 28px;
+  padding: 24px 32px;
   background: var(--violet-mid);
   min-height: 600px;
   position: relative;
@@ -264,7 +264,7 @@
   justify-content: center;
   align-items: center;
   min-height: 250px;
-  padding: 32px;
+  padding: 6px 12px;
   background: rgba(13, 0, 32, 0.6);
   border: 1px solid rgba(102, 51, 153, 0.3);
   clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
@@ -296,13 +296,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
     width: 100%;
     max-width: 500px;
   }
 
   .instruction-text {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -361,7 +361,7 @@
     gap: 12px;
     padding: 16px 24px;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 1.5rem;
     letter-spacing: 0.05em;
     animation: fadeInUp 0.3s ease-out;
     clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
@@ -388,7 +388,7 @@
     }
 
     &.error {
-      background: rgba(255, 0, 170, 0.1);
+      background: rgba(255, 0, 170, 0.2);
       color: var(--fuchsia);
       border-color: var(--fuchsia);
       box-shadow: 0 0 20px rgba(255, 0, 170, 0.2);
@@ -420,7 +420,7 @@
 
   .controls {
     display: flex;
-    gap: 16px;
+    gap: 24px;
     flex-wrap: wrap;
     justify-content: center;
   }
@@ -429,7 +429,7 @@
 .reset-controls {
   display: flex;
   justify-content: center;
-  margin-top: 16px;
+  margin-top: 24px;
 }
 
 // Instructions Panel
@@ -443,7 +443,7 @@
 
   h2 {
     margin: 0 0 24px 0;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     font-weight: 900;
     letter-spacing: 0.05em;
     color: var(--white);
@@ -457,7 +457,7 @@
 
   h3 {
     margin: 32px 0 16px 0;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -475,7 +475,7 @@
     line-height: 1.8;
 
     li {
-      font-size: 0.92rem;
+      font-size: 1.1rem;
       margin-bottom: 12px;
       color: rgba(232, 204, 255, 0.6);
 
@@ -489,7 +489,7 @@
     }
 
     .instruction-header {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
     }
   }
 
@@ -527,10 +527,7 @@
   }
 
   .game-header {
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px;
-    text-align: center;
+    padding: 16px;
   }
 
   .progress-section {
@@ -564,7 +561,7 @@
   }
 
   .instructions-panel {
-    padding: 24px 20px;
+    padding: 32px 20px;
   }
 }
 
@@ -608,7 +605,7 @@
   }
 
   .feedback .feedback-message {
-    font-size: 0.75rem;
+    font-size: 1.1rem;
   }
 }
 

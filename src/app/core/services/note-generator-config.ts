@@ -96,7 +96,7 @@ export class NoteGeneratorConfigService {
     // Easy combines Beginner and Intermediate levels
     const noteRange: NoteRange = {
       trebleRange: { min: 4, max: 6 },
-      bassRange: { min: 2, max: 4 },
+      bassRange: { min: 1, max: 4 },
       allowedNotes: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
       includeAccidentals: false,
     };
