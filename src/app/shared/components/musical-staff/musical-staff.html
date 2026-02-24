@@ -29,11 +29,11 @@
 
     <!-- Clef symbol -->
     <text
-      x="90"
-      [attr.y]="clef() === 'bass' ? staffCenterY + 28 : staffCenterY + 15"
+      [attr.x]="clef() === 'bass' ? 85 : 75"
+      [attr.y]="clef() === 'bass' ? staffCenterY + 31 : staffCenterY + 20"
       class="clef-symbol"
       font-family="serif"
-      [attr.font-size]="clef() === 'bass' ? '70' : '85'"
+      [attr.font-size]="clef() === 'bass' ? '95' : '85'"
       fill="#000"
       text-anchor="middle">
       {{ clefSymbol() }}

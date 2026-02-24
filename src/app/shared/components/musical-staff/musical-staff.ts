@@ -22,12 +22,12 @@ export class MusicalStaffComponent {
   private notePosition = signal<{ x: number; y: number } | null>(null);
 
   // Computed properties - exposed as simple values for template performance
-  readonly staffHeight = 250;
-  readonly staffWidth = 400;
-  readonly lineSpacing = 15;
-  readonly noteRadius = 7;
-  readonly staffCenterY = 125; // staffHeight / 2
-  readonly staffCenterX = 200; // staffWidth / 2
+  readonly staffHeight = 300;
+  readonly staffWidth = 330;
+  readonly lineSpacing = 18;
+  readonly noteRadius = 9.5;
+  readonly staffCenterY = 150; // staffHeight / 2
+  readonly staffCenterX = 165; // staffWidth / 2
 
   readonly staffLinePositions = computed(() => {
     const spacing = this.lineSpacing;
