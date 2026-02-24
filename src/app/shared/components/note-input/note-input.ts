@@ -149,17 +149,6 @@ export class NoteInputComponent {
   getAriaLabel(note: string): string {
     let label = `Select note ${note}`;
 
-    if (note.includes('#')) {
-      label = label.replace('#', ' sharp');
-    } else if (note.includes('b')) {
-      label = label.replace('b', ' flat');
-    }
-
-    const shortcut = this.getKeyboardShortcut(note);
-    if (shortcut) {
-      label += `, keyboard shortcut ${shortcut}`;
-    }
-
     if (this.isNoteSelected(note)) {
       label += ', currently selected';
     }

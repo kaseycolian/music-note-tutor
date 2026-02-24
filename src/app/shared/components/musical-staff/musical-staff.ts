@@ -43,7 +43,6 @@ export class MusicalStaffComponent {
   });
 
   readonly noteDisplayPosition = computed(() => {
-    console.warn('this.curren', this.currentNote());
     const note = this.currentNote();
     if (!note || !this.showNote()) return null;
 
@@ -55,6 +54,57 @@ export class MusicalStaffComponent {
     if (!note || !this.showNote()) return [];
 
     return this.calculateLedgerLines(note);
+  });
+
+  readonly notePositionDescription = computed(() => {
+    const note = this.currentNote();
+    if (!note) return '';
+
+    const staffLines = this.staffLinePositions();
+    const position = this.calculateNotePosition(note);
+    const spacing = this.lineSpacing;
+
+    // Determine position relative to staff
+    const topLine = staffLines[0];
+    const bottomLine = staffLines[4];
+
+    let staffPosition: string;
+    let lineNumber: number;
+    let lineOrSpace: string;
+
+    if (position.y < topLine) {
+      staffPosition = 'above staff';
+      // Count ledger lines/spaces above (starting from 1)
+      const halfSpacesAbove = Math.round((topLine - position.y) / (spacing / 2));
+      lineNumber = Math.ceil(halfSpacesAbove / 2);
+      // Even half-spaces are lines, odd are spaces (inverted from on-staff)
+      lineOrSpace = halfSpacesAbove % 2 === 0 ? 'line' : 'space';
+    } else if (position.y > bottomLine) {
+      staffPosition = 'below staff';
+      // Count ledger lines/spaces below (starting from 1)
+      const halfSpacesBelow = Math.round((position.y - bottomLine) / (spacing / 2));
+      lineNumber = Math.ceil(halfSpacesBelow / 2);
+      // Even half-spaces are lines, odd are spaces (inverted from on-staff)
+      lineOrSpace = halfSpacesBelow % 2 === 0 ? 'line' : 'space';
+    } else {
+      staffPosition = 'on staff';
+      // Count from bottom line
+      // Lines are numbered 1-5 (bottom to top)
+      // Spaces are numbered 1-4 (bottom to top)
+      const halfSpacesFromBottom = Math.round((bottomLine - position.y) / (spacing / 2));
+
+      if (halfSpacesFromBottom % 2 === 0) {
+        // Even half-spaces = on a line
+        lineOrSpace = 'line';
+        lineNumber = halfSpacesFromBottom / 2 + 1; // Lines 1-5
+      } else {
+        // Odd half-spaces = in a space
+        lineOrSpace = 'space';
+        lineNumber = Math.ceil(halfSpacesFromBottom / 2); // Spaces 1-4
+      }
+    }
+
+    return `${lineOrSpace} ${lineNumber}, ${staffPosition}`;
   });
 
   constructor() {
