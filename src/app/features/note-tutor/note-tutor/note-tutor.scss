@@ -57,7 +57,7 @@
     .line-2 {
       color: var(--fuchsia);
       text-shadow: 0 0 60px rgba(255, 0, 170, 0.8), 0 0 120px rgba(255, 0, 170, 0.4);
-      animation: flicker 4s ease-in-out infinite;
+      animation: glow 5s ease-in-out infinite;
     }
   }
 }
@@ -130,7 +130,7 @@
         text-shadow: 0 0 20px rgba(0, 255, 204, 0.6);
 
         &.high-accuracy {
-          animation: flicker 6s ease-in-out infinite;
+          animation: glow 8s ease-in-out infinite;
         }
       }
     }
