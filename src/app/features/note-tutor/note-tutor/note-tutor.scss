@@ -238,7 +238,7 @@
   display: flex;
   flex-direction: column;
   gap: 28px;
-  padding: 24px 32px;
+  padding: 32px;
   background: var(--violet-mid);
   min-height: 600px;
   position: relative;
@@ -264,6 +264,16 @@
   > * {
     position: relative;
     z-index: 1;
+  }
+
+  .instruction-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--electric-mint);
+    text-align: center;
+    margin: 0;
   }
 }
 
@@ -308,16 +318,6 @@
     gap: 16px;
     width: 100%;
     max-width: 500px;
-  }
-
-  .instruction-text {
-    font-size: 1.3rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--electric-mint);
-    text-align: center;
-    margin: 0;
   }
 
   .answer-input {
@@ -600,7 +600,7 @@
   }
 
   .game-area {
-    padding: 12px;
+    padding: 24px 12px;
     gap: 12px;
   }
 

@@ -7,47 +7,14 @@
       <button
         #noteButtonElement
         type="button"
-        [class]="getNoteButtonClasses(button.note).join(' ')"
-        [disabled]="disabled()"
-        [attr.aria-label]="getAriaLabel(button.note)"
-        [attr.aria-pressed]="isNoteSelected(button.note)"
-        [style.--note-color]="getNoteColor(button.note)"
-        (click)="onNoteClick(button.note)"
-        (mouseenter)="onNoteHover(button.note)"
-        (mouseleave)="onNoteHover(null)"
-        (focus)="onNoteHover(button.note)"
-        (blur)="onNoteHover(null)">
-
+        class="note-button natural"
+        [attr.aria-label]="'Select note ' + button.note"
+        (click)="onNoteClick(button.note)">
         <span class="note-label">{{ button.label }}</span>
-
         @if (getKeyboardShortcut(button.note); as shortcut) {
           <span class="keyboard-shortcut" aria-hidden="true">{{ shortcut }}</span>
-        }
-
-        <!-- Visual indicator for selected state -->
-        @if (isNoteSelected(button.note)) {
-          <span class="selected-indicator" aria-hidden="true">✓</span>
         }
       </button>
     }
   </div>
-
-  <!-- Status message for screen readers -->
-  <div class="sr-only" role="status" aria-live="polite">
-    @if (selectedNote(); as selected) {
-      Selected note: {{ getNoteDisplayName(selected) }}
-    } @else {
-      No note selected
-    }
-  </div>
-
-  <!-- Disabled state overlay -->
-  @if (disabled()) {
-    <div class="disabled-overlay" aria-hidden="true">
-      <div class="disabled-message">
-        <span class="disabled-icon">⏸️</span>
-        <span class="disabled-text">Input disabled</span>
-      </div>
-    </div>
-  }
 </div>

@@ -6,13 +6,12 @@
       <span>
         <span class="line-2">THE MUSIC NOTE TUTOR</span>
       </span>
-
     </h1>
   </header>
 
   <!-- Progress Display -->
   <section class="progress-section" aria-labelledby="progress-heading">
-    <h2 id="progress-heading" class="sr-only">Your Progress</h2>
+    <h2 id="progress-heading" class="sr-only">Game Settings and Progress</h2>
     @if (userProgress(); as progress) {
       <div class="stats-grid">
         <div class="stat-line options-stat-line">
@@ -136,9 +135,9 @@
 
   <!-- Main Game Area -->
   <main class="game-area" role="main">
+    <h2 id="staff-heading" class=" instruction-text staff-heading">Which note is displayed on the staff?</h2>
     <!-- Musical Staff Display -->
     <section class="staff-section" aria-labelledby="staff-heading">
-      <h2 id="staff-heading" class="sr-only">Musical Staff</h2>
       @if (currentNote(); as note) {
         <app-musical-staff
           [currentNote]="note"
@@ -157,11 +156,9 @@
     <section class="input-section" aria-labelledby="input-heading">
       @if (showAnswerInput()) {
         <div class="input-container">
-          <h2 class="instruction-text">Which note is displayed on the staff?</h2>
           <app-note-input
             #noteInputComponent
             [availableNotes]="filteredAvailableNotes()"
-            [disabled]="isProcessing()"
             (noteSelected)="handleAnswer($event)"
             class="answer-input" />
         </div>
