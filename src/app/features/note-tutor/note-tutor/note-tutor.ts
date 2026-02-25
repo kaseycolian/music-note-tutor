@@ -159,7 +159,7 @@ export class NoteTutor implements OnInit, OnDestroy {
     this.renderer.addClass(document.body, 'no-scroll');
   }
 
-  generateNewNote(): void {
+  generateNewNote(event?: PointerEvent): void {
     this.showAnswerHint.set(false);
 
     // Record the pending answer before generating a new note
@@ -197,14 +197,27 @@ export class NoteTutor implements OnInit, OnDestroy {
         message: 'Error generating note. Please try again.',
       });
     } finally {
-      // Use requestAnimationFrame to ensure DOM has updated before focusing
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          this.noteInputComponent?.focusFirstAnswerOption();
+      // Use requestAnimationFrame to ensure DOM has updated before focusing for non-mouse events
+
+      const isRealMouseClick = this.isRealMouseClick(event);
+      if (!!event && !isRealMouseClick) {
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            // Focus back on first note option for non-mouse navigation.
+            this.noteInputComponent?.focusFirstAnswerOption();
+          });
         });
-      });
+      }
       this.isProcessing.set(false);
     }
+  }
+
+  /**
+   * MouseEvents have a detail property
+   * Real MouseEvents do not have a isPrimary property
+   */
+  private isRealMouseClick(event?: PointerEvent) {
+    return event?.detail && !event?.isPrimary;
   }
 
   handleAnswer(userAnswer: string): void {
@@ -283,7 +296,11 @@ export class NoteTutor implements OnInit, OnDestroy {
     }
   }
 
-  selectDifficulty(mode: DifficultyMode): void {
+  selectDifficulty(
+    event: PointerEvent,
+    mode: DifficultyMode,
+    difficultyDropdownButton: HTMLButtonElement,
+  ): void {
     this.difficultyMode.set(mode);
     this.showDifficultyDropdown.set(false);
 
@@ -294,6 +311,15 @@ export class NoteTutor implements OnInit, OnDestroy {
     this.generateNewNote();
 
     this.enableBackground();
+
+    const isRealMouseClick = this.isRealMouseClick(event);
+    if (!!event && !isRealMouseClick) {
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          difficultyDropdownButton?.focus();
+        });
+      });
+    }
   }
 
   getCurrentDifficultyLabel(): string {
@@ -311,7 +337,7 @@ export class NoteTutor implements OnInit, OnDestroy {
     }
   }
 
-  selectClef(filter: ClefFilter): void {
+  selectClef(event: PointerEvent, filter: ClefFilter, clefDropdownButton: HTMLButtonElement): void {
     this.clefFilter.set(filter);
     this.showClefDropdown.set(false);
 
@@ -322,6 +348,15 @@ export class NoteTutor implements OnInit, OnDestroy {
     this.generateNewNote();
 
     this.enableBackground();
+
+    const isRealMouseClick = this.isRealMouseClick(event);
+    if (!!event && !isRealMouseClick) {
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          clefDropdownButton?.focus();
+        });
+      });
+    }
   }
 
   getCurrentClefLabel(): string {
@@ -339,7 +374,7 @@ export class NoteTutor implements OnInit, OnDestroy {
     }
   }
 
-  selectNote(filter: NoteFilter): void {
+  selectNote(event: PointerEvent, filter: NoteFilter, noteDropdownButton: HTMLButtonElement): void {
     this.noteFilter.set(filter);
     this.showNoteDropdown.set(false);
 
@@ -350,6 +385,16 @@ export class NoteTutor implements OnInit, OnDestroy {
     this.generateNewNote();
 
     this.enableBackground();
+
+    // Focus back on button after closing
+    const isRealMouseClick = this.isRealMouseClick(event);
+    if (!!event && !isRealMouseClick) {
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          noteDropdownButton?.focus();
+        });
+      });
+    }
   }
 
   getCurrentNoteLabel(): string {
@@ -375,8 +420,11 @@ export class NoteTutor implements OnInit, OnDestroy {
         'Excellent! 🎵',
         'Perfect! 🎶',
         'Great job! ✨',
-        'Correct! 🎯',
+        'Correct! 🌟',
         'Well done! 👏',
+        'Prrrrfect answer! 😺',
+        'Rock on! 🤘',
+        'Nailed it! ⚡',
       ];
       const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 
@@ -385,9 +433,7 @@ export class NoteTutor implements OnInit, OnDestroy {
         message: randomMessage,
       });
     } else {
-      const correctAnswer = `${note.name}${
-        note.accidental ? (note.accidental === 'sharp' ? '#' : '♭') : ''
-      }`;
+      const correctAnswer = `${note.name}`;
       this.feedback.set({
         type: 'incorrect',
         message: `Not quite. You answered "${userAnswer}", but the correct answer is "${correctAnswer}".`,

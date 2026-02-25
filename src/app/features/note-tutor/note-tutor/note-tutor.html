@@ -21,6 +21,7 @@
             <span class="stat-label">Level</span>
             <div class="difficulty-dropdown">
               <button
+                #difficultyDropdownButton
                 type="button"
                 class="stat-value level-badge difficulty-button"
                 (click)="toggleDifficultyDropdown()"
@@ -30,16 +31,16 @@
                 <span class="dropdown-arrow">▼</span>
               </button>
               @if (showDifficultyDropdown()) {
-                <ul class="difficulty-menu" role="menu" [cdkTrapFocus]="true" (keydown)="onMenuKeydown($event)">
-                  @for (mode of difficultyModes; track mode.mode; let first = $first) {
-                    <li>
+                <ul class="difficulty-menu" role="menu" cdkTrapFocus [cdkTrapFocusAutoCapture]="true" (keydown)="onMenuKeydown($event)">
+                  @for (mode of difficultyModes; track mode.mode) {
+                    <li >
                       <button
+                        tabindex="0"
                         type="button"
                         class="difficulty-option"
                         [class.active]="difficultyMode() === mode.mode"
-                        (click)="selectDifficulty(mode.mode)"
-                        role="menuitem"
-                        [attr.aria-label]="mode.label + ': ' + mode.description">
+                        (click)="selectDifficulty($event, mode.mode, difficultyDropdownButton)"
+                        role="menuitem">
                         <span class="option-label">{{ mode.label }}</span>
                         <span class="option-description">{{ mode.description }}</span>
                       </button>
@@ -54,6 +55,7 @@
             <span class="stat-label">Clef</span>
             <div class="difficulty-dropdown">
               <button
+                #clefDropdownButton
                 type="button"
                 class="stat-value level-badge difficulty-button"
                 (click)="toggleClefDropdown()"
@@ -63,21 +65,22 @@
                 <span class="dropdown-arrow">▼</span>
               </button>
               @if (showClefDropdown()) {
-                <div class="difficulty-menu" role="menu" tabindex="-1" (keydown)="onMenuKeydown($event)">
-                  @for (clef of clefFilters; track clef.filter; let first = $first) {
-                    <button
-                      type="button"
-                      class="difficulty-option"
-                      [class.active]="clefFilter() === clef.filter"
-                      (click)="selectClef(clef.filter)"
-                      role="menuitem"
-                      [attr.aria-label]="clef.label + ': ' + clef.description"
-                      [attr.autofocus]="first ? true : null">
-                      <span class="option-label">{{ clef.label }}</span>
-                      <span class="option-description">{{ clef.description }}</span>
-                    </button>
+                <ul class="difficulty-menu" role="menu"  cdkTrapFocus [cdkTrapFocusAutoCapture]="true" (keydown)="onMenuKeydown($event)">
+                  @for (clef of clefFilters; track clef.filter) {
+                    <li>
+                      <button
+                        type="button"
+                        class="difficulty-option"
+                        [class.active]="clefFilter() === clef.filter"
+                        (click)="selectClef($event, clef.filter, clefDropdownButton)"
+                        role="menuitem">
+                        <span class="option-label">{{ clef.label }}</span>
+                        <span class="option-description">{{ clef.description }}</span>
+                      </button>
+                    </li>
+
                   }
-                </div>
+                </ul>
               }
             </div>
           </div>
@@ -86,6 +89,7 @@
             <span class="stat-label">Note</span>
             <div class="difficulty-dropdown">
               <button
+                #noteDropdownButton
                 type="button"
                 class="stat-value level-badge difficulty-button"
                 (click)="toggleNoteDropdown()"
@@ -95,21 +99,21 @@
                 <span class="dropdown-arrow">▼</span>
               </button>
               @if (showNoteDropdown()) {
-                <div class="difficulty-menu" role="menu" tabindex="-1" (keydown)="onMenuKeydown($event)">
-                  @for (note of noteFilters; track note.filter; let first = $first) {
-                    <button
-                      type="button"
-                      class="difficulty-option"
-                      [class.active]="noteFilter() === note.filter"
-                      (click)="selectNote(note.filter)"
-                      role="menuitem"
-                      [attr.aria-label]="note.label + ': ' + note.description"
-                      [attr.autofocus]="first ? true : null">
-                      <span class="option-label">{{ note.label }}</span>
-                      <span class="option-description">{{ note.description }}</span>
-                    </button>
+                <ul class="difficulty-menu" role="menu" cdkTrapFocus [cdkTrapFocusAutoCapture]="true" (keydown)="onMenuKeydown($event)">
+                  @for (note of noteFilters; track note.filter) {
+                    <li>
+                      <button
+                        type="button"
+                        class="difficulty-option"
+                        [class.active]="noteFilter() === note.filter"
+                        (click)="selectNote($event, note.filter, noteDropdownButton)"
+                        role="menuitem">
+                        <span class="option-label">{{ note.label }}</span>
+                        <span class="option-description">{{ note.description }}</span>
+                      </button>
+                    </li>
                   }
-                </div>
+                </ul>
               }
             </div>
           </div>
@@ -175,7 +179,7 @@
         <button
           #nextNoteButton
           type="button"
-          (click)="generateNewNote()"
+          (click)="generateNewNote($event)"
           [disabled]="!canGenerateNew()"
           class="btn btn-primary">
           @if (hasAnswered()) {
