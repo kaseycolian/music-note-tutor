@@ -40,8 +40,9 @@ export interface AnswerFeedback {
   styleUrl: './note-tutor.scss',
 })
 export class NoteTutor implements OnInit, OnDestroy {
-  // ViewChild reference to the Next Note button
+  // ViewChild references
   @ViewChild('nextNoteButton') nextNoteButton?: ElementRef<HTMLButtonElement>;
+  @ViewChild('noteInputComponent') noteInputComponent?: NoteInputComponent;
 
   // Signal-based reactive state
   currentNote = signal<MusicalNote | null>(null);
@@ -196,6 +197,12 @@ export class NoteTutor implements OnInit, OnDestroy {
         message: 'Error generating note. Please try again.',
       });
     } finally {
+      // Use requestAnimationFrame to ensure DOM has updated before focusing
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          this.noteInputComponent?.focusFirstAnswerOption();
+        });
+      });
       this.isProcessing.set(false);
     }
   }

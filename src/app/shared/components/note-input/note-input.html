@@ -1,10 +1,11 @@
-<div class="note-input-container" [attr.aria-label]="'Note selection interface'">
-  <div class="note-buttons-grid" [class.single-note-button-grid]="noteButtons().length === 1" role="group" [attr.aria-label]="'Note selection buttons'">
+<div class="note-input-container">
+  <div class="note-buttons-grid" [class.single-note-button-grid]="noteButtons().length === 1" role="group">
 
-    <p class="input-instructions sr-only">Select a button or use keyboard shortcuts (1-7)</p>
+    <!-- <p class="input-instructions sr-only">Select a button or use keyboard shortcuts (1-7)</p> -->
 
     @for (button of noteButtons(); track button.note) {
       <button
+        #noteButtonElement
         type="button"
         [class]="getNoteButtonClasses(button.note).join(' ')"
         [disabled]="disabled()"
@@ -29,21 +30,6 @@
         }
       </button>
     }
-  </div>
-
-  <!-- Keyboard shortcuts help -->
-  <div class="keyboard-help sr-only" role="region" [attr.aria-label]="'Keyboard shortcuts'">
-    <details class="help-details">
-      <summary class="help-summary">Keyboard Shortcuts</summary>
-      <div class="shortcuts-list">
-        @for (shortcut of keyboardShortcuts() | keyvalue; track shortcut.key) {
-          <div class="shortcut-item">
-            <kbd class="shortcut-key">{{ shortcut.key }}</kbd>
-            <span class="shortcut-note">{{ shortcut.value }}</span>
-          </div>
-        }
-      </div>
-    </details>
   </div>
 
   <!-- Status message for screen readers -->

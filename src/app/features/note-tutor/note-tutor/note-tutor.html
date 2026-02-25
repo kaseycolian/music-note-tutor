@@ -141,8 +141,7 @@
           [clef]="note.clef"
           [showNote]="true"
           [showResult]="feedback()?.type === 'correct'"
-          class="staff-container"
-          [attr.aria-label]="'Musical staff displaying a note to identify'" />
+          class="staff-container" />
       } @else {
         <div class="staff-placeholder" role="status" aria-live="polite">
           <p>Loading musical note...</p>
@@ -156,6 +155,7 @@
         <div class="input-container">
           <h2 class="instruction-text">Which note is displayed on the staff?</h2>
           <app-note-input
+            #noteInputComponent
             [availableNotes]="filteredAvailableNotes()"
             [disabled]="isProcessing()"
             (noteSelected)="handleAnswer($event)"
@@ -171,15 +171,13 @@
 
     <!-- Control Buttons -->
     <section class="controls-section" aria-labelledby="controls-heading">
-      <h2 id="controls-heading" class="sr-only">Game Controls</h2>
       <div class="controls">
         <button
           #nextNoteButton
           type="button"
           (click)="generateNewNote()"
           [disabled]="!canGenerateNew()"
-          class="btn btn-primary"
-          [attr.aria-label]="hasAnswered() ? 'Generate next musical note' : 'Generate new musical note'">
+          class="btn btn-primary">
           @if (hasAnswered()) {
             Next Note
           } @else {

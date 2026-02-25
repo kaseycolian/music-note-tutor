@@ -2,12 +2,15 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
+  ElementRef,
   HostListener,
   input,
   OnDestroy,
   OnInit,
   output,
+  QueryList,
   signal,
+  ViewChildren,
 } from '@angular/core';
 import { NoteName } from '../../../models/musical-note';
 
@@ -19,6 +22,8 @@ import { NoteName } from '../../../models/musical-note';
   styleUrl: './note-input.scss',
 })
 export class NoteInputComponent implements OnInit, OnDestroy {
+  @ViewChildren('noteButtonElement') noteButtonElements?: QueryList<ElementRef<HTMLButtonElement>>;
+
   // Input signals
   availableNotes = input<NoteName[]>(['C', 'D', 'E', 'F', 'G', 'A', 'B']);
   disabled = input<boolean>(false);
@@ -223,6 +228,14 @@ export class NoteInputComponent implements OnInit, OnDestroy {
     }
 
     return label;
+  }
+
+  /**
+   * Focus the first note button
+   */
+  focusFirstAnswerOption(): void {
+    const firstButton = this.noteButtonElements?.first;
+    firstButton?.nativeElement?.focus();
   }
 
   /**
