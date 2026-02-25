@@ -238,7 +238,7 @@
   display: flex;
   flex-direction: column;
   gap: 28px;
-  padding: 32px;
+  padding: 40px 32px;
   background: var(--violet-mid);
   min-height: 600px;
   position: relative;
@@ -267,8 +267,8 @@
   }
 
   .instruction-text {
-    font-size: 1.3rem;
-    font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 900;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--electric-mint);
@@ -452,7 +452,7 @@
 
   h2 {
     margin: 0 0 24px 0;
-    font-size: 1.6rem;
+    font-size: 1.25rem;
     font-weight: 900;
     letter-spacing: 0.05em;
     color: var(--white);
@@ -560,7 +560,7 @@
   }
 
   .game-area {
-    padding: 24px;
+    padding: 40px 24px;
     gap: 24px;
   }
 
@@ -602,6 +602,10 @@
   .game-area {
     padding: 24px 12px;
     gap: 12px;
+
+    .instruction-text {
+      font-size: 1.7rem;
+    }
   }
 
   .controls {
