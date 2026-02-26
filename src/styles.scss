@@ -82,10 +82,12 @@ body::before {
   box-shadow: 0 0 30px rgba(255, 0, 170, 0.5);
 }
 
-.btn-primary:hover {
-  background: var(--white);
-  box-shadow: 0 0 60px rgba(255, 0, 170, 0.8);
-  transform: translateY(-2px);
+@media(hover: hover) {
+  .btn-primary:hover {
+    background: var(--white);
+    box-shadow: 0 0 60px rgba(255, 0, 170, 0.8);
+    transform: translateY(-1px);
+  }
 }
 
 .btn-primary:focus-visible {
@@ -106,9 +108,11 @@ body::before {
   border: 1px solid var(--rebecca);
 }
 
-.btn-secondary:hover {
-  border-color: var(--fuchsia);
-  color: var(--fuchsia);
+@media(hover: hover) {
+  .btn-secondary:hover {
+    border-color: var(--fuchsia);
+    color: var(--fuchsia);
+  }
 }
 
 .btn-secondary:focus-visible {
@@ -126,9 +130,11 @@ body::before {
   border: 5px solid var(--electric-mint);
 }
 
-.btn-outline:hover {
-  border-color: var(--fuchsia);
-  color: var(--fuchsia);
+@media(hover: hover) {
+  .btn-outline:hover {
+    border-color: var(--fuchsia);
+    color: var(--fuchsia);
+  }
 }
 
 .btn-outline.active {

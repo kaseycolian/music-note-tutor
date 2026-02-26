@@ -39,6 +39,7 @@
     font-family: 'Courier New', 'Courier', monospace;
     text-align: center;
   }
+
   .note-button {
     position: relative;
     display: flex;
@@ -133,59 +134,22 @@
       }
     }
 
-    // Note type specific styles
-    &.natural {
-      .note-label {
-        color: var(--pale-lavender);
-      }
-    }
-
-    &.sharp {
-      .note-label {
-        color: #8e44ad;
-      }
-
-      &.selected .note-label {
-        color: #8e44ad;
-        text-shadow: 0 0 10px rgba(142, 68, 173, 0.8);
-      }
-
-      &:hover:not(.disabled) .note-label {
-        color: #8e44ad;
-      }
-    }
-
-    &.flat {
-      .note-label {
-        color: #16a085;
-      }
-
-      &.selected .note-label {
-        color: #16a085;
-        text-shadow: 0 0 10px rgba(22, 160, 133, 0.8);
-      }
-
-      &:hover:not(.disabled) .note-label {
-        color: #16a085;
-      }
-    }
-
     .note-label {
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: 900;
-      margin-bottom: 6px;
+      margin-bottom: 2px;
       transition: all 0.3s ease;
       letter-spacing: 0.05em;
     }
 
     .keyboard-shortcut {
-      font-size: 0.95rem;
+      font-size: 0.7rem;
       background: rgba(102, 51, 153, 0.3);
-      color: rgba(232, 204, 255, 0.6);
-      padding: 3px 8px;
+      color: rgba(232, 204, 255, .9);
+      padding: 1px 7px;
       border-radius: 0;
       border: 1px solid rgba(102, 51, 153, 0.4);
-      font-weight: 700;
+      font-weight: 500;
       transition: all 0.3s ease;
       clip-path: polygon(3px 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
       letter-spacing: 0.1em;
@@ -337,14 +301,6 @@
     .note-button {
       padding: 16px 8px;
       min-height: 80px;
-
-      .note-label {
-        font-size: 20px;
-      }
-
-      .keyboard-shortcut {
-        padding: 2px 6px;
-      }
     }
 
     .keyboard-help .shortcuts-list {
@@ -358,7 +314,7 @@
       padding: 12px 6px;
 
       .note-label {
-        font-size: 18px;
+        font-size: 1.8rem;
       }
     }
   }
@@ -405,12 +361,5 @@
         background: var(--violet-surface);
       }
     }
-  }
-}
-
-// Focus management for keyboard navigation
-.note-input-container:focus-within {
-  .note-button:focus {
-    z-index: 10;
   }
 }

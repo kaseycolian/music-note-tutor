@@ -8,11 +8,11 @@
         #noteButtonElement
         type="button"
         class="note-button natural"
-        [attr.aria-label]="'Select note ' + button.note"
+        [attr.aria-label]="'Select ' + button.note"
         (click)="onNoteClick(button.note)">
         <span class="note-label">{{ button.label }}</span>
         @if (getKeyboardShortcut(button.note); as shortcut) {
-          <span class="keyboard-shortcut" aria-hidden="true">{{ shortcut }}</span>
+        <span class="keyboard-shortcut">{{ shortcut }}</span>
         }
       </button>
     }

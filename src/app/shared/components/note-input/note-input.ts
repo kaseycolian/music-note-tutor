@@ -5,11 +5,9 @@ import {
   ElementRef,
   HostListener,
   input,
-  OnDestroy,
-  OnInit,
   output,
   QueryList,
-  ViewChildren
+  ViewChildren,
 } from '@angular/core';
 import { NoteName } from '../../../models/musical-note';
 
@@ -20,7 +18,7 @@ import { NoteName } from '../../../models/musical-note';
   templateUrl: './note-input.html',
   styleUrl: './note-input.scss',
 })
-export class NoteInputComponent implements OnInit, OnDestroy {
+export class NoteInputComponent {
   @ViewChildren('noteButtonElement') noteButtonElements?: QueryList<ElementRef<HTMLButtonElement>>;
 
   // Input signals
@@ -44,48 +42,9 @@ export class NoteInputComponent implements OnInit, OnDestroy {
       });
     });
 
-    // Add accidentals if enabled
-    if (this.showAccidentals()) {
-      notes.forEach((note) => {
-        // Skip notes that don't typically have sharps/flats
-        if (note !== 'E' && note !== 'B') {
-          buttons.push({
-            note: `${note}#`,
-            label: `${note}♯`,
-            class: 'sharp-note',
-          });
-        }
-        if (note !== 'F' && note !== 'C') {
-          buttons.push({
-            note: `${note}b`,
-            label: `${note}♭`,
-            class: 'flat-note',
-          });
-        }
-      });
-    }
-
     return buttons.sort((a, b) => {
       // Sort by note order: C, C#, Db, D, D#, Eb, E, F, F#, Gb, G, G#, Ab, A, A#, Bb, B
-      const noteOrder = [
-        'C',
-        'C#',
-        'Db',
-        'D',
-        'D#',
-        'Eb',
-        'E',
-        'F',
-        'F#',
-        'Gb',
-        'G',
-        'G#',
-        'Ab',
-        'A',
-        'A#',
-        'Bb',
-        'B',
-      ];
+      const noteOrder = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
       const aIndex = noteOrder.indexOf(a.note);
       const bIndex = noteOrder.indexOf(b.note);
       return aIndex - bIndex;
@@ -105,14 +64,6 @@ export class NoteInputComponent implements OnInit, OnDestroy {
     return shortcuts;
   });
 
-  ngOnInit(): void {
-    // Keyboard listeners are handled via @HostListener
-  }
-
-  ngOnDestroy(): void {
-    // Cleanup if needed
-  }
-
   /**
    * Handle keyboard events using HostListener
    */
@@ -130,7 +81,6 @@ export class NoteInputComponent implements OnInit, OnDestroy {
    */
   onNoteClick(note: string): void {
     this.noteSelected.emit(note);
-
   }
 
   /**

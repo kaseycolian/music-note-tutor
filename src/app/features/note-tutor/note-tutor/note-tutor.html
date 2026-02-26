@@ -135,9 +135,9 @@
 
   <!-- Main Game Area -->
   <main class="game-area" role="main">
-    <h2 id="staff-heading" class=" instruction-text staff-heading">Which note is displayed on the staff?</h2>
+    <h2 id="staff-heading" class="instruction-text staff-heading">Which note is displayed on the staff?</h2>
     <!-- Musical Staff Display -->
-    <section class="staff-section" aria-labelledby="staff-heading">
+    <section class="staff-section">
       @if (currentNote(); as note) {
         <app-musical-staff
           [currentNote]="note"
@@ -265,6 +265,9 @@
           </ul>
         </li>
         <li>Identify which note is displayed on the staff and select the correct answer from the options</li>
+         <ul>
+            <li>Use keys 1-7 to easily select the correct note from C to B. Single note mode only uses the 1 key.</li>
+          </ul>
         <li>Get instant feedback and track your progress</li>
       </ol>
 
