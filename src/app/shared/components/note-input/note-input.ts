@@ -9,6 +9,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
+import { ORDERED_BASE_NOTES } from '../../../constants/note';
 import { NoteName } from '../../../models/musical-note';
 
 @Component({
@@ -22,7 +23,7 @@ export class NoteInputComponent {
   @ViewChildren('noteButtonElement') noteButtonElements?: QueryList<ElementRef<HTMLButtonElement>>;
 
   // Input signals
-  availableNotes = input<NoteName[]>(['C', 'D', 'E', 'F', 'G', 'A', 'B']);
+  availableNotes = input<NoteName[]>(ORDERED_BASE_NOTES);
   showAccidentals = input<boolean>(false);
 
   // Output signals
@@ -44,7 +45,7 @@ export class NoteInputComponent {
 
     return buttons.sort((a, b) => {
       // Sort by note order: C, C#, Db, D, D#, Eb, E, F, F#, Gb, G, G#, Ab, A, A#, Bb, B
-      const noteOrder = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+      const noteOrder = ORDERED_BASE_NOTES as string[];
       const aIndex = noteOrder.indexOf(a.note);
       const bIndex = noteOrder.indexOf(b.note);
       return aIndex - bIndex;

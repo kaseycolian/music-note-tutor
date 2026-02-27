@@ -12,6 +12,7 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
+import { ORDERED_BASE_NOTES } from '../../../constants/note';
 import { NoteGeneratorService } from '../../../core/services/note-generator';
 import { UserProgressService } from '../../../core/services/user-progress';
 import {
@@ -247,20 +248,36 @@ export class NoteTutor implements OnInit, OnDestroy {
 
   showAnswer(): void {
     const note = this.currentNote();
+
     if (!this.showAnswerHint()) {
       if (note) {
-        const correctAnswer = `${note.name}${
-          note.accidental ? (note.accidental === 'sharp' ? '#' : '♭') : ''
-        }`;
         this.feedback.set({
           type: 'hint',
-          message: `The correct answer is ${correctAnswer}`,
+          message: `The correct note is next to the ${this.getRandomAdjacentNote(note.name)} note.`,
         });
       }
     } else {
       this.feedback.set(null);
     }
     this.showAnswerHint.set(!this.showAnswerHint());
+  }
+
+  /**
+   * Gets a random note next to the select note.
+   */
+  private getRandomAdjacentNote(noteSelected: NoteName): NoteName | string {
+    const index = ORDERED_BASE_NOTES.indexOf(noteSelected);
+    if (index > -1) {
+      const prevIndex = (index - 1 + ORDERED_BASE_NOTES.length) % ORDERED_BASE_NOTES.length;
+      const nextIndex = (index + 1) % ORDERED_BASE_NOTES.length;
+
+      const adjacent = [ORDERED_BASE_NOTES[prevIndex], ORDERED_BASE_NOTES[nextIndex]];
+      if (adjacent) {
+        return adjacent[Math.floor(Math.random() * 2)];
+      }
+    }
+
+    return '';
   }
 
   resetProgress(): void {
