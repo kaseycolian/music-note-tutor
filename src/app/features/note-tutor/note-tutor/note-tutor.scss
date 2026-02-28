@@ -484,8 +484,8 @@
     line-height: 1.8;
 
     li {
-      font-size: clamp(.9rem, 1vw, 1.01rem);
-      margin-bottom: 4px;
+      font-size: clamp(1.2rem, 1vw, 1.01rem);
+      margin-bottom: 6px;
       color: rgba(232, 204, 255, .9);
 
       &:last-child {
@@ -498,12 +498,12 @@
     }
 
     .instruction-header {
-      font-size: clamp(1.1rem, 1vw, 1.3rem);
+      font-size: clamp(1.25rem, 1vw, 1.3rem);
       margin-bottom: 32px;
     }
 
     ul {
-      margin-top: 4px;
+      margin-top: 8px;
     }
   }
 
@@ -600,6 +600,7 @@
       left: 50%;
       top: auto;
       transform: translateX(-50%);
+      min-width: 85vw;
       max-width: 90vw;
       z-index: 2000;
       margin-top: 15px;
