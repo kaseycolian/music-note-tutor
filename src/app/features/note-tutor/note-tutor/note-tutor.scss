@@ -8,7 +8,7 @@
     "progress progress"
     "main instructions"
     "main instructions";
-  grid-template-columns: 1fr 350px;
+  grid-template-columns: 1fr .33fr;
   grid-template-rows: auto auto 1fr auto;
   gap: 2px;
   padding: 0;
@@ -41,7 +41,7 @@
   h1 {
     margin: 0;
     font-family: 'Courier New', 'Courier', monospace;
-    font-size: 1.8rem;
+    font-size: clamp(1.8rem, 1.5vw, 2.4rem);
     font-weight: 900;
     line-height: 0.9;
     letter-spacing: -0.02em;
@@ -75,7 +75,7 @@
     justify-content: center;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 32px;
   }
 
   .stat-line {
@@ -96,12 +96,12 @@
     position: relative;
 
     .stat-label {
-      font-size: 1rem;
+      font-size: clamp(1.05rem, 1.5vw, 1.1rem);
       font-weight: 900;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--pale-lavender);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .stat-value {
@@ -113,7 +113,7 @@
       line-height: 1;
 
       &.level-badge {
-        font-size: 1.2rem;
+        font-size: clamp(1.6rem, 1.5vw, 2rem);
         padding: 6px 14px;
         border: 1px solid var(--fuchsia);
         clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
@@ -215,7 +215,7 @@
 
       .option-label {
         font-family: 'Courier New', 'Courier', monospace;
-        font-size: 1.1rem;
+        font-size: clamp(1.05rem, 1vw, 1.8rem);
         font-weight: 700;
         letter-spacing: 0.1em;
         text-transform: uppercase;
@@ -224,7 +224,7 @@
       }
 
       .option-description {
-        font-size: 1rem;
+        font-size: clamp(1rem, 1.5vw, 1.2rem);
         color: rgba(232, 204, 255, 0.6);
         line-height: 1.4;
       }
@@ -317,7 +317,7 @@
     align-items: center;
     gap: 16px;
     width: 100%;
-    max-width: 500px;
+    max-width: 550px;
   }
 
   .answer-input {
@@ -444,7 +444,7 @@
 // Instructions Panel
 .instructions-panel {
   grid-area: instructions;
-  padding: 40px 32px;
+  padding: 40px 24px;
   background: rgba(13, 0, 32, 0.85);
   border-left: 1px solid rgba(102, 51, 153, 0.4);
   height: 100%;
@@ -452,7 +452,7 @@
 
   h2 {
     margin: 0 0 24px 0;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 900;
     letter-spacing: 0.05em;
     color: var(--white);
@@ -480,13 +480,13 @@
   .instructions-list,
   .tips-list {
     margin: 0;
-    padding-left: 24px;
+    padding-inline-start: 40px;
     line-height: 1.8;
 
     li {
-      font-size: 1.1rem;
-      margin-bottom: 12px;
-      color: rgba(232, 204, 255, 0.6);
+      font-size: clamp(.9rem, 1vw, 1.01rem);
+      margin-bottom: 4px;
+      color: rgba(232, 204, 255, .9);
 
       &:last-child {
         margin-bottom: 0;
@@ -498,13 +498,17 @@
     }
 
     .instruction-header {
-      font-size: 1.2rem;
+      font-size: clamp(1.1rem, 1vw, 1.3rem);
+      margin-bottom: 32px;
+    }
+
+    ul {
+      margin-top: 4px;
     }
   }
 
   .tips-section {
     margin-top: 32px;
-    padding-top: 32px;
     border-top: 1px solid rgba(102, 51, 153, 0.3);
   }
 }
@@ -547,7 +551,7 @@
     }
 
     .stat-line {
-      gap: 40px;
+      gap: 45px;
     }
 
     .stat-item .stat-value {
@@ -576,13 +580,17 @@
 
 @media (max-width: 480px) {
   .progress-section .stats-grid {
-    gap: 24px;
+    gap: 32px;
     grid-template-columns: 1fr 1fr;
   }
 
-   .progress-section .stat-line {
-      gap: 15px;
-    }
+  .progress-section .stat-line {
+    gap: 15px;
+  }
+
+  .progress-section .stat-line.options-stat-line {
+    justify-content: space-around;
+  }
 
   .progress-section .stat-item {
     position: relative;
@@ -595,7 +603,11 @@
       max-width: 90vw;
       z-index: 2000;
       margin-top: 15px;
-      max-height: 50vh;
+      max-height: 45vh;
+    }
+
+    .stat-value.level-badge {
+      font-size: 1.2rem;
     }
   }
 
