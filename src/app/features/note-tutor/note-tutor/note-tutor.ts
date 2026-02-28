@@ -432,6 +432,8 @@ export class NoteTutor implements OnInit, OnDestroy {
   }
 
   private showFeedback(isCorrect: boolean, note: MusicalNote, userAnswer: string): void {
+    const correctAnswer = `${note.name}`;
+
     if (isCorrect) {
       const messages = [
         'Excellent! 🎵',
@@ -442,18 +444,18 @@ export class NoteTutor implements OnInit, OnDestroy {
         'Prrrrfect answer! 😺',
         'Rock on! 🤘',
         'Nailed it! ⚡',
+        'Cowabunga dude! 🐢',
       ];
-      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      let randomMessage = messages[Math.floor(Math.random() * messages.length)];
 
       this.feedback.set({
         type: 'correct',
-        message: randomMessage,
+        message: `${randomMessage}\nThe correct answer is "${correctAnswer}".`,
       });
     } else {
-      const correctAnswer = `${note.name}`;
       this.feedback.set({
         type: 'incorrect',
-        message: `Not quite. You answered "${userAnswer}", but the correct answer is "${correctAnswer}".`,
+        message: `Not quite.\nYou answered "${userAnswer}", the correct answer is "${correctAnswer}".`,
       });
     }
   }

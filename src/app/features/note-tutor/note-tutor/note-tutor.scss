@@ -367,9 +367,9 @@
   .feedback {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 16px 24px;
-    font-weight: 700;
+    gap: 8px;
+    padding: 24px 16px;
+    font-weight: 900;
     font-size: 1.5rem;
     letter-spacing: 0.05em;
     animation: fadeInUp 0.1s ease-out;
@@ -377,12 +377,14 @@
     border: 1px solid;
 
     .feedback-icon {
-      font-size: 1.5rem;
+      font-size: 3rem;
       flex-shrink: 0;
     }
 
     .feedback-message {
       flex: 1;
+      white-space: pre-wrap;
+      line-height: 2.1rem;
     }
 
     &.success {
@@ -432,6 +434,13 @@
     gap: 24px;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .next-note-enabled {
+    margin: 24px 0;
+    padding: 32px 128px;
+    width: 100%;
+    text-wrap: nowrap;
   }
 }
 
@@ -573,6 +582,20 @@
     min-height: 200px;
   }
 
+  .controls {
+    width: 100%;
+
+    .next-note {
+      width: 100%;
+      padding: 24px 32px;
+    }
+
+    .next-note-enabled {
+      padding: 38px 32px;
+      margin: 24px 0;
+    }
+  }
+
   .instructions-panel {
     padding: 32px 20px;
   }
@@ -627,11 +650,16 @@
 
     .btn {
       width: 100%;
+
+      &.next-note-enabled {
+        padding: 32px 32px;
+      }
     }
   }
 
   .feedback .feedback-message {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
+    font-weight: 900;
   }
 }
 

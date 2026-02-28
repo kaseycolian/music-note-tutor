@@ -152,23 +152,18 @@
       }
     </section>
 
-    <!-- Answer Input Section -->
-    <section class="input-section" aria-labelledby="input-heading">
       @if (showAnswerInput()) {
-        <div class="input-container">
-          <app-note-input
-            #noteInputComponent
-            [availableNotes]="filteredAvailableNotes()"
-            (noteSelected)="handleAnswer($event)"
-            class="answer-input" />
-        </div>
-      } @else if (isProcessing()) {
-        <div class="processing-state" role="status" aria-live="polite">
-          <div class="loading-spinner" aria-hidden="true"></div>
-          <p>Processing your answer...</p>
-        </div>
+      <!-- Answer Input Section -->
+        <section class="input-section" aria-labelledby="input-heading">
+          <div class="input-container">
+            <app-note-input
+              #noteInputComponent
+              [availableNotes]="filteredAvailableNotes()"
+              (noteSelected)="handleAnswer($event)"
+              class="answer-input" />
+          </div>
+        </section>
       }
-    </section>
 
     <!-- Control Buttons -->
     <section class="controls-section" aria-labelledby="controls-heading">
@@ -178,7 +173,8 @@
           type="button"
           (click)="generateNewNote($event)"
           [disabled]="!canGenerateNew()"
-          class="btn btn-primary">
+          class="btn btn-primary next-note"
+          [class.next-note-enabled]="hasAnswered()">
           @if (hasAnswered()) {
             Next Note
           } @else {
