@@ -70,6 +70,17 @@ export class NoteInputComponent {
    */
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
+    // Leave keys typed into form controls, including the theme picker's listbox and
+    // its trigger, to those controls.
+    if (
+      event.target instanceof Element &&
+      event.target.closest(
+        'input, select, textarea, [contenteditable], [role="listbox"], [aria-haspopup="listbox"]',
+      )
+    ) {
+      return;
+    }
+
     // Only handle number keys 1-7
     if (event.key >= '1' && event.key <= '7') {
       event.preventDefault(); // Prevent default browser behavior

@@ -12,7 +12,7 @@
   grid-template-rows: auto auto 1fr auto;
   gap: 2px;
   padding: 0;
-  background: var(--violet-dark);
+  background: var(--bg);
   font-family: 'Courier New', 'Courier', monospace;
   position: relative;
 
@@ -31,12 +31,14 @@
 .game-header {
   grid-area: header;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 16px 40px;
   padding: 24px 40px;
-  background: rgba(13, 0, 32, 0.85);
+  background: var(--app-bg-85);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--rebecca);
+  border-bottom: 1px solid var(--app-line);
 
   h1 {
     margin: 0;
@@ -50,13 +52,13 @@
     align-items: flex-start;
 
     .line-1 {
-      color: var(--white);
+      color: var(--text);
     }
 
 
     .line-2 {
-      color: var(--fuchsia);
-      text-shadow: 0 0 60px rgba(255, 0, 170, 0.8), 0 0 120px rgba(255, 0, 170, 0.4);
+      color: var(--accent-h1, var(--accent-pink));
+      text-shadow: 0 0 60px var(--app-glow-pink-80), 0 0 120px var(--app-glow-pink-40);
       animation: glow 5s ease-in-out infinite;
     }
   }
@@ -65,9 +67,9 @@
 // Progress Section (Stats Bar)
 .progress-section {
   grid-area: progress;
-  background: var(--violet-surface);
-  border-top: 1px solid rgba(102, 51, 153, 0.4);
-  border-bottom: 1px solid rgba(102, 51, 153, 0.4);
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--app-line-40);
+  border-bottom: 1px solid var(--app-line-40);
   padding: 16px 32px;
 
   .stats-grid {
@@ -100,7 +102,7 @@
       font-weight: 900;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--pale-lavender);
+      color: var(--text-muted);
       margin-bottom: 6px;
     }
 
@@ -108,26 +110,33 @@
       font-family: 'Courier New', 'Courier', monospace;
       font-size: 2.5rem;
       font-weight: 900;
-      color: var(--fuchsia);
-      text-shadow: 0 0 20px rgba(255, 0, 170, 0.6);
+      color: var(--accent-pink);
+      text-shadow: 0 0 20px var(--app-glow-pink-60);
       line-height: 1;
 
       &.level-badge {
         font-size: clamp(1.6rem, 1.5vw, 2rem);
         padding: 6px 14px;
-        border: 1px solid var(--fuchsia);
+        border: 1px solid var(--accent-pink);
         clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
         text-transform: capitalize;
         text-shadow: none;
 
+        // Inset: the clip-path would clip an outline drawn outside the box.
         &:focus {
-          outline: var(--electric-mint) auto 2px;
+          outline: 2px solid var(--focus-ring);
+          outline-offset: -4px;
+        }
+
+        // Drop the hover tint under the ring: some rings fall below 3:1 on it.
+        &:focus-visible {
+          background: transparent;
         }
       }
 
       &.accuracy-display {
-        color: var(--electric-mint);
-        text-shadow: 0 0 20px rgba(0, 255, 204, 0.6);
+        color: var(--accent-green);
+        text-shadow: 0 0 20px var(--app-glow-green-60);
 
         &.high-accuracy {
           animation: glow 8s ease-in-out infinite;
@@ -147,15 +156,15 @@
     .difficulty-button {
       cursor: pointer;
       background: transparent;
-      border: 1px solid var(--fuchsia);
+      border: 1px solid var(--accent-pink);
       display: flex;
       align-items: center;
       gap: 8px;
       transition: all 0.3s ease;
 
       &:hover {
-        background: rgba(255, 0, 170, 0.1);
-        box-shadow: 0 0 20px rgba(255, 0, 170, 0.3);
+        background: var(--app-pink-10);
+        box-shadow: 0 0 20px var(--app-glow-pink-30);
       }
 
       .dropdown-arrow {
@@ -174,9 +183,9 @@
       list-style: none;
       left: 50%;
       transform: translateX(-50%);
-      background: var(--violet-surface);
-      border: 1px solid var(--fuchsia);
-      box-shadow: 0 0 20px rgba(255, 0, 170, 0.4);
+      background: var(--bg-elevated);
+      border: 1px solid var(--accent-pink);
+      box-shadow: 0 0 20px var(--app-glow-pink-40);
       z-index: 1000;
       min-width: 280px;
       overflow: auto;
@@ -190,7 +199,7 @@
       padding: 12px 16px;
       background: transparent;
       border: none;
-      border-bottom: 1px solid rgba(102, 51, 153, 0.3);
+      border-bottom: 1px solid var(--app-line-30);
       width: 100%;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -201,16 +210,24 @@
       }
 
       &:hover {
-        background: rgba(255, 0, 170, 0.1);
+        background: var(--app-pink-10);
       }
 
+      // 10% (not 15%) keeps the pink label at AA contrast; the bar marks the active row.
       &.active {
-        background: rgba(255, 0, 170, 0.15);
-        border-left: 3px solid var(--electric-mint);
+        background: var(--app-pink-10);
+        border-left: 3px solid var(--accent-green);
       }
 
+      // Inset: the menu's overflow would clip an outline drawn outside the row.
       &:focus {
-        outline: var(--electric-mint) auto 2px;
+        outline: 2px solid var(--focus-ring);
+        outline-offset: -3px;
+      }
+
+      // Drop the hover/active tint under the ring (the green bar still marks active).
+      &:focus-visible {
+        background: transparent;
       }
 
       .option-label {
@@ -219,13 +236,13 @@
         font-weight: 700;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: var(--fuchsia);
+        color: var(--accent-pink);
         margin-bottom: 4px;
       }
 
       .option-description {
         font-size: clamp(1rem, 1.5vw, 1.2rem);
-        color: rgba(232, 204, 255, 0.6);
+        color: var(--app-text-faint);
         line-height: 1.4;
       }
     }
@@ -239,28 +256,12 @@
   flex-direction: column;
   gap: 28px;
   padding: 40px 32px;
-  background: var(--violet-mid);
+  background: var(--bg-panel);
   min-height: 600px;
   position: relative;
   overflow: hidden;
 
-  // Animated grid background
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(102, 51, 153, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(102, 51, 153, 0.1) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-  }
-
-  @keyframes gridScroll {
-    from { background-position: 0 0; }
-    to { background-position: 40px 40px; }
-  }
-
+  // The grid backdrop comes from the theme's .fx-grid (class set in the template).
   > * {
     position: relative;
     z-index: 1;
@@ -271,7 +272,7 @@
     font-weight: 900;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--electric-mint);
+    color: var(--accent-h2, var(--accent-green));
     text-align: center;
     margin: 0;
   }
@@ -284,8 +285,8 @@
   align-items: center;
   min-height: 250px;
   padding: 6px 12px;
-  background: rgba(13, 0, 32, 0.6);
-  border: 1px solid rgba(102, 51, 153, 0.3);
+  background: var(--app-bg-60);
+  border: 1px solid var(--app-line-30);
   clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
 
   .staff-container {
@@ -297,7 +298,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: rgba(232, 204, 255, 0.4);
+    color: var(--text-muted);
     font-style: italic;
     font-size: 0.9rem;
     letter-spacing: 0.1em;
@@ -329,13 +330,13 @@
     flex-direction: column;
     align-items: center;
     gap: 16px;
-    color: var(--pale-lavender);
+    color: var(--text-muted);
 
     .loading-spinner {
       width: 40px;
       height: 40px;
-      border: 3px solid rgba(102, 51, 153, 0.3);
-      border-top: 3px solid var(--fuchsia);
+      border: 3px solid var(--app-line-30);
+      border-top: 3px solid var(--accent-pink);
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -388,10 +389,10 @@
     }
 
     &.success {
-      background: rgba(0, 255, 204, 0.1);
-      color: var(--electric-mint);
-      border-color: var(--electric-mint);
-      box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+      background: var(--app-green-10);
+      color: var(--accent-green);
+      border-color: var(--accent-green);
+      box-shadow: 0 0 20px var(--app-glow-green-20);
 
       .feedback-icon {
         animation: pulse 1s ease-in-out infinite;
@@ -399,16 +400,16 @@
     }
 
     &.error {
-      background: rgba(255, 0, 170, 0.2);
-      color: var(--fuchsia);
-      border-color: var(--fuchsia);
-      box-shadow: 0 0 20px rgba(255, 0, 170, 0.2);
+      background: var(--app-pink-20);
+      color: var(--accent-pink);
+      border-color: var(--accent-pink);
+      box-shadow: 0 0 20px var(--app-glow-pink-20);
     }
 
     &.hint {
-      background: rgba(232, 204, 255, 0.05);
-      color: var(--pale-lavender);
-      border-color: var(--rebecca);
+      background: var(--app-muted-5);
+      color: var(--text-muted);
+      border-color: var(--app-line);
     }
   }
 }
@@ -454,8 +455,8 @@
 .instructions-panel {
   grid-area: instructions;
   padding: 40px 24px;
-  background: rgba(13, 0, 32, 0.85);
-  border-left: 1px solid rgba(102, 51, 153, 0.4);
+  background: var(--app-bg-85);
+  border-left: 1px solid var(--app-line-40);
   height: 100%;
   overflow-y: auto;
 
@@ -464,12 +465,12 @@
     font-size: 1.2rem;
     font-weight: 900;
     letter-spacing: 0.05em;
-    color: var(--white);
+    color: var(--text);
     text-transform: uppercase;
 
     &::before {
       content: '// ';
-      color: var(--fuchsia);
+      color: var(--accent-pink);
     }
   }
 
@@ -479,11 +480,11 @@
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--electric-mint);
+    color: var(--accent-h3, var(--accent-blue));
   }
 
   .instructions-content {
-    color: rgba(232, 204, 255, 0.7);
+    color: var(--app-text-soft);
   }
 
   .instructions-list,
@@ -495,14 +496,14 @@
     li {
       font-size: clamp(1.2rem, 1vw, 1.01rem);
       margin-bottom: 6px;
-      color: rgba(232, 204, 255, .9);
+      color: var(--app-text-soft);
 
       &:last-child {
         margin-bottom: 0;
       }
 
       &::marker {
-        color: var(--rebecca);
+        color: var(--accent-purple);
       }
     }
 
@@ -518,7 +519,7 @@
 
   .tips-section {
     margin-top: 32px;
-    border-top: 1px solid rgba(102, 51, 153, 0.3);
+    border-top: 1px solid var(--app-line-30);
   }
 }
 
@@ -539,7 +540,7 @@
 @media (max-width: 1024px) {
   .instructions-panel {
     border-left: none;
-    border-top: 1px solid rgba(102, 51, 153, 0.4);
+    border-top: 1px solid var(--app-line-40);
   }
 }
 
@@ -669,7 +670,7 @@
   .progress-section,
   .game-area,
   .instructions-panel {
-    border: 2px solid var(--white);
+    border: 2px solid var(--text);
   }
 
   .feedback.success,
@@ -690,7 +691,7 @@
 
   .loading-spinner {
     animation: none;
-    border-top-color: var(--fuchsia);
+    border-top-color: var(--accent-pink);
   }
 }
 

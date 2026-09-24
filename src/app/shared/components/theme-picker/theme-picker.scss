@@ -1,0 +1,348 @@
+// Theme picker. The console is ported from the A11Y Way pages' header
+// (theme-service: a11y-way-pages/assets/site-header.css, ".theme-console"), so re-sync
+// it from there if that changes. Unencapsulated (see theme-picker.ts), so every rule is
+// scoped to app-theme-picker.
+
+app-theme-picker {
+  // Tokens dropdown.css reads. They normally come from theme-service's components.css,
+  // which this app doesn't load (its .btn classes would clash with the app's own).
+  --font-ui: 'Trebuchet MS', 'Segoe UI', Verdana, system-ui, sans-serif;
+  --font-mono: 'Consolas', 'Courier New', ui-monospace, monospace;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-pill: 999px;
+  --dur: calc(var(--motion) * 0.15s);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  max-width: 100%;
+
+  // --- the console: cap, lamps and the control -------------------------------
+  .theme-console {
+    display: inline-flex;
+    align-items: center;
+    height: 36px;
+    min-width: 0;
+    max-width: 100%;
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    background: color-mix(in srgb, var(--accent-purple) 7%, var(--bg-elevated));
+    border: 1px solid color-mix(in srgb, var(--accent-purple) 50%, var(--border));
+    box-shadow: 0 0 calc(12px * var(--glow-strength))
+      color-mix(in srgb, var(--accent-purple) 20%, transparent);
+    transition: border-color var(--dur) ease, box-shadow var(--dur) ease;
+
+    &:hover {
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 calc(18px * var(--glow-strength))
+        color-mix(in srgb, var(--accent-purple) 38%, transparent);
+    }
+
+    // The trigger fills the console, so the console draws the ring: the first
+    // selector once dropdown.js has enhanced it, the second on the native fallback.
+    &:has(.dropdown-toggle:focus-visible),
+    &:has(select:focus-visible) {
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 2px;
+    }
+
+    &:has(select:focus-visible) select {
+      outline: none;
+    }
+  }
+
+  .tc-cap {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    padding: 0 11px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    // --text, not the pages' --text-muted: muted falls below 4.5:1 on this tint in
+    // the NEO and RFG themes.
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 6%, transparent);
+    border-right: 1px solid color-mix(in srgb, var(--accent-purple) 35%, var(--border));
+  }
+
+  // Live palette readout, painted from the accents, so a theme change re-colors
+  // it with no JS. The lamps roll left to right unless motion is off.
+  .tc-lamps {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 11px;
+    flex: none;
+
+    i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--lamp);
+      box-shadow: 0 0 calc(5px * var(--glow-strength))
+        color-mix(in srgb, var(--lamp) 65%, transparent);
+      transition:
+        background-color calc(var(--motion) * 0.3s) ease,
+        box-shadow calc(var(--motion) * 0.3s) ease;
+    }
+
+    i:nth-child(1) { --lamp: var(--accent-pink); }
+    i:nth-child(2) { --lamp: var(--accent-green); transition-delay: calc(var(--motion) * 50ms); }
+    i:nth-child(3) { --lamp: var(--accent-blue); transition-delay: calc(var(--motion) * 100ms); }
+    i:nth-child(4) { --lamp: var(--accent-purple); transition-delay: calc(var(--motion) * 150ms); }
+  }
+
+  // --- the enhanced control (dropdown.js) -------------------------------------
+  // A definite width, measured by the A11Y Way pages to fit the longest full theme
+  // name in the closed trigger. The open panel spans the whole console
+  // (data-dropdown-anchor).
+  .theme-console .dropdown {
+    flex: 0 1 auto;
+    width: 316px;
+    min-width: 0;
+    align-self: stretch;
+  }
+
+  // Flat inside the console: the console draws the border, radius, glow and ring.
+  .theme-console .dropdown-toggle {
+    height: 100%;
+    min-height: 0;
+    padding: 0 11px;
+    gap: 8px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .theme-console .dropdown-toggle[aria-expanded='true'] {
+    background: color-mix(in srgb, var(--accent-purple) 14%, transparent);
+    box-shadow: none;
+  }
+
+  .theme-console .dropdown-toggle:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .theme-console .dropdown-caret {
+    color: var(--accent-purple);
+  }
+
+  // --- the native fallback (dropdown.js absent) -------------------------------
+  .theme-console select {
+    appearance: none;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 240px;
+    align-self: stretch;
+    border: 0;
+    background: transparent;
+    outline: none;
+    padding: 0 6px 0 0;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .theme-console select option {
+    background: var(--bg-elevated);
+    color: var(--text);
+  }
+
+  .theme-console select optgroup {
+    background: var(--bg-elevated);
+    color: var(--text-muted);
+  }
+
+  .theme-console:not(:has(.dropdown))::after {
+    content: '';
+    flex: none;
+    width: 10px;
+    height: 5px;
+    margin-right: 13px;
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--accent-purple) 50%),
+      linear-gradient(135deg, var(--accent-purple) 50%, transparent 50%);
+    background-position: 0 0, 5px 0;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+
+  // --- Reduce motion: the pages' switch ---------------------------------------
+  // .switch is theme-service's components.css toggle (44x24), which this app doesn't
+  // load; .motion is the pages' small, muted treatment of it (site-header.css).
+  .switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text);
+
+    input {
+      position: absolute;
+      opacity: 0;
+      width: 44px;
+      height: 24px;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .track {
+      position: relative;
+      flex: none;
+      width: 44px;
+      height: 24px;
+      border-radius: var(--radius-pill);
+      background: color-mix(in srgb, var(--text) 12%, transparent);
+      border: 1px solid var(--border-strong);
+      transition:
+        background var(--dur) ease,
+        border-color var(--dur) ease,
+        box-shadow var(--dur) ease;
+    }
+
+    .thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--text);
+      transition:
+        transform var(--dur) ease,
+        background var(--dur) ease;
+    }
+
+    input:checked + .track {
+      background: var(--accent-green);
+      border-color: var(--accent-green);
+      box-shadow: var(--bglow-green);
+    }
+
+    input:checked + .track .thumb {
+      transform: translateX(20px);
+      background: var(--on-green);
+    }
+
+    input:focus-visible + .track {
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 2px;
+    }
+
+    input:disabled + .track {
+      opacity: 0.5;
+    }
+
+    &.is-disabled,
+    &.is-disabled input {
+      cursor: not-allowed;
+    }
+  }
+
+  .motion {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--text-muted);
+    gap: 9px;
+    white-space: nowrap;
+    transition: color var(--dur) ease;
+
+    &:hover {
+      color: var(--text);
+    }
+  }
+
+  .motion-note {
+    margin-left: -4px;
+  }
+
+  // --- Phones: the pages' layout ----------------------------------------------
+  // One row: the switch, then the console filling what it leaves (flex-basis 0, so
+  // the console's content width never pushes it onto a line of its own). The cap is
+  // hidden but not removed: it still names the control through aria-labelledby.
+  @media (max-width: 620px) {
+    width: 100%;
+    flex-wrap: nowrap;
+    column-gap: 10px;
+
+    .motion {
+      flex: none;
+    }
+
+    .theme-console {
+      flex: 1 1 0;
+      width: auto;
+      min-width: 0;
+      max-width: 340px;
+      margin-left: auto;
+    }
+
+    .theme-console .dropdown {
+      width: auto;
+      flex: 1 1 auto;
+    }
+
+    .theme-console select {
+      max-width: none;
+    }
+
+    .tc-cap {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .tc-lamps {
+      padding: 0 9px;
+      gap: 4px;
+    }
+
+    .theme-console .dropdown-swatch {
+      gap: 3px;
+    }
+
+    .theme-console .dropdown-swatch > span {
+      width: 5px;
+      height: 5px;
+    }
+  }
+
+  // Windows High Contrast replaces background colors, which would erase the lamps
+  // and swatch dots; outline them instead (the pages do the same).
+  @media (forced-colors: active) {
+    .tc-lamps i,
+    .theme-console .dropdown-swatch > span {
+      outline: 1px solid CanvasText;
+      outline-offset: -1px;
+    }
+
+    .theme-console .dropdown-swatch > span::after {
+      display: none;
+    }
+  }
+}

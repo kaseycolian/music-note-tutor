@@ -22,8 +22,8 @@
     max-width: 650px;
     margin-left: auto;
     margin-right: auto;
-    background: rgba(102, 51, 153, 0.2);
-    border: 1px solid rgba(102, 51, 153, 0.3);
+    background: var(--app-line-20);
+    border: 1px solid var(--app-line-30);
 
     &.single-note-button-grid {
       grid-template-columns: 1fr;
@@ -49,8 +49,8 @@
     padding: 12px 18px;
     border: none;
     border-radius: 0;
-    background: var(--violet-mid);
-    color: var(--pale-lavender);
+    background: var(--bg-panel);
+    color: var(--text-muted);
     font-family: 'Courier New', 'Courier', monospace;
     font-weight: 700;
     cursor: pointer;
@@ -67,12 +67,12 @@
       left: 0;
       width: 3px;
       height: 0;
-      background: var(--fuchsia);
+      background: var(--accent-pink);
       transition: height 0.4s ease;
     }
 
     &:hover:not(.disabled) {
-      background: var(--violet-surface);
+      background: var(--bg-elevated);
       transform: none;
       box-shadow: none;
 
@@ -81,27 +81,27 @@
       }
 
       .note-label {
-        color: var(--fuchsia);
+        color: var(--accent-pink);
       }
     }
 
     &:focus {
-      outline: 3px solid var(--fuchsia);
+      outline: 3px solid var(--accent-pink);
       outline-offset: -2px;
       z-index: 10;
     }
 
     &:active:not(.disabled),
     &.pressed {
-      background: rgba(255, 0, 170, 0.1);
+      background: var(--app-pink-10);
       transform: none;
     }
 
     &.selected {
-      background: rgba(255, 0, 170, 0.15);
-      color: var(--white);
+      background: var(--app-pink-15);
+      color: var(--text);
       border: none;
-      box-shadow: inset 0 0 20px rgba(255, 0, 170, 0.3);
+      box-shadow: inset 0 0 20px var(--app-glow-pink-30);
 
       &::before {
         height: 100%;
@@ -109,19 +109,19 @@
       }
 
       .note-label {
-        color: var(--fuchsia);
-        text-shadow: 0 0 10px rgba(255, 0, 170, 0.8);
+        color: var(--accent-pink);
+        text-shadow: 0 0 10px var(--app-glow-pink-80);
       }
 
       .keyboard-shortcut {
-        background: rgba(255, 0, 170, 0.2);
-        color: var(--fuchsia);
-        border-color: var(--fuchsia);
+        background: var(--app-pink-20);
+        color: var(--accent-pink);
+        border-color: var(--accent-pink);
       }
     }
 
     &.hovered:not(.disabled):not(.selected) {
-      background: var(--violet-surface);
+      background: var(--bg-elevated);
     }
 
     &.disabled {
@@ -144,11 +144,11 @@
 
     .keyboard-shortcut {
       font-size: 0.7rem;
-      background: rgba(102, 51, 153, 0.3);
-      color: rgba(232, 204, 255, .9);
+      background: var(--app-line-30);
+      color: var(--app-badge-text);
       padding: 2px 7px;
       border-radius: 0;
-      border: 1px solid rgba(102, 51, 153, 0.4);
+      border: 1px solid var(--app-line-40);
       font-weight: 500;
       transition: all 0.3s ease;
       clip-path: polygon(3px 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
@@ -160,9 +160,9 @@
       top: 8px;
       right: 8px;
       font-size: 16px;
-      color: var(--fuchsia);
+      color: var(--accent-pink);
       animation: checkmark 0.3s ease;
-      text-shadow: 0 0 8px rgba(255, 0, 170, 0.8);
+      text-shadow: 0 0 8px var(--app-glow-pink-80);
     }
   }
 
@@ -170,32 +170,32 @@
     margin-top: 24px;
 
     .help-details {
-      background: rgba(13, 0, 32, 0.6);
-      border: 1px solid rgba(102, 51, 153, 0.3);
+      background: var(--app-bg-60);
+      border: 1px solid var(--app-line-30);
       border-radius: 0;
       overflow: hidden;
 
       .help-summary {
         padding: 12px 16px;
-        background: rgba(26, 0, 53, 0.8);
+        background: var(--app-panel-80);
         cursor: pointer;
         font-weight: 700;
         font-size: 0.8rem;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: var(--electric-mint);
+        color: var(--accent-green);
         border: none;
         outline: none;
         transition: background-color 0.3s ease;
         font-family: 'Courier New', 'Courier', monospace;
 
         &:hover {
-          background: rgba(34, 0, 68, 0.9);
+          background: var(--app-elevated-90);
         }
 
         &:focus {
-          background: rgba(34, 0, 68, 0.9);
-          box-shadow: inset 0 0 0 2px var(--fuchsia);
+          background: var(--app-elevated-90);
+          box-shadow: inset 0 0 0 2px var(--accent-pink);
         }
       }
 
@@ -213,8 +213,8 @@
         padding: 4px 0;
 
         .shortcut-key {
-          background: var(--fuchsia);
-          color: var(--violet-dark);
+          background: var(--accent-pink);
+          color: var(--on-pink);
           padding: 4px 10px;
           border-radius: 0;
           font-size: 0.85rem;
@@ -229,7 +229,7 @@
         .shortcut-note {
           font-weight: 700;
           font-size: 0.85rem;
-          color: var(--pale-lavender);
+          color: var(--text-muted);
           font-family: 'Courier New', 'Courier', monospace;
         }
       }
@@ -242,7 +242,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(13, 0, 32, 0.9);
+    background: var(--app-bg-90);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -256,10 +256,10 @@
       align-items: center;
       gap: 12px;
       padding: 24px 32px;
-      background: var(--violet-surface);
+      background: var(--bg-elevated);
       border-radius: 0;
-      border: 1px solid var(--rebecca);
-      box-shadow: 0 0 30px rgba(255, 0, 170, 0.2);
+      border: 1px solid var(--app-line);
+      box-shadow: 0 0 30px var(--app-glow-pink-20);
       clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
 
       .disabled-icon {
@@ -271,7 +271,7 @@
         font-size: 0.8rem;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: rgba(232, 204, 255, 0.6);
+        color: var(--app-text-faint);
         font-family: 'Courier New', 'Courier', monospace;
       }
     }
@@ -322,16 +322,16 @@
   // High contrast mode
   @media (prefers-contrast: high) {
     .note-button {
-      border: 2px solid var(--white);
+      border: 2px solid var(--text);
 
       &:hover:not(.disabled) {
-        border-color: var(--fuchsia);
+        border-color: var(--accent-pink);
       }
 
       &.selected {
-        background: var(--fuchsia);
-        color: var(--white);
-        border-color: var(--fuchsia);
+        background: var(--accent-pink);
+        color: var(--on-pink);
+        border-color: var(--accent-pink);
       }
     }
   }
@@ -354,11 +354,11 @@
   // Dark mode (already dark, ensure consistency)
   @media (prefers-color-scheme: dark) {
     .note-button {
-      background: var(--violet-mid);
-      color: var(--pale-lavender);
+      background: var(--bg-panel);
+      color: var(--text-muted);
 
       &:hover:not(.disabled) {
-        background: var(--violet-surface);
+        background: var(--bg-elevated);
       }
     }
   }

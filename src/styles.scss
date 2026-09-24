@@ -1,16 +1,53 @@
-/* Global Cyberpunk Neon Theme */
+/* Global styles. Colors come from the active theme (src/theme/theme.css, or the Original
+   theme in src/original-theme.css); see src/theme/THEME-SERVICE.md. */
 
+/* App bridge: color roles the theme tokens don't name directly, derived from the active
+   theme so every theme re-skins them. The Original theme overrides the first three. */
 :root {
-  --fuchsia: #FF00AA;
-  --fuchsia-bright: #FF2EDD;
-  --rebecca: #663399;
-  --rebecca-deep: #4A1A7A;
-  --violet-dark: #0D0020;
-  --violet-mid: #1A0035;
-  --violet-surface: #220044;
-  --electric-mint: #00FFCC;
-  --pale-lavender: #E8CCFF;
-  --white: #FFFFFF;
+  // The original "rebecca" line color: dividers, hairlines, tints.
+  --app-line: var(--border-strong);
+  // Softer secondary text. Solid by default, because translucent text isn't AA-safe on
+  // every theme; the Original restores its 90% / 60% lavender.
+  --app-text-soft: var(--text-muted);
+  --app-text-faint: var(--text-muted);
+  // Small text on the tinted key badges (1–7): muted text falls short there on some themes.
+  --app-badge-text: var(--text);
+
+  // Tints, defined once here rather than in component styles so those stay inside the
+  // 12 kB anyComponentStyle budget. Fills keep the original alpha.
+  --app-pink-10: color-mix(in srgb, var(--accent-pink) 10%, transparent);
+  --app-pink-15: color-mix(in srgb, var(--accent-pink) 15%, transparent);
+  --app-pink-20: color-mix(in srgb, var(--accent-pink) 20%, transparent);
+  --app-pink-40: color-mix(in srgb, var(--accent-pink) 40%, transparent);
+  --app-green-10: color-mix(in srgb, var(--accent-green) 10%, transparent);
+  --app-line-3: color-mix(in srgb, var(--app-line) 3%, transparent);
+  --app-line-20: color-mix(in srgb, var(--app-line) 20%, transparent);
+  --app-line-30: color-mix(in srgb, var(--app-line) 30%, transparent);
+  --app-line-40: color-mix(in srgb, var(--app-line) 40%, transparent);
+  --app-line-50: color-mix(in srgb, var(--app-line) 50%, transparent);
+  --app-bg-60: color-mix(in srgb, var(--bg) 60%, transparent);
+  --app-bg-85: color-mix(in srgb, var(--bg) 85%, transparent);
+  --app-bg-90: color-mix(in srgb, var(--bg) 90%, transparent);
+  --app-panel-80: color-mix(in srgb, var(--bg-panel) 80%, transparent);
+  --app-elevated-90: color-mix(in srgb, var(--bg-elevated) 90%, transparent);
+  --app-muted-5: color-mix(in srgb, var(--text-muted) 5%, transparent);
+  --app-muted-50: color-mix(in srgb, var(--text-muted) 50%, transparent);
+
+  // Glows (box-, text- and drop-shadows) scale with --glow-strength, as effects.css does:
+  // full on dark themes, 0.35 on light ones.
+  --app-glow-pink-15: color-mix(in srgb, var(--accent-pink) calc(15% * var(--glow-strength)), transparent);
+  --app-glow-pink-20: color-mix(in srgb, var(--accent-pink) calc(20% * var(--glow-strength)), transparent);
+  --app-glow-pink-30: color-mix(in srgb, var(--accent-pink) calc(30% * var(--glow-strength)), transparent);
+  --app-glow-pink-40: color-mix(in srgb, var(--accent-pink) calc(40% * var(--glow-strength)), transparent);
+  --app-glow-pink-50: color-mix(in srgb, var(--accent-pink) calc(50% * var(--glow-strength)), transparent);
+  --app-glow-pink-60: color-mix(in srgb, var(--accent-pink) calc(60% * var(--glow-strength)), transparent);
+  --app-glow-pink-80: color-mix(in srgb, var(--accent-pink) calc(80% * var(--glow-strength)), transparent);
+  --app-glow-green-20: color-mix(in srgb, var(--accent-green) calc(20% * var(--glow-strength)), transparent);
+  --app-glow-green-60: color-mix(in srgb, var(--accent-green) calc(60% * var(--glow-strength)), transparent);
+  --app-glow-green-80: color-mix(in srgb, var(--accent-green) calc(80% * var(--glow-strength)), transparent);
+  --app-glow-muted-40: color-mix(in srgb, var(--text-muted) calc(40% * var(--glow-strength)), transparent);
+  --app-glow-purple-60: color-mix(in srgb, var(--accent-purple) calc(60% * var(--glow-strength)), transparent);
+  --app-glow-blue-60: color-mix(in srgb, var(--accent-blue) calc(60% * var(--glow-strength)), transparent);
 }
 
 * {
@@ -20,8 +57,8 @@
 }
 
 body {
-  background: var(--violet-dark);
-  color: var(--white);
+  background: var(--bg);
+  color: var(--text);
   font-family: 'Courier New', 'Courier', monospace;
   min-height: 100vh;
   font-size: clamp(1rem, 1vw, 2rem);
@@ -39,8 +76,8 @@ body::before {
     0deg,
     transparent,
     transparent 2px,
-    rgba(102, 51, 153, 0.03) 2px,
-    rgba(102, 51, 153, 0.03) 4px
+    var(--app-line-3) 2px,
+    var(--app-line-3) 4px
   );
   pointer-events: none;
   z-index: 9999;
@@ -77,26 +114,27 @@ body::before {
 }
 
 .btn-primary {
-  background: var(--fuchsia);
-  color: var(--violet-dark);
-  box-shadow: 0 0 30px rgba(255, 0, 170, 0.5);
+  background: var(--accent-pink);
+  color: var(--on-pink);
+  box-shadow: 0 0 30px var(--app-glow-pink-50);
 }
 
 @media(hover: hover) {
   .btn-primary:hover {
-    background: var(--white);
-    box-shadow: 0 0 60px rgba(255, 0, 170, 0.8);
+    background: var(--text);
+    color: var(--bg);
+    box-shadow: 0 0 60px var(--app-glow-pink-80);
     transform: translateY(-1px);
   }
 }
 
 .btn-primary:focus-visible {
-  border: 5px solid var(--electric-mint);
+  border: 5px solid var(--focus-ring);
 }
 
 .btn-primary:disabled {
-  background: var(--rebecca);
-  color: rgba(232, 204, 255, 0.5);
+  background: var(--border);
+  color: var(--app-muted-50);
   box-shadow: none;
   cursor: not-allowed;
   transform: none;
@@ -104,64 +142,88 @@ body::before {
 
 .btn-secondary {
   background: transparent;
-  color: var(--pale-lavender);
-  border: 1px solid var(--rebecca);
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
 }
 
 @media(hover: hover) {
   .btn-secondary:hover {
-    border-color: var(--fuchsia);
-    color: var(--fuchsia);
+    border-color: var(--accent-pink);
+    color: var(--accent-pink);
   }
 }
 
 .btn-secondary:focus-visible {
-  border: 5px solid var(--electric-mint);
+  border: 5px solid var(--focus-ring);
 }
 
 .btn-outline {
   background: transparent;
-  color: var(--pale-lavender);
-  border: 1px solid rgba(102, 51, 153, 0.5);
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
   padding: 8px 16px;
 }
 
 .btn-outline:focus-visible {
-  border: 5px solid var(--electric-mint);
+  border: 5px solid var(--focus-ring);
 }
 
 @media(hover: hover) {
   .btn-outline:hover {
-    border-color: var(--fuchsia);
-    color: var(--fuchsia);
+    border-color: var(--accent-pink);
+    color: var(--accent-pink);
   }
 }
 
 .btn-outline.active {
-  background: var(--fuchsia);
-  color: var(--violet-dark);
-  border-color: var(--fuchsia);
+  background: var(--accent-pink);
+  color: var(--on-pink);
+  border-color: var(--accent-pink);
 }
 
 .no-scroll {
   pointer-events: none;
 }
 
+/* Reduce motion. The header toggle sets data-motion="off" on <html>; theme-service only
+   stops its own effects, so stop the app's animations and transitions here too. The OS
+   setting gets the same treatment, so both routes behave alike in every component. */
+@mixin motion-off {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:root[data-motion='off'] {
+  @include motion-off;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    @include motion-off;
+  }
+}
+
 /* Glitch animation */
 @keyframes glitch {
   0%, 90%, 100% {
-    text-shadow: 2px 0 var(--electric-mint), -2px 0 var(--rebecca);
+    text-shadow: 2px 0 var(--accent-green), -2px 0 var(--app-line);
   }
   92% {
-    text-shadow: -3px 0 var(--fuchsia), 3px 0 var(--electric-mint);
+    text-shadow: -3px 0 var(--accent-pink), 3px 0 var(--accent-green);
     transform: skewX(3deg);
   }
   94% {
-    text-shadow: 2px 0 var(--rebecca), -2px 0 var(--electric-mint);
+    text-shadow: 2px 0 var(--app-line), -2px 0 var(--accent-green);
     transform: skewX(-1deg);
   }
   96% {
-    text-shadow: 2px 0 var(--electric-mint), -2px 0 var(--rebecca);
+    text-shadow: 2px 0 var(--accent-green), -2px 0 var(--app-line);
     transform: skewX(0);
   }
 }

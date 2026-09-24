@@ -27,6 +27,7 @@ import { MusicalNote, NoteName } from '../../../models/musical-note';
 import { UserProgress } from '../../../models/user-progress';
 import { MusicalStaffComponent } from '../../../shared/components/musical-staff/musical-staff';
 import { NoteInputComponent } from '../../../shared/components/note-input/note-input';
+import { ThemePicker } from '../../../shared/components/theme-picker/theme-picker';
 
 export interface AnswerFeedback {
   type: 'correct' | 'incorrect' | 'hint';
@@ -36,7 +37,7 @@ export interface AnswerFeedback {
 @Component({
   selector: 'app-note-tutor',
   standalone: true,
-  imports: [CommonModule, MusicalStaffComponent, NoteInputComponent, CdkTrapFocus],
+  imports: [CommonModule, MusicalStaffComponent, NoteInputComponent, CdkTrapFocus, ThemePicker],
   templateUrl: './note-tutor.html',
   styleUrl: './note-tutor.scss',
 })

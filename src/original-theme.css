@@ -1,0 +1,58 @@
+/* =============================================================================
+   Note and Seek Original: the app's own "Cyberpunk Neon" look from before the
+   theme-service, kept alongside its themes as a selectable option.
+
+   App-owned: this file is not vendored from the theme-service, and a theme-service
+   update must leave it alone. The id must match ORIGINAL_THEME in
+   src/app/core/services/theme.ts.
+
+   Values are the original palette, except where it fell short of WCAG 2.2 AA:
+   --border-strong (#8142c0) and --accent-purple (#9a68cd) are the nearest passing
+   shades of the original #663399. With them the palette passes every pair the
+   theme-service build validates.
+   ============================================================================= */
+
+:root[data-theme='note-and-seek-original'] {
+  color-scheme: dark;
+  --glow-strength: 1;
+
+  /* The original game-area grid: #663399 lines at 10% on a 40px cell. */
+  --fx-grid-opacity: 1;
+  --fx-backdrop-image: linear-gradient(rgb(102 51 153 / 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(102 51 153 / 0.1) 1px, transparent 1px);
+  --fx-backdrop-color: initial;
+  --fx-backdrop-mask: initial;
+  --fx-backdrop-anim: initial;
+
+  --bg: #0d0020;
+  --bg-panel: #1a0035;
+  --bg-elevated: #220044;
+  --text: #ffffff;
+  --text-muted: #e8ccff;
+  --border: #663399;
+  --border-strong: #8142c0;
+  --focus-ring: #00ffcc;
+  --accent-pink: #ff00aa;
+  --on-pink: #0d0020;
+  --accent-green: #00ffcc;
+  --on-green: #0d0020;
+  --accent-blue: #00ffcc;
+  --on-blue: #0d0020;
+  --accent-purple: #9a68cd;
+  --on-purple: #0d0020;
+  --accent-h1: #ff00aa;
+  --accent-h2: #00ffcc;
+  --accent-h3: #00ffcc;
+  --accent-h4: #9a68cd;
+
+  /* App bridge overrides (see src/styles.scss): the original line color and
+     translucent lavender text, which pass AA on this palette. */
+  --app-line: #663399;
+  --app-text-soft: color-mix(in srgb, #e8ccff 90%, transparent);
+  --app-text-faint: color-mix(in srgb, #e8ccff 60%, transparent);
+  --app-badge-text: color-mix(in srgb, #e8ccff 90%, transparent);
+}
+
+:root[data-theme='note-and-seek-original'] .fx-grid::before {
+  background-size: 40px 40px;
+}

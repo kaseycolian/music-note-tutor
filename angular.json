@@ -30,15 +30,35 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "theme-init.js",
+                "input": "src/theme",
+                "output": "theme"
               }
             ],
             "styles": [
+              "src/theme/theme.css",
+              "src/theme/effects.css",
+              "src/theme/dropdown.css",
+              "src/original-theme.css",
               "src/styles.scss"
+            ],
+            "scripts": [
+              "src/theme/dropdown.js"
             ]
           },
           "configurations": {
             "production": {
               "baseHref": "/",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
               "budgets": [
                 {
                   "type": "initial",
@@ -93,7 +113,14 @@
               }
             ],
             "styles": [
+              "src/theme/theme.css",
+              "src/theme/effects.css",
+              "src/theme/dropdown.css",
+              "src/original-theme.css",
               "src/styles.scss"
+            ],
+            "scripts": [
+              "src/theme/dropdown.js"
             ]
           }
         },
