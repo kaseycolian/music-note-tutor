@@ -20,4 +20,15 @@ describe('NoteTutor', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('shows the theme picker in the header', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.game-header app-theme-picker')).toBeTruthy();
+  });
+
+  it("paints the theme's backdrop effect on the game area only", () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('main.game-area')?.classList).toContain('fx-grid');
+    expect(compiled.querySelectorAll('.fx-grid').length).toBe(1);
+  });
 });

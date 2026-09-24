@@ -77,10 +77,28 @@ describe('ThemePicker', () => {
     expect(trigger().textContent).toContain('RFG · Light');
   });
 
-  it('toggles Reduce motion', () => {
+  it('toggles Reduce motion on and off', () => {
     checkbox().click();
     expect(service.reducedMotion()).toBeTrue();
     expect(document.documentElement.getAttribute('data-motion')).toBe('off');
+
+    checkbox().click();
+    expect(service.reducedMotion()).toBeFalse();
+    expect(document.documentElement.hasAttribute('data-motion')).toBeFalse();
+  });
+
+  it('reflects Reduce motion set from code', () => {
+    service.setReducedMotion(true);
+    fixture.detectChanges();
+    expect(checkbox().checked).toBeTrue();
+  });
+
+  it('draws Reduce motion as a switch, left of the theme console', () => {
+    const [first, second] = Array.from(fixture.nativeElement.children as HTMLCollection);
+    expect(first.matches('label.switch')).toBeTrue();
+    expect(first.querySelector('.track .thumb')).toBeTruthy();
+    expect(first.textContent).toContain('Reduce motion');
+    expect(second.matches('.theme-console')).toBeTrue();
   });
 
   it('shows Reduce motion as on, and locked, when the device asks for it', () => {
