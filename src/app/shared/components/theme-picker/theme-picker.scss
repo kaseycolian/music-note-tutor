@@ -275,12 +275,39 @@ app-theme-picker {
     margin-left: -4px;
   }
 
-  // --- Phones: the pages' layout ----------------------------------------------
-  // One row: the switch, then the console filling what it leaves (flex-basis 0, so
-  // the console's content width never pushes it onto a line of its own). The cap is
+  // --- Narrower screens: the pages' sizing (site-header.css, 1080px and 620px) --
+  // Width-constrained: the console is fluid up to 340px and the control fills what the
+  // cap and lamps leave, so a long theme name ellipsizes rather than widening it.
+  @media (max-width: 1080px) {
+    .theme-console {
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .theme-console select {
+      max-width: none;
+    }
+
+    .theme-console .dropdown {
+      width: auto;
+      flex: 1 1 auto;
+    }
+
+    .theme-console .dropdown-swatch {
+      gap: 4px;
+    }
+
+    .theme-console .dropdown-swatch > span {
+      width: 6px;
+      height: 6px;
+    }
+  }
+
+  // Phones: one row, the switch, then the console filling what it leaves. The cap is
   // hidden but not removed: it still names the control through aria-labelledby.
   @media (max-width: 620px) {
     width: 100%;
+    min-width: 0;
     flex-wrap: nowrap;
     column-gap: 10px;
 
@@ -288,12 +315,17 @@ app-theme-picker {
       flex: none;
     }
 
+    // The pages keep the console's content width out of the layout with flex-basis 0.
+    // Here the header also sits in the note tutor's grid, whose 1fr column can't
+    // shrink below its content's minimum width, so a long selected name would widen
+    // the whole page. Size containment keeps that width out of the grid too.
     .theme-console {
       flex: 1 1 0;
       width: auto;
       min-width: 0;
       max-width: 340px;
       margin-left: auto;
+      contain: inline-size;
     }
 
     .theme-console .dropdown {

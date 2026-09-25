@@ -93,3 +93,9 @@ Rules:
 - `2026-09-24`: Made Reduce motion the pages' switch and moved it left of the theme console.
   - Adopted the pages' phone layout: one row, cap hidden.
   - Added the pages' Windows High Contrast outlines for the lamps and swatch dots.
+- `2026-09-25`: Fixed the theme selector widening the page on phones when a long theme name was selected.
+  - Ported the pages' 1080px sizing: a fluid console up to 340px, the control filling the rest, and long names
+    ellipsizing.
+  - At ≤620px the console gets `contain: inline-size`. The note tutor's grid column can't shrink below its
+    content, which the pages' header doesn't have, so this keeps the console's width out of the page.
+  - No overflow from 360px up. At 320px the pre-existing Level/Clef/Note row still sets a 343px minimum.

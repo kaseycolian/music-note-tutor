@@ -664,6 +664,22 @@
   }
 }
 
+// Below 343px the Level/Clef/Note row no longer fits: tighten it, and let it wrap as a last resort.
+@media (max-width: 342px) {
+  .progress-section .stat-line {
+    gap: 12px 8px;
+  }
+
+  .progress-section .stat-line.options-stat-line {
+    flex-wrap: wrap;
+  }
+
+  .progress-section .stat-item .difficulty-button {
+    padding: 6px 8px;
+    gap: 4px;
+  }
+}
+
 // High Contrast Mode Support
 @media (prefers-contrast: high) {
   .game-header,
